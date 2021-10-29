@@ -1,0 +1,22 @@
+.work_upload {
+  width: 80%;
+  margin: 0 auto;
+}
+.upload_form {
+  margin: 20px 0 0 40px;
+}
+.upload_form li {
+  padding: 15px 0;
+}
+.upload_form fieldset {
+  border: none;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-block-start: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  padding-block-end: 0;
+}
+.work_info {
+  vertical-align: top;
+}
