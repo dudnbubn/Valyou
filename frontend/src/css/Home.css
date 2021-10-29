@@ -33,6 +33,27 @@
 .contents__sort li {
   padding: 10px;
 }
+.contents__list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.artwork {
+  width: 120px;
+  height: 120px;
+  margin: 10px;
+}
+.artwork__img {
+  width: 100px;
+  height: 80px;
+}
+.artwork__work__title {
+  color: darkgray;
+}
+.artwork__artist__title {
+  color: darkgray;
+}
 .levels__top5 {
   float: right;
   width: 240px;

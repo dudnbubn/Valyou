@@ -11,18 +11,17 @@ class Home extends React.Component {
     paintItems(items) {
         console.log(items);
         const container = document.querySelector('.contents__list');
-        container.querySelectorAll('*').forEach(c => c.remove());
-        container.insertAdjacentHTML('beforeend',
-            items.forEach(item =>
+        for (let i = 0; i < items.length-1; i++){
+            container.insertAdjacentHTML('beforeend',
                 `<li>
-                    <div className="work">
-                        <img src=${item.image} alt=${item.title} />
-                        <p>${item.title}</p>
-                        <p>${item.artist}</p>
+                    <div class="artwork">
+                        <img class="artwork__img"src="https://cdn.pixabay.com/photo/2016/10/09/17/27/fake-1726362_1280.jpg" alt=${items[i].title} />
+                        <p class="artwork__work__title">${items[i].name}</p>
+                        <p class="artwork__artist__title">${items[i].email}</p>
                     </div>
                 </li>`
             )
-        );
+        }
     };
 
     loaditems(state) {
