@@ -19,13 +19,12 @@ from django.conf.urls import url, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-from users.views import UserViewSet
-
-router = routers.DefaultRouter()
-router.register('users',UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('artworks/', include('artworks.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.IMG_URL, document_root=settings.IMG_ROOT)

@@ -11,13 +11,13 @@ class Home extends React.Component {
     paintItems(items) {
         console.log(items);
         const container = document.querySelector('.contents__list');
-        for (let i = 0; i < items.length-1; i++){
+        for (let i = 0; i < items.length; i++){
             container.insertAdjacentHTML('beforeend',
                 `<li>
                     <div class="artwork">
-                        <img class="artwork__img"src="https://cdn.pixabay.com/photo/2016/10/09/17/27/fake-1726362_1280.jpg" alt=${items[i].title} />
-                        <p class="artwork__work__title">${items[i].name}</p>
-                        <p class="artwork__artist__title">${items[i].email}</p>
+                        <img class="artwork__img" src=${items[i].file_img} alt=${items[i].Title} />
+                        <p class="artwork__work__title">${items[i].title}</p>
+                        <p class="artwork__artist__title">${items[i].artist_email}</p>
                     </div>
                 </li>`
             )
@@ -26,7 +26,7 @@ class Home extends React.Component {
 
     loaditems(state) {
         console.log(this.state);
-        const { items } = axios.get('https://jsonplaceholder.typicode.com/comments?postId=1',
+        const { items } = axios.get('/artworks/',
             { params: { level: state.level, category: state.category, standard: state.standard } })
             .then(response => {
                 this.paintItems(response.data);
