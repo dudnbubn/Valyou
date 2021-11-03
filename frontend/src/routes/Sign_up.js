@@ -6,7 +6,7 @@ class Sign_up extends React.Component {
         return (
             <div className="main__wrap">
                 <h2 style={{textAlign:"center"}}>회원가입</h2>
-                <form className="login__wrap">
+                <form className="signUp__wrap">
                     <div className="input id">
                         <h3 className="id label">
                             <label for="id">아이디</label>

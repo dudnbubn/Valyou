@@ -1,4 +1,4 @@
-.login__wrap {
+.signUp__wrap {
   width: 500px;
   margin: 0 auto;
 }
@@ -8,7 +8,7 @@
 .label {
   margin: 10px 0;
 }
-.login__wrap input {
+.signUp__wrap input {
   width: 500px;
   height: 30px;
 }
