@@ -20,8 +20,8 @@
   border-bottom: 1px solid lightgray;
   display: inline;
 }
-.login__id,
-.login__pwd {
+.login__id__wrap,
+.login__pwd__wrap {
   padding: 10px 0;
 }
 .login__btn {
