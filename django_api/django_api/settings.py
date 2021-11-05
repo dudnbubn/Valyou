@@ -56,23 +56,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     
-    # 'rest_framework_jwt',
+    'rest_framework_jwt',
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    # 'dj_rest_auth',
+    'dj_rest_auth',
     'dj_rest_auth.registration',
-    # 'corsheaders',
     'users',
     'artworks',
-    # 'rest_auth.registration',
-    # 'rest_framework.authtoken',
+    # 'corsheaders',
     # 'rest_auth',
     
 ]
-
-# ACCOUNT_ADAPTER = 'django_api.users.adapter.MyAccountAdapter'
-# REST_AUTH_REGISTER_SERIALIZERS = {
-    # 'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
-# }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMASIION_CLASSES':(
@@ -98,7 +92,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
 }
-REST_AUTH_REGISTER_SERIALIZER={
+REST_AUTH_REGISTER_SERIALIZERS ={
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
 }
 
@@ -109,7 +103,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'

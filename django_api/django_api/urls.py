@@ -29,31 +29,6 @@
 #     # url(r'^api-jwt-auth/refresh/$', refresh_jwt_token),
 #     # url(r'^api-jwt-auth/verify/$', verify_jwt_token),
 
-#     path('users/', include('dj_rest_auth.urls')),
-#     path('users/', include('dj_rest_auth.registration.urls')),
-#     path('users/', include('allauth.urls')),
-#     path('users/', include('users.urls')),
-# ]
-
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# urlpatterns += static(settings.IMG_URL, document_root=settings.IMG_ROOT)
-
-# from django.contrib import admin
-# from django.urls import path
-# from django.conf.urls import url, include
-# from rest_framework import routers, views
-# from . import views
-# from .views import UserViewSet
-
-# router = routers.DefaultRouter()
-# router.register('', UserViewSet)
-
-# urlpatterns = [
-    # url(r'^', include(router.urls)),
-    # path('login', views.login),
-    # path('signup', views.signup),
-# ]
-
 from allauth.account.views import confirm_email
 from django.conf.urls import url
 from django.contrib import admin

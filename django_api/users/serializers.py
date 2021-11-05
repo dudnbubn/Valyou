@@ -1,10 +1,10 @@
 from django.db.models.enums import Choices
 from rest_framework import serializers
-from users.models import CustomUser
+from .models import CustomUser
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.db import transaction
 
-from users.models import GENDER_SELECTION
+from .models import GENDER_SELECTION
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

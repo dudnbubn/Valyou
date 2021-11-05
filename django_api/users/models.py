@@ -4,11 +4,11 @@ from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
 
-GENDER_SELECTION = (
+GENDER_SELECTION = [
         ('M','Male'),
         ('F','Female'),
         ('NS', 'Not Specified'),
-)
+]
 
 class CustomUser(AbstractUser):
 
