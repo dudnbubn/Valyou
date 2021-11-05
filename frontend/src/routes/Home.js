@@ -4,20 +4,20 @@ import "../css/Home.css";
 
 class Home extends React.Component {
     state = {
-        level: "pro",
+        level: "PRO",
         category: "art",
         standard: "new"
     };
     paintItems(items) {
         console.log(items);
         const container = document.querySelector('.contents__list');
-        for (let i = 0; i < items.length; i++){
+        for (let i = 0; i < items.results.length; i++){
             container.insertAdjacentHTML('beforeend',
                 `<li>
                     <div class="artwork">
-                        <img class="artwork__img" src=${items[i].file_img} alt=${items[i].Title} />
-                        <p class="artwork__work__title">${items[i].title}</p>
-                        <p class="artwork__artist__title">${items[i].artist_email}</p>
+                        <img class="artwork__img" src=${items.results[i].file_img} alt=${items.results[i].title} />
+                        <p class="artwork__work__title">${items.results[i].title}</p>
+                        <p class="artwork__artist__title">${items.results[i].artist_nickname}</p>
                     </div>
                 </li>`
             )
@@ -26,8 +26,8 @@ class Home extends React.Component {
 
     loaditems(state) {
         console.log(this.state);
-        const { items } = axios.get('/artworks/',
-            { params: { level: state.level, category: state.category, standard: state.standard } })
+        const { items } = axios.get('/artworks/list',
+            { params: { level: state.level, category: state.category, order: state.standard } })
             .then(response => {
                 this.paintItems(response.data);
             }).catch(error => {

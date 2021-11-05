@@ -1,12 +1,17 @@
-from django.contrib import admin
-from django.urls import path
 from django.conf.urls import url, include
-from rest_framework import routers, views
+from django.urls import path
+from rest_framework import routers
+
 from .views import ArtworkViewSet
+from .views import ArtworkSearchViewSet
+from .views import ArtworkListViewSet
 
 router = routers.DefaultRouter()
 router.register('',ArtworkViewSet)
 
+
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    path('', include(router.urls)),
+    path('search', ArtworkSearchViewSet.as_view()),
+    path('list', ArtworkListViewSet.as_view()),
 ]
