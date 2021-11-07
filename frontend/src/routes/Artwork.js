@@ -1,40 +1,51 @@
-import React from "react";
-import "../css/Artwork.css";
-
-class Artwork extends React.Component{
-
-    render() {
-        return (
-        <div className="main__wrap">
+import axios from 'axios';
+import React, { Component } from 'react';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+const Artwork = () => {
+    
+    const artworkId = useParams();
+    {/*const work = await axios.get("/artworks", { params: { artworkId: artworkId } });*/ }
+    const work = { artworTitle: "hello", artwork: "image", artistName: "lee",userId:"21", sponsor: ["kim", "park"], explain: "this is ~", hashtag: "#happy", like: 100 };
+    {/*const recommendWork = await axios.get("/artworks", { params: { artworkId: artworkId } });*/ }
+    const recommendWork = {artworkTitle: "recommend", thumbnail: "thumbnail", artistName: "lee", hashtag: "#excited"}
+    return (
+        <>
             <div className="work_name">
-                작품명
+                {work.artworTitle}
             </div>
             <div className="work">
-                작품
+                { work.artwork}
             </div>
             <div className="work_information">
-                작품 설명
+                { work.explain}
             </div>
             <div className="artist_information">
-                예술가 설명
+                {work.artistName}
             </div>
+            <button className="artist__info__btn">
+                <Link to={`/artist_profile/${work.userId}`}>이 작가의 다른 작품 더보기</Link>
+            </button>
             <div className="sponsor">
-                후원인단
+                {work.sponsor.map(people => {
+                    <li>{ people}</li>
+                })}
             </div>
             <div className="btn_w">
-                <button className="work_like">좋아요</button>
+                <button className="work_like">좋아요 { work.like}</button>
                 <button className="work_report">신고</button>
             </div>
             <div className="related_work_recommendation">
-                관련 작품 추천
+                <img src={recommendWork.thumbnail} alt={ `${recommendWork.artistName}의 ${recommendWork.artworkTitle}`} />
+                    <p>{recommendWork.artworkTitle}</p>
+                    <p>{recommendWork.artistName}</p>
+                    <p>{recommendWork.hashtag}</p>
             </div>
             <div className="comment__wrap">
                 댓글
             </div>
-        </div>
+        </>
     );
-    }
-    
 
 }
 
