@@ -1,0 +1,45 @@
+.artist_profile {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+}
+.artist_detail {
+  width: 60%;
+  height: 100%;
+}
+.artist_img {
+  width: 15vw;
+  height: 10vw;
+  margin: 20px auto;
+  border: 1px solid red;
+}
+.artist_introduce {
+  width: 80%;
+  height: 100px;
+  margin: 20px auto;
+  border: 1px solid red;
+}
+.artist_btn {
+  width: 40%;
+}
+.like,
+.dona {
+  position: relative;
+  top: 25%;
+  font-size: 15px;
+  display: block;
+  height: 50px;
+  width: 50%;
+  margin: 10px auto;
+  background-color: unset;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.artist_work {
+  width: 95%;
+  height: 500px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  background-color: lightgray;
+}
