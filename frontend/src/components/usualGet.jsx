@@ -5,21 +5,17 @@ import Items from './items';
 const UsualGet = (props) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLodaing] = useState(false);
+    const condition = props.condition;
+    
+    axios.get("/artist/list", {
+        params: condition
+    }).then(res => {
+        setPosts(res.data);
+        setLodaing(true);
+    })
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            setLodaing(true);
-            const res = await axios.get("/artworks/list",{params:{}});
-            setPosts(res.data);
-            setLodaing(false);
-        };
-        fetchPosts();
-    }, []);
     return (
-        <>
-            <Items posts={posts} loading={loading} />
-        </>
-        
+        <Items posts={posts} loading={loading} />    
     );
 };
 

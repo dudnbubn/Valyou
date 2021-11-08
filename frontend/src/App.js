@@ -53,7 +53,7 @@ class App extends Component {
             <Route path="/sign_up" element={<SignUp />} ></Route>
             <Route path="/login"  element={<Login />}></Route>
             <Route path="/search_result" element={<Search />} ></Route>
-            <Route path="/upload" element={<Upload />} ></Route>
+          <Route path="/upload" element={<Upload />} ></Route>
           </Routes>
         </div>
         <footer>footer</footer>

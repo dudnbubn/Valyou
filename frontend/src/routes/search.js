@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import Items from '../components/items';
 import '../css/search.css';
 
 class Search extends Component {
@@ -7,7 +8,6 @@ class Search extends Component {
         super(props);
         this.state = {
             keyword:"",
-            works: [],
             workPro: [],
             workAdv: [],
             workNov: [],
@@ -15,29 +15,36 @@ class Search extends Component {
         }
     }
     loadItems=()=> {
-        const works = axios.get('', {
+        axios.get('/artworks/search', {
             params: {
-                result: this.state.keyword,
+                level: "pro",
+                query: this.state.keyword,
             }
+        }).then(res => {
+            this.setState({ workPro: res.data })
+        }).catch(() => {
+            this.setState({ loading: false })
         });
-        this.setState({ works });
-    };
-
-    sorting = () => {
-        const workP = [...this.state.workPro ];
-        const workA = [ ...this.state.workAdv ];
-        const workN = [ ...this.state.workNov ];
-        this.state.works.map(work => {
-            if (work.level === "pro") {
-                workP.push(work);
-            } else if (work.level === "adv") {
-                workA.push(work);
-            } else if (work.level === "nov") {
-                workN.push(work);
+        axios.get('/artworks/search', {
+            params: {
+                level: "adv",
+                query: this.state.keyword,
             }
-        })
-        this.setState({ workPro: workP, workAdv: workA, workNov: workN });
-        this.setState({ loading: true });
+        }).then(res => {
+            this.setState({ workAdv:res.data })
+        }).catch(() => {
+            this.setState({ loading: false })
+        });
+        axios.get('/artworks/search', {
+            params: {
+                level: "Nov",
+                query: this.state.keyword,
+            }
+        }).then(res => {
+            this.setState({ workNov: res.data })
+        }).catch(() => {
+            this.setState({ loading: false })
+        });
     };
     render() {
         return (
@@ -46,21 +53,21 @@ class Search extends Component {
                 <div className="professional_search">
                     <h4>Professional 검색결과</h4>
                     <ul className="professional_search_list">
-                        
+                        <Items posts={ this.state.workPro} loading={this.state.loading} />
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>
                 <div className="advanced_search">
                     <h4>Advanced 검색결과</h4>
                     <ul className="advanced_search_list">
-                        
+                        <Items posts={ this.state.workAdv} loading={this.state.loading} />
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>
                 <div className="novice_search">
                     <h4>Novice 검색결과</h4>
-                    <ul className="novice_search_list">
-                        
+                    <ul className="advanced_search_list">
+                        <Items posts={ this.state.workNov} loading={this.state.loading} />
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>

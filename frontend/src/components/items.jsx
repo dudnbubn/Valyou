@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const items = ({ posts, loading }) => {
+const Items = ({ posts, loading }) => {
+    console.log(posts, loading);
     if (loading) {
         return <h2>Loding</h2>;
     }
@@ -25,4 +26,4 @@ const items = ({ posts, loading }) => {
     }
 };
 
-export default items;
+export default Items;
