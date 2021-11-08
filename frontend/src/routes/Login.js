@@ -11,7 +11,7 @@ function Login() {
         setInputPw(e.target.value)
     }
     const onClickLoginBtn = () => {
-        axios.post('/users/', null, {
+        axios.post('/api/users/', null, {
             params: {
                 'userId': inputId,
                 'userPw': inputPw

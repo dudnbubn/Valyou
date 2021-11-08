@@ -14,10 +14,11 @@ class Search extends Component {
             loading: false
         }
     }
-    loadItems=()=> {
-        axios.get('/artworks/search', {
+    loadItems = async () => {
+        console.log("search", this.props);
+        axios.get('/api/artworks/search', {
             params: {
-                level: "pro",
+                level: "PRO",
                 query: this.state.keyword,
             }
         }).then(res => {
@@ -25,9 +26,9 @@ class Search extends Component {
         }).catch(() => {
             this.setState({ loading: false })
         });
-        axios.get('/artworks/search', {
+        axios.get('/api/artworks/search', {
             params: {
-                level: "adv",
+                level: "ADV",
                 query: this.state.keyword,
             }
         }).then(res => {
@@ -35,9 +36,9 @@ class Search extends Component {
         }).catch(() => {
             this.setState({ loading: false })
         });
-        axios.get('/artworks/search', {
+        axios.get('/api/artworks/search', {
             params: {
-                level: "Nov",
+                level: "NOV",
                 query: this.state.keyword,
             }
         }).then(res => {
@@ -46,6 +47,9 @@ class Search extends Component {
             this.setState({ loading: false })
         });
     };
+    componentDidMount() {
+        this.loadItems();
+    }
     render() {
         return (
             <div className="searching_result">
@@ -67,7 +71,7 @@ class Search extends Component {
                 <div className="novice_search">
                     <h4>Novice 검색결과</h4>
                     <ul className="advanced_search_list">
-                        <Items posts={ this.state.workNov} loading={this.state.loading} />
+                        <Items posts={  this.state.workNov} loading={this.state.loading} />
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>

@@ -14,7 +14,7 @@ const Items = ({ posts, loading }) => {
                             pathname: "/artwork",
                             state: { artworkId: post.artworkId }
                         }}>
-                            <img src={post.thumbnail} alt={post.artworkTitle, post.artistName} />
+                            <img src={post.thumbnail}  />
                             <p>{post.artworkTitle}</p>
                             <p>{post.artistName}</p>
                             <p>{post.hashtag}</p>

@@ -14,7 +14,6 @@ class HomeHeader extends Component {
     onSearch = (event) => {
         event.preventDefault();
         this.props.onSearch(this.myRef.current.value);
-        <Link to={`/search_result/${this.myRef.current.value}`} />
     }
     componentDidMount() {
         const beforeContainer = document.querySelector('.before_login');
@@ -38,7 +37,7 @@ class HomeHeader extends Component {
                 <Link to={{
                 pathname: "/",
                 state : {
-                    level: "pro",
+                    level: "PRO",
                     category: "art",
                     sort: "latest",
                 }

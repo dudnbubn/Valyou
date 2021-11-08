@@ -7,7 +7,7 @@ const UsualGet = (props) => {
     const [loading, setLodaing] = useState(false);
     const condition = props.condition;
     
-    axios.get("/artist/list", {
+    axios.get("/artworks/list", {
         params: condition
     }).then(res => {
         setPosts(res.data);

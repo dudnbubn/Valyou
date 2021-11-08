@@ -16,7 +16,7 @@ import MyProfile from './routes/profileMy';
 
 class App extends Component {
   state = {
-    level: "pro",
+    level: "PRO",
     category: "art",
     sort: "latest",
   }
@@ -49,7 +49,7 @@ class App extends Component {
             <Route path="/artwork/:artworkId" element={<Artwork />} ></Route>
             <Route path="/donation" element={<Donation />}></Route>
             <Route path="/artist_profile/:artistId" element={<ArtistProfile />} ></Route>
-            <Route path="/my_profile" element={<MyProfile />}></Route>
+            <Route path="/my_profile/*" element={<MyProfile />}></Route>
             <Route path="/sign_up" element={<SignUp />} ></Route>
             <Route path="/login"  element={<Login />}></Route>
             <Route path="/search_result" element={<Search />} ></Route>

@@ -35,7 +35,7 @@ class Home extends Component {
         this.setState({ popular: res.data });
     }
     
-    render(props) {
+    render() {
         return (
             <>
                 <div className="recommend__wrap">

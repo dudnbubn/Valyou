@@ -43,7 +43,7 @@ const Upload=() => {
         console.log(uploadThumbnail);
         console.log(uploadFile);
         console.log(uploadIntro);
-        axios.post('', null, {
+        axios.post('/api/artwork', null, {
             params: {
                 userId:sessionStorage.getItem('userId'),
                 category: uploadCategory,

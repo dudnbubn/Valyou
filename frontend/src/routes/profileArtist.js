@@ -8,7 +8,7 @@ class ProfileArtist extends Component {
         artistItems: [],
     }
     componentDidMount(artistId) {
-        const artistIg = axios.get('/users/', {
+        const artistIg = axios.get('/api/users/', {
             params: {
                 userId: artistId,
             }

@@ -40,7 +40,7 @@ const SignUp =()=> {
     }
     const signUpSubmit = (e) => {
         console.log(signUPId, signUpPwd, signUpPwd2, signUpNickname, signUpName, signUpGender);
-        axios.post('', null, {
+        axios.post('/api/users', null, {
             params: {
                 userNickName: signUpNickname,
                 userId: signUPId,
