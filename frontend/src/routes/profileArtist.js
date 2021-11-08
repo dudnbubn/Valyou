@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Items from '../components/items';
 import '../css/profileArtist.css';
 
 class ProfileArtist extends Component {
@@ -9,7 +8,7 @@ class ProfileArtist extends Component {
         artistItems: [],
     }
     componentDidMount(artistId) {
-        const artistIg = axios.get('', {
+        const artistIg = axios.get('/users/', {
             params: {
                 userId: artistId,
             }
@@ -35,9 +34,7 @@ class ProfileArtist extends Component {
                     </div>
                 </div>
                 <div className="artist_work">
-                    {
-                        <Items posts={this.state.artistItems.artWork} loading="true" />
-                    }
+                    
                 </div>
             </>
         );

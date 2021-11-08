@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { useParams } from 'react-router';
-import Items from '../components/items';
 import '../css/search.css';
 
 class Search extends Component {
@@ -48,21 +46,21 @@ class Search extends Component {
                 <div className="professional_search">
                     <h4>Professional 검색결과</h4>
                     <ul className="professional_search_list">
-                        <Items posts={this.state.workPro} loading={this.state.loading} />
+                        
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>
                 <div className="advanced_search">
                     <h4>Advanced 검색결과</h4>
                     <ul className="advanced_search_list">
-                        <Items posts={this.state.workAdv} loading={this.state.loading} />
+                        
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>
                 <div className="novice_search">
                     <h4>Novice 검색결과</h4>
                     <ul className="novice_search_list">
-                        <Items posts={this.state.workNov} loading={this.state.loading} />
+                        
                     </ul>
                     <a className="result_more" href="#">더보기</a>
                 </div>

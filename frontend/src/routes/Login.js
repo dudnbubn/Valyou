@@ -11,7 +11,7 @@ function Login() {
         setInputPw(e.target.value)
     }
     const onClickLoginBtn = () => {
-        axios.post('/*id, 비밀번호 보낼 주소*/', null, {
+        axios.post('/users/', null, {
             params: {
                 'userId': inputId,
                 'userPw': inputPw
@@ -31,7 +31,7 @@ function Login() {
         }).catch()
     }
     useEffect(() => {
-        axios.get('').then(res=>console.log(res)).catch()
+        //axios.get('').then(res=>console.log(res)).catch()
     },[]);
     return (
         <div className="main__wrap">

@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import axios from'axios';
 import { Link } from 'react-router-dom';
-import PaginateGet from '../components/paginateGet';
-import UsualGet from '../components/usualGet';
 import '../css/home.css';
-class Home extends Component {
 
+class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            recommend: [],
+            main: [],
+            popular:[],
+        }
+    }
     checkCategory = (event) => {
         this.props.onCategory(event.target.dataset.value);
     }
@@ -21,13 +28,23 @@ class Home extends Component {
         container.classList.remove('active');
         event.target.classList.add('active');
     }
+    componentDidMount = () => {
+        console.log(this.props.items);
+        const res = axios.get('/artworks/list/', {
+            params: {
+                level: this.props.items.level,
+                category: this.props.items.category,
+                order: this.props.items.sort
+            }
+        });
+        console.log(res.data);
+    }
+    
     render(props) {
-        const artworkId = 2;
         return (
             <>
                 <div className="recommend__wrap">
-                    <PaginateGet data-type="recommend" />
-                    <Link to={`/artwork/${artworkId}`}>링크</Link>
+
                 </div>
                 <div className="container">
                     <div className="contents__wrap">
@@ -41,11 +58,11 @@ class Home extends Component {
                                 <li className="sort__btn active" data-value="latest" onClick={ this.checkStandard }>신작순</li>
                                 <li className="sort__btn" data-value="popular" onClick={this.checkStandard}>인기순</li>
                             </ul>
-                            <UsualGet data-type="main" data-level={this.props.level} data-category={this.props.category} data-sort={this.props.sort}/>
+
                         </div>
                     </div>
                     <div className="levels__top5">
-                        <UsualGet data-type="hot" data-level={this.props.level} data-sort={"popular"}/>
+
                     </div>
                 </div>
             </>
