@@ -9,7 +9,9 @@
   clear: both;
   position: relative;
   width: 980px;
-  min-height: 200px;
+  display: block;
+  min-height: 350px;
+  height: auto;
   padding: 8px 0;
   margin: 0 auto;
 }
@@ -17,12 +19,13 @@
   float: left;
   position: relative;
   width: 694px;
+  height: auto;
   padding-left: 10px;
   border: 1px solid black;
 }
 .contents {
-  background-color: lightgray;
   margin: 0 20px 20px;
+  height: auto;
 }
 .contents__sort {
   display: flex;
@@ -32,16 +35,15 @@
 .contents__sort li {
   padding: 10px;
 }
-.contents__list {
+.contents__artworks {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start space-evenly;
 }
 .artwork {
   width: 120px;
-  height: 120px;
-  margin: 10px;
+  margin: 10px 45px;
 }
 .artwork__img {
   width: 100px;
@@ -52,6 +54,10 @@
 }
 .artwork__artist__title {
   color: darkgray;
+}
+.artwork__hashtag {
+  color: lightgray;
+  font-size: 10px;
 }
 .levels__top5 {
   float: right;

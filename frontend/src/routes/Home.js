@@ -14,25 +14,25 @@ class Home extends Component {
         }
     }
     checkCategory = (event) => {
-        this.props.onCategory(event.target.dataset.value);
+        this.props.onCategory(event.target);
     }
     checkStandard = (event) => {
-        this.props.onSort(event.target.dataset.value);
+        this.props.onSort(event.target);
     }
-    activateCategory = (event) => {
-        const container = document.querySelector('.category__btn.active');
-        container.classList.remove('active');
-        event.target.classList.add('active');
-    }
-    activateSort = (event) => {
-        const container = document.querySelector('.sort__btn.active');
-        container.classList.remove('active');
-        event.target.classList.add('active');
-    }
+    
+    //인기 level5's artworks get
     componentDidMount = () => {
-        const res = axios.get('/artworks/popular');
-        console.log(res.data);
-        this.setState({ popular: res.data });
+        axios.get('/artworks/list', {
+            params: {
+                level: this.props.items.level,
+                category: this.props.items.category,
+                order:"popular"
+            }
+        }).then(res => {
+                this.setState({ popular: res.data.results });
+            }).catch(error => {
+                console.log("componentDidMount", error);
+            });
     }
     
     render() {
@@ -43,27 +43,37 @@ class Home extends Component {
                 </div>
                 <div className="container">
                     <div className="contents__wrap">
-                        <ul className="categories" onClick={ this.activateCategory}>
-                            <li className="category__btn active" data-value="music" onClick={ this.checkCategory }>음악</li>
+                        <ul className="categories" onClick={this.activateCategory}>
+                            <li className="category__btn active"id="default_category" data-value="art" onClick={ this.checkCategory }>미술</li>
+                            <li className="category__btn" data-value="music" onClick={ this.checkCategory }>음악</li>
                             <li className="category__btn" data-value="literal" onClick={ this.checkCategory }>문학</li>
-                            <li className="category__btn" data-value="art" onClick={ this.checkCategory }>미술</li>
                         </ul>
                         <div className="contents">
                             <ul className="contents__sort" onClick={this.activateSort}>
-                                <li className="sort__btn active" data-value="latest" onClick={ this.checkStandard }>신작순</li>
+                                <li className="sort__btn active" id="default_sort" data-value="latest" onClick={ this.checkStandard }>신작순</li>
                                 <li className="sort__btn" data-value="popular" onClick={this.checkStandard}>인기순</li>
                             </ul>
-                            <UsualGet condition={
+                            <ul className="contents__artworks">
+                                <UsualGet condition={
                                 {
                                     level: this.props.items.level,
                                     category: this.props.items.category,
                                     order: this.props.items.sort
                                 }
                             } />
+                            </ul>  
                         </div>
                     </div>
                     <div className="levels__top5">
-                        <Items posts={ this.state.popular} loading={true} />
+                        <ul>
+                            <UsualGet condition={
+                            {
+                                level: this.props.items.level,
+                                category: this.props.items.category,
+                                order: "popular"
+                            }
+                        } />
+                        </ul>
                     </div>
                 </div>
             </>

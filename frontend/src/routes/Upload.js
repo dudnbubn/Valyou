@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useState} from 'react';
 import '../css/upload.css';
 const Upload=() => {
-    if (sessionStorage.getItem('userId') === null) {
+    /*if (sessionStorage.getItem('userId') === null) {
             alert('로그인부터 해주세요!')
-        }
+        }*/
     const [uploadCategory, setUploadCategory] = useState('art');
     const [uploadTitle, setUploadTitle] = useState('');
     const [uploadHashtag, setUploadHashtag] = useState('');
@@ -43,20 +43,29 @@ const Upload=() => {
         console.log(uploadThumbnail);
         console.log(uploadFile);
         console.log(uploadIntro);
-        axios.post('/api/artwork', null, {
-            params: {
-                userId:sessionStorage.getItem('userId'),
-                category: uploadCategory,
-                thumbnail: uploadThumbnail,
-                artworkTitle: uploadTitle,
-                hashtag: uploadHashtag,
-                artwork: uploadFile,
-                artworkExplain: uploadIntro
+        
+        axios({
+            method: "post",
+            url: 'api/artworks/',
+            data: {
+                artist_email:"1234@gmail.com",
+                category :uploadCategory,
+                title : uploadTitle,
+                contents : "default",
+                description : uploadIntro,
+                like_count : 0,
+                view_count : 0,
+                //file_img: uploadFile,
+                file_name:"default",
+                hashtag : uploadHashtag
             }
-        }).then(()=>{
+        }).then(() => {
             /* 홈화면으로 이동*/
             alert('업로드에 성공하였습니다.');
-        }).catch()
+            window.location.href="/";
+            }).catch(error => {
+                console.log("upload",error);
+            })
     }
     
     return (
@@ -67,7 +76,7 @@ const Upload=() => {
                     <li>
                         <fieldset onChange={handleUploadCategory}>
                             <span className="upload_category">카테고리</span>
-                            <input name="category" id="category_art" valut="art" type="radio" />
+                            <input name="category" id="category_art" value="art" type="radio" />
                             <label htmlFor="category_art">미술</label>
                             <input name="category" id="category_music" value="music" type="radio" />
                             <label htmlFor="category_music">음악</label>

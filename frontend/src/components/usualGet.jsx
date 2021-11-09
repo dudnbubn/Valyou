@@ -4,19 +4,23 @@ import Items from './items';
 
 const UsualGet = (props) => {
     const [posts, setPosts] = useState([]);
-    const [loading, setLodaing] = useState(false);
+    const [loading, setLoading] = useState(false);
     const condition = props.condition;
     
-    axios.get("/artworks/list", {
-        params: condition
-    }).then(res => {
-        setPosts(res.data);
-        setLodaing(true);
-    })
+    useEffect(() => {
+        axios.get("/api/artworks/list", { params: condition })
+            .then(res => {
+            console.log("usualGet", res.data);
+            setPosts(res.data.results);
+                setLoading(false);
+            }).catch(error => {
+                console.log("usualGet",error);
+        })
+    },[condition]);
 
     return (
-        <Items posts={posts} loading={loading} />    
-    );
+        <Items posts={posts} loading={loading} />
+    )
 };
 
 export default UsualGet;

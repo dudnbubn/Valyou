@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import '../css/donation.css';
 class Donation extends Component {
     render() {
         return (

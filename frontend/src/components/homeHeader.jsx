@@ -30,18 +30,15 @@ class HomeHeader extends Component {
         event.preventDefault();
         sessionStorage.removeItem('userId');
     }
+    handleDefault = () => {
+        this.props.onDefault();
+    }
     render() {
         return (
         <header className="header">
-            <div className="header__logo">
-                <Link to={{
-                pathname: "/",
-                state : {
-                    level: "PRO",
-                    category: "art",
-                    sort: "latest",
-                }
-            }}>Valyou</Link>
+            <div className="header__logo" >
+                    <Link to="/">Valyou</Link>
+                    {/* 링크 이동후 모든 level, category,sort 초기화 필요 */}
             </div>
                 <form className="header__search" onSubmit={this.onSearch}>
                     <input ref={this.myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>

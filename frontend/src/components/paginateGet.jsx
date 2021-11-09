@@ -5,7 +5,7 @@ import Pagination from './pagination';
 
 const Posts=()=> {
     const [posts, setPosts] = useState([]);
-    const [loading, setLodaing] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10);
 
@@ -15,12 +15,15 @@ const Posts=()=> {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            setLodaing(true);
             const res = await axios.get("/artworks/list");
             setPosts(res.data);
-            setLodaing(false);
+            setLoading(false);
         };
-        fetchPosts();
+        fetchPosts().then(() => {
+            console.log("pagination success");
+        }).catch(error => {
+            console.log("pagination fail");
+        });
     }, []);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);

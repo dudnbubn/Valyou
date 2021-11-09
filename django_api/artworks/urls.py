@@ -14,4 +14,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('search', ArtworkSearchViewSet.as_view()),
     path('list', ArtworkListViewSet.as_view()),
+    path('popular', ArtworkPopularViewSet.as_view()),
 ]
