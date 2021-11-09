@@ -1,0 +1,184 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  position: relative;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  overflow: hidden;
+  max-height: 100%;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+}
+* {
+  box-sizing: border-box;
+}
+ul,
+li,
+ol {
+  list-style: none;
+  height: auto;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a,
+button {
+  cursor: pointer;
+  border: none;
+}
+div {
+  height: auto;
+}
+p {
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+#root {
+  height: inherit;
+}
+:root {
+  --color-main: #650689;
+  --radius-range: 4px;
+}
+
+.blind {
+  display: none;
+}
+
+/*homeHeader*/
+.header {
+  height: 80px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 17px 0;
+}
+.header__search {
+  width: 400px;
+  display: flex;
+  justify-content: space-around;
+}
+.search__input {
+  width: 360px;
+  height: 35px;
+  border: none;
+  border-bottom: 2px solid var(--color-main);
+}
+.search__btn {
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  font-size: 25px;
+  color: white;
+  background-color: var(--color-main);
+  border: 1px solid var(--color-main);
+  border-radius: var(--radius-range);
+  margin-left: 5px;
+}
+.header__info__btns {
+  min-width: 140px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.btn__upload {
+  font-size: 35px;
+  color: var(--color-main);
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+.btn__alarm {
+  border: none;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  font-size: 35px;
+  color: var(--color-main);
+  padding: 0;
+  cursor: pointer;
+}
+.before_login {
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 0;
+  width: 50px;
+  height: 40px;
+}
+.after_login {
+  border: none;
+  background-color: transparent;
+  font-size: 38px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+}
+.my__choiceList {
+  display: none;
+  font-size: 5px;
+}
+.after_login:hover .my__choiceList {
+  display: block;
+  z-index: 10;
+  position: absolute;
+  right: 10px;
+  width: 50px;
+}
+/*homeNavbar*/
+.levels {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 5px solid var(--color-main);
+  border-left: none;
+  border-right: none;
+}
+.levels li {
+  padding: 10px 30px;
+}
+.footer__wrap {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: lightgray;
+}
+
+.menu {
+  clear: both;
+  background: #fff;
+  padding: 0 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.main__wrap {
+  width: 1000px;
+  margin: 40px auto;
+  height: auto;
+}
+
+footer {
+  width: 100%;
+  height: 50px;
+  background-color: lightgray;
+
+  text-align: center;
+  font-size: 18px;
+}
