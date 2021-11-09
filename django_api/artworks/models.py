@@ -4,14 +4,14 @@ from django.db import models
 class Artwork(models.Model):
     id = models.AutoField(primary_key=True)
     artist_email = models.EmailField()
-    category = models.CharField(max_length=5)
+    category = models.CharField(max_length=10)
     title = models.CharField(max_length=60)
     contents = models.CharField(max_length=1000)
     description = models.CharField(max_length=200)
     like_count = models.IntegerField(default=0, null=False)
     view_count = models.IntegerField(default=0, null=False)
     upload_date = models.DateField(auto_now=True)
-    file_img = models.ImageField(default='media/default_image.jpeg')
+    file_img = models.ImageField(default='default_image.jpeg')
     file_name = models.CharField(max_length=1000)
 
     level = models.CharField(max_length=10, default='PRO')
