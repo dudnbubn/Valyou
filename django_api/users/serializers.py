@@ -9,10 +9,10 @@ from .models import GENDER_SELECTION
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'user_name', 'nickname', 'birthday', 'phone_number','artist_level', 'join_date', 'revenue', 'gender']
+        fields = ['id', 'email', 'name', 'nickname', 'birthday', 'phone_number','artist_level', 'join_date', 'revenue', 'gender']
 
 class CustomRegisterSerializer(RegisterSerializer):
-    user_name = serializers.CharField(max_length=100)
+    name = serializers.CharField(max_length=100)
     nickname = serializers.CharField(max_length=100)
     phone_number = serializers.CharField(max_length=11)
     birthday = serializers.DateField()
@@ -22,6 +22,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     def save(self, request):
         user = super().save(request)
         user.nickname = self.data.get('nickname')
+        user.name = self.data.get('name')
         user.phone_number = self.data.get('phone_number')
         user.birthday = self.data.get('birthday')
         user.gender = self.data.get('gender')

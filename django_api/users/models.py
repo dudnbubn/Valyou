@@ -21,7 +21,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
 
-    user_name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, null=True)
     nickname = models.CharField(max_length=100, null=True)
     phone_number = models.CharField(max_length=11, null=True)
     birthday = models.DateField(null=True)
