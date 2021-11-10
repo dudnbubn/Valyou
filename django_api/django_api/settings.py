@@ -52,10 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+
     'django.contrib.sites',
     'rest_framework',
     'rest_framework.authtoken',
-    
+
     'rest_framework_jwt',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -65,7 +67,7 @@ INSTALLED_APPS = [
     'artworks',
     # 'corsheaders',
     # 'rest_auth',
-    
+
 ]
 
 REST_FRAMEWORK = {
@@ -80,11 +82,15 @@ REST_FRAMEWORK = {
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
 
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+
     'DEFAULT_RENDERER_CLASSES':(
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     )
-    
+
 }
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -133,7 +139,7 @@ JWT_AUTH = {
    'JWT_ALGORITHM': 'HS256',
    'JWT_VERIFY_EXPIRATION' : True,
    'JWT_ALLOW_REFRESH': True, 
-   'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7), 
+   'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 #    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.custom_responses.my_jwt_response_handler'
 }

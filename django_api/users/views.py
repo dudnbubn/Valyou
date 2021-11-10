@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from django_api.users.serializers import UserSerializer
+from .serializers import UserSerializer
 from .models import CustomUser
 
 class UserViewSet(viewsets.ModelViewSet):
