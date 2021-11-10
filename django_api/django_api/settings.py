@@ -43,6 +43,9 @@ CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 # Application definition
 
 INSTALLED_APPS = [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
