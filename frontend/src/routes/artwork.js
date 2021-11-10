@@ -12,6 +12,7 @@ const Artwork = ({ location }) => {
         const url = '/api/artworks/' + artworkId + "/";
         axios.get(url)
             .then(res => {
+                console.log(res.data);
                 setWork(res.data);
             }).catch(error => {
                 console.log("artwork.js", error);

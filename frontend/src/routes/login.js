@@ -26,8 +26,9 @@ function Login() {
                 alert('입력하신 비밀번호가 일치하지 않습니다.')
             } else if (res.data.userId === inputId) {
                 sessionStorage.setItem('userId', inputId);
+                alert('로그인에 성공하였습니다');
             }
-            document.location.href = '/';
+            window.location.href = '/';
         }).catch()
     }
     useEffect(() => {

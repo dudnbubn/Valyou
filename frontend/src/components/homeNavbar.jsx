@@ -11,7 +11,6 @@ class HomeNavbar extends PureComponent {
         containerL.classList.remove('active');
         const changeContainerL = document.querySelector(`#${this.props.items.level}`);
         changeContainerL.classList.add('active');
-        console.log(changeContainerL);
     }
     componentDidUpdate = () => {
         this.activateTab();

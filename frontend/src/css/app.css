@@ -182,3 +182,12 @@ footer {
   text-align: center;
   font-size: 18px;
 }
+
+.paginate__btn-pre,
+.paginate__btn-next {
+  padding: 0;
+  background-color: var(--color-main);
+  color: white;
+  font-size: 15px;
+  width: 40px;
+}
