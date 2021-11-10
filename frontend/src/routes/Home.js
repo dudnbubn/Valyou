@@ -1,78 +1,56 @@
-import React from "react";
-import axios from "axios";
-import "../css/Home.css";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PaginateGet from '../components/paginateGet';
+import UsualGet from '../components/usualGet';
+import '../css/home.css';
+class Home extends Component {
 
-class Home extends React.Component {
-    state = {
-        level: "PRO",
-        category: "art",
-        standard: "new"
-    };
-    paintItems(items) {
-        console.log(items);
-        const container = document.querySelector('.contents__list');
-        for (let i = 0; i < items.results.length; i++){
-            container.insertAdjacentHTML('beforeend',
-                `<li>
-                    <div class="artwork">
-                        <img class="artwork__img" src=${items.results[i].file_img} alt=${items.results[i].title} />
-                        <p class="artwork__work__title">${items.results[i].title}</p>
-                        <p class="artwork__artist__title">${items.results[i].artist_nickname}</p>
-                    </div>
-                </li>`
-            )
-        }
-    };
-
-    loaditems(state) {
-        console.log(this.state);
-        const { items } = axios.get('/artworks/list',
-            { params: { level: state.level, category: state.category, order: state.standard } })
-            .then(response => {
-                this.paintItems(response.data);
-            }).catch(error => {
-                console.log(error);
-            });
+    checkCategory = (event) => {
+        this.props.onCategory(event.target.dataset.value);
     }
-
-    checkCategory(params) {
-        return this.setState({ category: params }, () => this.loaditems(this.state))
+    checkStandard = (event) => {
+        this.props.onSort(event.target.dataset.value);
     }
-    checkStandard(params) {
-        return this.setState({ standard: params }, () => this.loaditems(this.state))
+    activateCategory = (event) => {
+        const container = document.querySelector('.category__btn.active');
+        container.classList.remove('active');
+        event.target.classList.add('active');
     }
-    componentDidMount() {
-        this.loaditems(this.state);
-    };
-    render() {
+    activateSort = (event) => {
+        const container = document.querySelector('.sort__btn.active');
+        container.classList.remove('active');
+        event.target.classList.add('active');
+    }
+    render(props) {
+        const artworkId = 2;
         return (
-            <div className="main__wrap">
+            <>
                 <div className="recommend__wrap">
-                    recommend
+                    <PaginateGet data-type="recommend" />
+                    <Link to={`/artwork/${artworkId}`}>링크</Link>
                 </div>
                 <div className="container">
                     <div className="contents__wrap">
-                        <ul className="categories">
-                            <li onClick={() => { this.checkCategory("art") }}>미술</li>
-                            <li onClick={() => { this.checkCategory("music") }}>음악</li>
-                            <li onClick={() => { this.checkCategory("literal") }}>문학</li>
+                        <ul className="categories" onClick={ this.activateCategory}>
+                            <li className="category__btn active" data-value="music" onClick={ this.checkCategory }>음악</li>
+                            <li className="category__btn" data-value="literal" onClick={ this.checkCategory }>문학</li>
+                            <li className="category__btn" data-value="art" onClick={ this.checkCategory }>미술</li>
                         </ul>
                         <div className="contents">
-                            <ul className="contents__sort">
-                                <li onClick={() => { this.checkStandard("new") }}>신작순</li>
-                                <li onClick={()=>{this.checkStandard("popular")}}>인기순</li>
+                            <ul className="contents__sort" onClick={this.activateSort}>
+                                <li className="sort__btn active" data-value="latest" onClick={ this.checkStandard }>신작순</li>
+                                <li className="sort__btn" data-value="popular" onClick={this.checkStandard}>인기순</li>
                             </ul>
-                            <ul className="contents__list">
-                                
-                            </ul>
+                            <UsualGet data-type="main" data-level={this.props.level} data-category={this.props.category} data-sort={this.props.sort}/>
                         </div>
                     </div>
                     <div className="levels__top5">
-                        levels top5
+                        <UsualGet data-type="hot" data-level={this.props.level} data-sort={"popular"}/>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
+
 export default Home;

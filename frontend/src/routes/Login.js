@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import "../css/Login.css";
 
 function Login() {
     const [inputId, setInputId] = useState('')
