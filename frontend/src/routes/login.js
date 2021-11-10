@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import "../css/Login.css";
 
 function Login() {
     const [inputId, setInputId] = useState('')
@@ -12,7 +11,7 @@ function Login() {
         setInputPw(e.target.value)
     }
     const onClickLoginBtn = () => {
-        axios.post('/*id, 비밀번호 보낼 주소*/', null, {
+        axios.post('/api/users/', null, {
             params: {
                 'userId': inputId,
                 'userPw': inputPw
@@ -32,7 +31,7 @@ function Login() {
         }).catch()
     }
     useEffect(() => {
-        axios.get('').then(res=>console.log(res)).catch()
+        //axios.get('').then(res=>console.log(res)).catch()
     },[]);
     return (
         <div className="main__wrap">
