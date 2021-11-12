@@ -9,7 +9,6 @@ GENDER_SELECTION = [
         ('F','Female'),
         ('NS', 'Not Specified'),
 ]
-
 class CustomUser(AbstractUser):
 
     username = None
@@ -20,12 +19,9 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
-
     user_name = models.CharField(max_length=100, null=True)
     nickname = models.CharField(max_length=100, null=True)
-    phone_number = models.CharField(max_length=11, null=True)
-    birthday = models.DateField(null=True)
-    artist_level = models.CharField(max_length=100, null=True)
+    artist_level = models.CharField(max_length=100, null=True, default='nov')
     join_date = models.DateField(auto_now=True, null=True)
     revenue = models.IntegerField(default=0, null=True)
     gender = models.CharField(max_length=20, choices=GENDER_SELECTION, null=True)
