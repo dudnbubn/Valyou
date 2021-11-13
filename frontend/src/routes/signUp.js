@@ -114,16 +114,12 @@ const SignUp = () => {
     }
     const signUpSubmit = (e) => {
         console.log(id, password, passwordConfirm, nickname, name, gender);
-        axios.post('/api/dj-rest-auth/registration/', null, {
-            params: {
-                username: '',
-                email: id,
-                password1: password,
-                password2: password,
-                user_name: name,
-                nickname: nickname,
-                gender: gender,
-            }
+        axios.post('/api/users/artists/', {
+            artist_name: name,
+            password: password,
+            email: id,
+            nickname: nickname,
+            gender: gender,
         }).then(() => {
             alert('회원가입에 성공하였습니다. 로그인해주세요.');
             window.location.href = "/login";

@@ -1,5 +1,5 @@
-from users.models import Artist
-from users.serializers import ArtistSerializer
+from .models import Artist
+from .serializers import ArtistSerializer
 from rest_framework import generics
 
 class ArtistList(generics.ListCreateAPIView):
