@@ -16,6 +16,7 @@ GENDER = [
     ("F", "Female")
 ]
 
+
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
@@ -30,7 +31,6 @@ class CustomUser(AbstractUser):
     gender = models.CharField(choices=GENDER, default="NS", max_length=10)
     artist_level = models.CharField(choices=LEVEL, default="nov", max_length=10)
     revenue = models.IntegerField(default=0)
-    
 
     def __str__(self):
         return self.email

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import Artist
+from .models import Artist
 
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user, get_user_model
@@ -12,6 +12,7 @@ User = get_user_model()
 
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
+
 
 class UserCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -27,6 +28,7 @@ class UserCreateSerializer(serializers.Serializer):
         
         user.save()
         return user
+
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=64)
@@ -55,15 +57,18 @@ class UserLoginSerializer(serializers.Serializer):
             'token': jwt_token
         }
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
-        fields = ("__all__")
+        model = get_user_model()
+        fields = '__all__'
+
 
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = "__all__"
+
 
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:

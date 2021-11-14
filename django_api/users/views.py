@@ -1,9 +1,7 @@
-from .models import Artist
-from .serializers import ArtistSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-from users.models import Artist
-from users.serializers import ArtistSerializer
+from .models import Artist
+from .serializers import ArtistSerializer
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
@@ -20,6 +18,7 @@ from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from .serializers import *
 from .models import *
 
+
 class ArtistList(generics.ListCreateAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
@@ -30,6 +29,7 @@ class ArtistList(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         Token.objects.create(user=request)
         return self.create(request, *args, **kwargs)
+
 
 class ArtistDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Artist.objects.all()
@@ -47,7 +47,9 @@ class ArtistDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
+
 class SignupAPI(APIView):
+
     def post(self, request):
         user = User.objects.create_user(username=request.data['id'], password=request.data['password'])
         profile = models.Profile(user=user, nickname=request.data['nickname'])
@@ -62,6 +64,7 @@ class SignupAPI(APIView):
 class SignupAPI(generics.GenericAPIView):
     permission_classes = (AllowAny, )
     serializer_class = UserCreateSerializer
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -72,6 +75,7 @@ class SignupAPI(generics.GenericAPIView):
 class LoginAPI(generics.GenericAPIView):
     permission_classes = (AllowAny, )
     serializer_class = UserLoginSerializer
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
 
@@ -92,9 +96,11 @@ class LoginAPI(generics.GenericAPIView):
              }
         )
 
+
 class InfoAPI(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
+
     def get(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
 
