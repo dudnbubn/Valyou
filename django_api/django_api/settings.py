@@ -43,9 +43,6 @@ CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 # Application definition
 
 INSTALLED_APPS = [
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,21 +52,20 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'django_filters',
+
     'rest_framework',
     'rest_framework.authtoken',
 
     'rest_framework_jwt',
     'rest_auth',
     'rest_auth.registration',
-    # 'rest_framework_simplejwt',
-    # 'rest_framework_simplejwt.token_blacklist',
-    # 'dj_rest_auth',
-    # 'dj_rest_auth.registration',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'users',
     'artworks',
-    # 'corsheaders',
-    # 'knox',
-
 ]
 
 REST_FRAMEWORK = {

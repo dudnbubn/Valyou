@@ -12,10 +12,10 @@ from rest_framework.generics import ListAPIView
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination
-from .serializers import ArtworkSerializer, ArtworkMainSerializer, UserSerializer
+from .serializers import ArtworkSerializer, ArtworkMainSerializer
 from .models import Artwork
 
-from django.contrib.auth.models import User
+from users.serializers import UserSerializer
 
 
 # artworks/
