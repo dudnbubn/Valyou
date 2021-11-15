@@ -1,13 +1,10 @@
 from rest_framework import routers
 from django.urls import path, include
-from . import views
-from .views import ArtistList, ArtistDetail, LoginAPI, SignupAPI, InfoAPI
+from .views import LoginAPI, SignupAPI, InfoAPI
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 urlpatterns = [
-    path("artists/", ArtistList.as_view()),
-    path("artists/<pk>/", ArtistDetail.as_view()),
     path("login/", LoginAPI.as_view()),
     path("signup/", SignupAPI.as_view()),
     path("info/", InfoAPI.as_view()),

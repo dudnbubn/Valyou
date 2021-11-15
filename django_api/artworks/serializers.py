@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.apps import apps
 from .models import Artwork
 from users.serializers import UserSerializer
 
@@ -9,10 +8,10 @@ class ArtworkSerializer(serializers.ModelSerializer):
         model = Artwork
         fields = '__all__'
 
-        def to_representation(self, instance):
-            response = super().to_representation(instance)
-            response['CustomUser'] = UserSerializer(instance.artist).data
-            return response
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['artist'] = UserSerializer(instance.artist).data
+        return response
 
 
 class ArtworkMainSerializer(serializers.ModelSerializer):

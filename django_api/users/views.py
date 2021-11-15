@@ -1,13 +1,9 @@
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
-from .models import Artist
-from .serializers import ArtistSerializer
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
-from . import models
 
 from django.shortcuts import render
 from rest_framework import status, mixins
@@ -15,37 +11,8 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
-from .serializers import *
-from .models import *
-
-
-class ArtistList(generics.ListCreateAPIView):
-    queryset = Artist.objects.all()
-    serializer_class = ArtistSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-    
-    def post(self, request, *args, **kwargs):
-        Token.objects.create(user=request)
-        return self.create(request, *args, **kwargs)
-
-
-class ArtistDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Artist.objects.all()
-    serializer_class = ArtistSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-    
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+from users.serializers import *
+from users.models import *
 
 
 class SignupAPI(APIView):
@@ -97,26 +64,7 @@ class LoginAPI(generics.GenericAPIView):
         )
 
 
-class InfoAPI(generics.GenericAPIView):
+class InfoAPI(generics.ListAPIView):
     #permission_classes = (IsAuthenticated, )
+    queryset = User.objects.all()
     serializer_class = UserSerializer
-
-    def get(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        if not serializer.is_valid(raise_exception=True):
-            return Response({"message":"Request Body Error."}, status=status.HTTP_409_CONFLICT)
-
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
-        if user['email'] == "None":
-            return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
-
-        return Response(
-            {
-                 "email": UserSerializer(
-                     user,context=self.get_serializer_context()
-                 ).data.get('email'),
-                 "token": user['token']
-             }
-        )

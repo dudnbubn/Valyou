@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from .models import Artist
 
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth import get_user, get_user_model
@@ -62,15 +61,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = '__all__'
-
-
-class ArtistSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Artist
-        fields = "__all__"
-
-
-class LoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Artist
-        fields = ("email", "password")
