@@ -16,6 +16,7 @@ GENDER = [
     ("F", "Female")
 ]
 
+
 class CustomUser(AbstractUser):
 
     username = None
