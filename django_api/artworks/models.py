@@ -15,7 +15,7 @@ class Artwork(models.Model):
     file_name = models.CharField(max_length=1000)
     hashtag = models.CharField(max_length=1000)
 
-    artist = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
+    artist = models.ForeignKey(to=get_user_model(), related_name='artist', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)

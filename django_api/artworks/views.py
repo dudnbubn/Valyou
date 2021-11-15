@@ -2,6 +2,7 @@ import random
 import string
 import pandas as pd
 from django.contrib.auth import get_user_model
+from django.db.models import Prefetch, Q
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
@@ -12,7 +13,7 @@ from rest_framework.generics import ListAPIView
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination
-from .serializers import ArtworkSerializer, ArtworkMainSerializer
+from .serializers import ArtworkSerializer, ArtworkMainSerializer, ArtworkArtistLevelSerializer
 from .models import Artwork
 
 from users.serializers import UserSerializer
@@ -33,22 +34,26 @@ class ArtworkSearchViewSet(ListAPIView):
         level = self.request.query_params.get('level')
         query = self.request.query_params.get('query')
 
-        queryset = Artwork.objects.filter(level=level, title__contains=query, artist_nickname__contains=query)
+        queryset = Artwork.objects.filter(
+            Q(artist__artist_level=level) & (Q(title__contains=query) | Q(artist__nickname__contains=query))
+        )
 
         return queryset
 
 
 # artworks/list
 class ArtworkListViewSet(ListAPIView):
-    queryset = Artwork.objects.all()
-    serializer_class = ArtworkMainSerializer
+    queryset = Artwork.objects.select_related('artist')
+    serializer_class = ArtworkSerializer
     pagination_class = MainPagination
 
     def get_queryset(self):
         level = self.request.query_params.get('level')
         category = self.request.query_params.get('category')
+
         order = self.request.query_params.get('order')
-        queryset = Artwork.objects.filter(level=level, category=category)
+
+        queryset = Artwork.objects.filter(artist__artist_level=level, category=category)
 
         if order == 'popular':
             queryset = queryset.order_by('-like_count')

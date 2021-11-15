@@ -19,3 +19,14 @@ class ArtworkMainSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
         fields = ('id', 'category', 'title', 'artist_nickname', 'like_count', 'file_img', 'hashtag')
+
+
+class ArtworkArtistLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artwork
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['artist'] = UserSerializer(instance.artist).data['artist_level']
+        return response
