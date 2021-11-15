@@ -8,9 +8,6 @@ const SignUp = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
     const [gender, setGender] = useState('');
-    //const [signUpBirthyy, setSignUpBirthyy] = useState('');
-    //const [signUpBirthmm, setSignUpBirthmm] = useState('');
-    //const [signUpBirthdd, setSignUpBirthdd] = useState('');
     
     //오류 메세지
     const [nameMessage, setNameMessage] = useState('');
@@ -100,26 +97,19 @@ const SignUp = () => {
             console.log("nickname check", error);
         })
     }
-    /*const handleSignUpBirthyy = (e) => {
-        setSignUpBirthyy(e.target.value);
-    }
-    const handleSignUpBirthmm = (e) => {
-        setSignUpBirthmm(e.target.value);
-    }
-    const handleSignUpBirthdd = (e) => {
-        setSignUpBirthdd(e.target.value);
-    }*/
     const handleSignUpGender = (e) => {
         setGender(e.target.value);
     }
     const signUpSubmit = (e) => {
         console.log(id, password, passwordConfirm, nickname, name, gender);
-        axios.post('/api/users/artists/', {
-            artist_name: name,
-            password: password,
-            email: id,
-            nickname: nickname,
-            gender: gender,
+        axios.post('/api/users/', null, {
+            params: {
+                nickName: nickname,
+                email: id,
+                password: password,
+                user_name: name,
+                gender: gender,
+            }
         }).then(() => {
             alert('회원가입에 성공하였습니다. 로그인해주세요.');
             window.location.href = "/login";
@@ -164,28 +154,6 @@ const SignUp = () => {
                     </h3>
                     <input type="text" id="name" onChange={handleSignUpName} />
                 </div>
-                {/*<div className="input birth">
-                    <h3 className="birth label">
-                        <label htmlFor="yy">생년월일 </label>
-                    </h3>
-                    <input type="number" id="yy" placeholder="년(4자)" aria-label="년(4자)" className="int" maxLength="4" onChange={ handleSignUpBirthyy}/>
-                    <select id="mm" className="sel" aria-label="월" onSelect={handleSignUpBirthmm}>
-                        <option value>월</option>
-                        <option value="01">1</option>
-                        <option value="02">2</option>
-                        <option value="03">3</option>
-                        <option value="04">4</option>
-                        <option value="05">5</option>
-                        <option value="06">6</option>
-                        <option value="07">7</option>
-                        <option value="08">8</option>
-                        <option value="09">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                    <input type="number" id="dd" placeholder="일" aria-label="일" className="int" maxLength="2" min="1" max="31" onChange={ handleSignUpBirthdd}/>
-    </div>*/}
                 <div className="input gender">
                     <h3 className="gender label">
                         <label htmlFor="gender">성별</label>

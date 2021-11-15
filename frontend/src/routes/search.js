@@ -1,83 +1,55 @@
 import axios from 'axios';
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import Items from '../components/items';
+import PaginateGet from '../components/paginateGet';
 import '../css/search.css';
 
-class Search extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            keyword:"",
-            workPro: [],
-            workAdv: [],
-            workNov: [],
-            loading: false
-        }
-    }
-    loadItems = async () => {
-        console.log("search", this.props);
-        axios.get('/api/artworks/search', {
-            params: {
-                level: "PRO",
-                query: this.state.keyword,
-            }
-        }).then(res => {
-            this.setState({ workPro: res.data })
-        }).catch(() => {
-            this.setState({ loading: false })
-        });
-        axios.get('/api/artworks/search', {
-            params: {
-                level: "ADV",
-                query: this.state.keyword,
-            }
-        }).then(res => {
-            this.setState({ workAdv:res.data })
-        }).catch(() => {
-            this.setState({ loading: false })
-        });
-        axios.get('/api/artworks/search', {
-            params: {
-                level: "NOV",
-                query: this.state.keyword,
-            }
-        }).then(res => {
-            this.setState({ workNov: res.data })
-        }).catch(() => {
-            this.setState({ loading: false })
-        });
-    };
-    componentDidMount() {
-        this.loadItems();
-    }
-    render() {
-        return (
-            <div className="searching_result">
-                <h3>검색결과</h3>
-                <div className="professional_search">
-                    <h4>Professional 검색결과</h4>
-                    <ul className="professional_search_list">
-                        <Items posts={ this.state.workPro} loading={this.state.loading} />
-                    </ul>
-                    <a className="result_more" href="#">더보기</a>
-                </div>
-                <div className="advanced_search">
-                    <h4>Advanced 검색결과</h4>
-                    <ul className="advanced_search_list">
-                        <Items posts={ this.state.workAdv} loading={this.state.loading} />
-                    </ul>
-                    <a className="result_more" href="#">더보기</a>
-                </div>
-                <div className="novice_search">
-                    <h4>Novice 검색결과</h4>
-                    <ul className="advanced_search_list">
-                        <Items posts={  this.state.workNov} loading={this.state.loading} />
-                    </ul>
-                    <a className="result_more" href="#">더보기</a>
-                </div>
+const Search = () => {
+    const keyword = useParams().keyword;
+    
+    return (
+        <div className="searching_result">
+            <h3>검색결과</h3>
+            <div className="professional_search">
+                <h4>Professional 검색결과</h4>
+                <ul className="professional_search_list">
+                    <PaginateGet
+                        condition={{
+                            level: "pro",
+                            query:keyword
+                                }}
+                        url={ "/api/artworks/search"}
+                    />
+                </ul>
             </div>
-        );    
-    }
+            <div className="advanced_search">
+                <h4>Advanced 검색결과</h4>
+                <ul className="advanced_search_list">
+                    <PaginateGet
+                        condition={{
+                            level: "adv",
+                            query:keyword
+                        }}
+                        url={ "/api/artworks/search"}
+                    />
+                </ul>
+            </div>
+            <div className="novice_search">
+                <h4>Novice 검색결과</h4>
+                <ul className="advanced_search_list">
+                    <PaginateGet
+                        condition={{
+                            level: "nov",
+                            query:keyword
+                        }}
+                        url={ "/api/artworks/search"}
+                    />
+                </ul>
+            </div>
+        </div>
+    );    
+    
 }
 
 export default Search;

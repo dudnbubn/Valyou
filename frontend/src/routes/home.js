@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import axios from'axios';
 import '../css/home.css';
 import UsualGet from '../components/usualGet';
+import PaginateGet from '../components/paginateGet';
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            recommend: [],
+            recommend: 5,
             popular:[],
         }
     }
@@ -28,29 +28,18 @@ class Home extends Component {
         changeContainerS.classList.add('active');
     }
     
-    //인기 level5's artworks get
-    componentDidMount = () => {
-        axios.get('/artworks/list', {
-            params: {
-                level: this.props.items.level,
-                category: this.props.items.category,
-                order:"popular"
-            }
-        }).then(res => {
-                this.setState({ popular: res.data.results });
-            }).catch(error => {
-                console.log("componentDidMount", error);
-            });
-    }
     componentDidUpdate = () => {
         this.activateTab();
     }
     render() {
-        console.log("home");
         return (
             <>
                 <div className="recommend__wrap">
-
+                    <PaginateGet condition={{
+                            level: this.props.items.level,
+                        }}
+                        url={ "/api/artworks/recommend"}
+                    />
                 </div>
                 <div className="container">
                     <div className="contents__wrap">
@@ -64,27 +53,24 @@ class Home extends Component {
                                 <li className="sort__btn active" id="latest" data-value="latest" onClick={ this.checkStandard }>신작순</li>
                                 <li className="sort__btn" id="popular" data-value="popular" onClick={this.checkStandard}>인기순</li>
                             </ul>
-                            <ul className="contents__artworks">
-                                <UsualGet condition={
-                                {
-                                    level: this.props.items.level,
-                                    category: this.props.items.category,
-                                    order: this.props.items.sort
-                                }
-                            } />
-                            </ul>  
+                            <PaginateGet condition={{
+                                level: this.props.items.level,
+                                category: this.props.items.category,
+                                order: this.props.items.sort
+                            }}
+                                url={ "/api/artworks/list"}
+                            />
                         </div>
                     </div>
                     <div className="levels__top5">
-                        <ul>
-                            <UsualGet condition={
-                            {
+                        <UsualGet
+                            count={this.state.recommend}
+                            condition={{
                                 level: this.props.items.level,
-                                category: this.props.items.category,
                                 order: "popular"
-                            }
-                        } />
-                        </ul>
+                            }}
+                            url={"/api/artwork/list"}
+                        />
                     </div>
                 </div>
             </>

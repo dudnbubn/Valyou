@@ -3,8 +3,6 @@ import { Link} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch,faFileUpload,faBell } from "@fortawesome/free-solid-svg-icons";
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
-import Search from '../routes/search';
-import Home from '../routes/home';
 
 class HomeHeader extends Component {
     constructor(props){
@@ -18,10 +16,12 @@ class HomeHeader extends Component {
     componentDidMount() {
         const beforeContainer = document.querySelector('.before_login');
         const afterContainer = document.querySelector('.after_login');
+        const signUpContainer = document.querySelector('.before__signup-btn.blind');
         if (sessionStorage.getItem('userId') !== null) {
             beforeContainer.classList.add('blind');
             afterContainer.classList.remove('blind');
         } else {
+            signUpContainer.classList.remove('blind');
             beforeContainer.classList.remove('blind');
             afterContainer.classList.add('blind');
         }
@@ -60,6 +60,9 @@ class HomeHeader extends Component {
                     <li >
                         <button className="before_login">
                             <Link to="/login"> 로그인 </Link>
+                        </button>
+                        <button className="before__signup-btn blind">
+                            <Link to="/sign_up">회원가입</Link>
                         </button>
                         <button className="after_login blind">
                             <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>

@@ -6,20 +6,24 @@ const UsualGet = (props) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const condition = props.condition;
-    
+    const count = props.count;
+    const url = props.url;
     useEffect(() => {
-        axios.get("/api/artworks/list", { params: condition })
+        axios.get(url, { params: condition })
             .then(res => {
-            console.log("usualGet", res.data);
-            setPosts(res.data.results);
+                console.log("usualGet", res.data);
+                setPosts(res.data.results);
                 setLoading(false);
             }).catch(error => {
                 console.log("usualGet",error);
         })
-    },[condition]);
+    }, [condition]);
+    
 
     return (
-        <Items posts={posts} loading={loading} />
+        <ul>
+            <Items posts={posts.slice(count)} loading={loading} />
+        </ul>
     )
 };
 

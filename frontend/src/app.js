@@ -37,6 +37,7 @@ class App extends Component {
   }
   toResearch = (data) => {
     console.log("research", data);
+    window.location.href = `/search_result/${data}`;
   }
   render() {
     console.log("app", this.state);
@@ -60,7 +61,7 @@ class App extends Component {
             <Route path="/my_profile/*" element={<MyProfile />}></Route>
             <Route path="/sign_up" element={<SignUp />} ></Route>
             <Route path="/login"  element={<Login />}></Route>
-            <Route path="/search_result" element={<Search />} ></Route>
+            <Route path="/search_result/:keyword" element={<Search />} ></Route>
           <Route path="/upload" element={<Upload />} ></Route>
           </Routes>
         </div>
