@@ -17,9 +17,14 @@ class Artwork(models.Model):
 
     artist = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
 
-    # artist_email = models.EmailField(max_length=40)
-    # level = models.CharField(max_length=10, default='pro')
-    # artist_nickname = models.CharField(max_length=60, default='abcd')
+    def __str__(self):
+        return str(self.id)
+
+
+class RecentView(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(to=get_user_model(), related_name='recent_view_list', on_delete=models.CASCADE)
+    recent = models.ForeignKey(to=Artwork, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)

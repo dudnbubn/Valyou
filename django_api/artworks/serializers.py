@@ -1,5 +1,6 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Artwork
+from .models import Artwork, RecentView
 from users.serializers import UserSerializer
 
 
@@ -18,4 +19,3 @@ class ArtworkMainSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
         fields = ('id', 'category', 'title', 'artist_nickname', 'like_count', 'file_img', 'hashtag')
-

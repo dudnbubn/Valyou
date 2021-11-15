@@ -1,11 +1,10 @@
-from rest_framework import serializers
-
-from rest_framework_jwt.settings import api_settings
-from django.contrib.auth import get_user, get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import update_last_login
-from django.contrib.auth import authenticate
-from rest_auth.registration.serializers import RegisterSerializer
-from .models import *
+from rest_framework import serializers
+from rest_framework_jwt.settings import api_settings
+
+from users.models import *
+from artworks.models import RecentView
 
 User = get_user_model()
 
@@ -57,7 +56,15 @@ class UserLoginSerializer(serializers.Serializer):
         }
 
 
+class UserRecentViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecentView
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
+    recent_view_list = UserRecentViewSerializer(many=True, read_only=True)
+
     class Meta:
         model = get_user_model()
         fields = '__all__'

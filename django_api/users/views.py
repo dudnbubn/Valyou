@@ -13,7 +13,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from users.serializers import *
 from users.models import *
-
+from artworks.serializers import *
 
 class SignupAPI(APIView):
 

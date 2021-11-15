@@ -1,18 +1,21 @@
 import random
 import string
 import pandas as pd
+from django.contrib.auth import get_user_model
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
-from rest_framework import viewsets, pagination
+from rest_framework import viewsets, pagination, generics
 from rest_framework.generics import ListAPIView
 
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination
-from .serializers import ArtworkSerializer, ArtworkMainSerializer
+from .serializers import ArtworkSerializer, ArtworkMainSerializer, UserSerializer
 from .models import Artwork
+
+from django.contrib.auth.models import User
 
 
 # artworks/
@@ -149,3 +152,9 @@ class ArtworkDataViewSet(ListAPIView):
                                    artist_nickname=artist_nickname,
                                    hashtag=hashtag)
         return queryset
+
+
+class InfoAPI(generics.ListAPIView):
+    #permission_classes = (IsAuthenticated, )
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer

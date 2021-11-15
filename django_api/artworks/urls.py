@@ -8,6 +8,7 @@ from .views import ArtworkListViewSet
 from .views import ArtworkPopularViewSet
 from .views import ArtworkRecommendViewSet
 from .views import ArtworkDataViewSet
+from .views import InfoAPI
 
 router = routers.DefaultRouter()
 router.register('',ArtworkViewSet)
@@ -20,4 +21,5 @@ urlpatterns = [
     path('popular', ArtworkPopularViewSet.as_view()),
     path('recommend', ArtworkRecommendViewSet.as_view()),
     path('data', ArtworkDataViewSet.as_view()),
+    path('info', InfoAPI.as_view()),
 ]
