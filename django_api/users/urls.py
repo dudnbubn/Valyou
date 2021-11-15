@@ -1,7 +1,11 @@
 from django.urls import path, include
-from .views import ArtistList, ArtistDetail, LoginAPI, SignupAPI, InfoAPI
+from .views import ArtistList, ArtistDetail, LoginAPI, SignupAPI, InfoAPI, UserViewSet
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('user', UserViewSet)
 
 urlpatterns = [
     path("artists/", ArtistList.as_view()),

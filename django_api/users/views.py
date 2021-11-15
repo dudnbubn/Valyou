@@ -6,8 +6,8 @@ from rest_framework import generics
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
 from . import models
+from rest_framework import viewsets
 
 from django.shortcuts import render
 from rest_framework import status, mixins
@@ -17,6 +17,10 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from .serializers import *
 from .models import *
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
 class ArtistList(generics.ListCreateAPIView):
     queryset = Artist.objects.all()
@@ -59,7 +63,7 @@ class SignupAPI(APIView):
 
 class SignupAPI(generics.GenericAPIView):
     permission_classes = (AllowAny, )
-    serializer_class = UserCreateSerializer
+    serializer_class = CustomRegisterSerializer
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -93,17 +97,17 @@ class LoginAPI(generics.GenericAPIView):
 class InfoAPI(generics.GenericAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-
+        print(1)
         if not serializer.is_valid(raise_exception=True):
             return Response({"message":"Request Body Error."}, status=status.HTTP_409_CONFLICT)
-        
+        print(2)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
+        print(3)
         if user['email'] == "None":
             return Response({"message": "fail"}, status=status.HTTP_401_UNAUTHORIZED)
-
         return Response(
             {
                  "email": UserSerializer(
@@ -112,3 +116,4 @@ class InfoAPI(generics.GenericAPIView):
                  "token": user['token']
              }
         )
+    

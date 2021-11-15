@@ -17,6 +17,7 @@ GENDER = [
 ]
 
 class CustomUser(AbstractUser):
+
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
@@ -26,9 +27,9 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     artist_name = models.CharField(max_length=30)
-    nickname = models.CharField(max_length=20)
-    gender = models.CharField(choices=GENDER, default="NS", max_length=10)
-    artist_level = models.CharField(choices=LEVEL, default="nov", max_length=10)
+    nickname = models.CharField(max_length=30)
+    gender = models.CharField(choices=GENDER, default="NS", max_length=30)
+    artist_level = models.CharField(choices=LEVEL, default="nov", max_length=30)
     revenue = models.IntegerField(default=0)
     
 

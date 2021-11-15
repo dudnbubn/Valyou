@@ -7,24 +7,29 @@ from django.contrib.auth.models import update_last_login
 from django.contrib.auth import authenticate
 from rest_auth.registration.serializers import RegisterSerializer
 from .models import *
+from django.db import transaction
 
 User = get_user_model()
 
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 
-class UserCreateSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True)
-    # artist_name = models.CharField(required=True)
-    # nickname = models.CharField(required=True)
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'email', 'artist_name', 'nickname', 'artist_level', 'date_joined', 'revenue', 'gender']
 
-    def create(self, validated_data):
-        user = User.objects.create(
-            email=validated_data['email'],
-        )
-        user.set_password(validated_data['password'])
-        
+class CustomRegisterSerializer(RegisterSerializer):
+    artist_name = serializers.CharField(max_length=30)
+    nickname = serializers.CharField(max_length=30)
+    gender = serializers.CharField(max_length=30)
+    
+    @transaction.atomic
+    def save(self, request):
+        user = super().save(request)
+        user.artist_name = self.data.get('artist_name')
+        user.nickname = self.data.get('nickname')
+        user.gender = self.data.get('gender')
         user.save()
         return user
 
