@@ -1,5 +1,5 @@
 .recommend__wrap {
-  width: 960px;
+  max-width: 960px;
   height: 300px;
   margin: 0 auto;
   padding: 12px 10px 14px;
@@ -8,7 +8,7 @@
 .container {
   clear: both;
   position: relative;
-  width: 980px;
+  -moz-text-align-last: 980px;
   display: block;
   min-height: 350px;
   height: auto;
@@ -18,7 +18,7 @@
 .contents__wrap {
   float: left;
   position: relative;
-  width: 694px;
+  max-width: 694px;
   height: auto;
   padding-left: 10px;
   border: 1px solid black;
@@ -61,7 +61,7 @@
 }
 .levels__top5 {
   float: right;
-  width: 240px;
+  min-width: 150px;
   padding-right: 10px;
   border: 1px solid black;
 }

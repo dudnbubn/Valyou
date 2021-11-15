@@ -169,7 +169,7 @@ p {
   border-bottom: 1px solid black;
 }
 .main__wrap {
-  width: 1000px;
+  max-width: 1000px;
   margin: 40px auto;
   height: auto;
 }

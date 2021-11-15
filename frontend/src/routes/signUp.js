@@ -50,22 +50,16 @@ const SignUp = () => {
         }
     }
     const handleSignUpPwd2 = (e) => {
-        let timer;
-        if (timer) {
-            clearTimeout(timer);
+        const currentPwdConfirm = e.target.value;
+        setPasswordConfirm(currentPwdConfirm);
+        console.log(passwordConfirm);
+        if (password === passwordConfirm) {
+            setPasswordConfirmMesaage('동일한 비밀 번호입니다:)');
+            setIsPasswordConfirm(true);
+        } else {
+            setPasswordConfirmMesaage('비밀번호가 틀려요. 다시 확인해주세요.');
+            setIsPasswordConfirm(false);
         }
-        timer = setTimeout(() => {
-            const currentPwdConfirm = e.target.value;
-            setPasswordConfirm(currentPwdConfirm);
-            console.log(passwordConfirm);
-            if (password === passwordConfirm) {
-                setPasswordConfirmMesaage('동일한 비밀 번호입니다:)');
-                setIsPasswordConfirm(true);
-            } else {
-                setPasswordConfirmMesaage('비밀번호가 틀려요. 다시 확인해주세요.');
-                setIsPasswordConfirm(false);
-            }
-        },500);
     }
     const handleSignUpName = (e) => {
         const currentName = e.target.value;

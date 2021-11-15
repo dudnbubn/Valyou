@@ -60,9 +60,9 @@ const Upload=() => {
         // 데이터는 form_data, 헤더에 컨텐츠 타입 수정
         axios.post('api/artworks/', form_data,
             {
-                 headers: {
+                headers: {
                     'content-type': 'multipart/form-data'
-                 }
+                }
             }
         ).then(() => {
             /* 홈화면으로 이동*/

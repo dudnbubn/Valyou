@@ -4,7 +4,10 @@ import './index.css';
 import App from './app';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import axios from 'axios';
 
+axios.defaults.baseURL = "";
+axios.defaults.withCredentials = true;
 
 
 ReactDOM.render(
