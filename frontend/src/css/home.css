@@ -43,17 +43,19 @@
 }
 .artwork {
   width: 120px;
-  margin: 10px 45px;
+  margin: 10px 10px;
 }
 .artwork__img {
   width: 100px;
   height: 80px;
 }
-.artwork__work__title {
+.artwork__work__title,
+.artwork__artist__title,
+.artwork__hashtag {
   color: darkgray;
-}
-.artwork__artist__title {
-  color: darkgray;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .artwork__hashtag {
   color: lightgray;
@@ -72,8 +74,6 @@
 }
 .categories li {
   padding: 10px 20px;
-  border: 1px solid lightgray;
-  border-bottom: none;
 }
 .category__btn.active,
 .sort__btn.active,

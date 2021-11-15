@@ -60,14 +60,10 @@ class HomeHeader extends Component {
                     <li >
                         <button className="before_login">
                             <Link to="/login"> 로그인 </Link>
-                        </button>
-                        <button className="before__signup-btn blind">
-                            <Link to="/sign_up">회원가입</Link>
-                        </button>
+                        </button>    
                         <button className="after_login blind">
                             <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>
-                        </button>
-                        
+                        </button>                        
                         <ul className="my__choiceList">
                             <li>
                                 <Link to="/my_profile">내 작가 페이지</Link>
@@ -78,7 +74,12 @@ class HomeHeader extends Component {
                             <li>
                                 <button type="button" onClick={this.handleLogout}>로그아웃</button>
                             </li>
-                        </ul>
+                        </ul>    
+                    </li>
+                    <li>
+                        <button className="before__signup-btn blind">
+                            <Link to="/sign_up">회원가입</Link>
+                        </button>
                     </li>
                 </ul>
             </div>

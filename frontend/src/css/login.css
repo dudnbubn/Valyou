@@ -7,10 +7,11 @@
   height: 400px;
   text-align: center;
   padding: 30px 10px;
-  border: 1px solid lightgray;
+  border: 5px solid var(--color-dark-puple);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-size: 18px;
 }
 .login__id-input,
 .login__pwd-input {
@@ -19,13 +20,24 @@
   border: none;
   border-bottom: 1px solid lightgray;
   display: inline;
+  font-size: 15px;
+  color: lightgray;
+  outline: none;
 }
 .login__id__wrap,
 .login__pwd__wrap {
   padding: 10px 0;
 }
+.login__btn:hover {
+  transition: transform 0.2s ease;
+  transform: scale(1.05);
+}
 .login__btn {
   width: 300px;
   height: 40px;
-  margin: 0 auto;
+  margin: 20px auto;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: var(--color-primitive-puple);
 }

@@ -50,6 +50,9 @@ p {
 }
 :root {
   --color-main: #650689;
+  --color-primitive-puple: #ce93ed;
+  --color-light-puple: #ffc4ff;
+  --color-dark-puple: #9c64a6;
   --radius-range: 4px;
 }
 
@@ -113,12 +116,13 @@ p {
   padding: 0;
   cursor: pointer;
 }
-.before_login {
+.before_login,
+.before__signup-btn {
   border: none;
   background-color: transparent;
-  font-size: 16px;
+  font-size: 15px;
   padding: 0;
-  width: 50px;
+  width: 60px;
   height: 40px;
 }
 .after_login {
@@ -169,7 +173,7 @@ p {
   border-bottom: 1px solid black;
 }
 .main__wrap {
-  width: 1000px;
+  max-width: 1000px;
   margin: 40px auto;
   height: auto;
 }
@@ -186,8 +190,9 @@ footer {
 .paginate__btn-pre,
 .paginate__btn-next {
   padding: 0;
-  background-color: var(--color-main);
-  color: white;
+  background-color: transparent;
+  color: black;
   font-size: 15px;
   width: 40px;
+  font-size: 20px;
 }

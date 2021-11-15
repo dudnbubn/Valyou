@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { Component,useState } from 'react';
+import React, { useState } from 'react';
+import '../css/signUp.css';
 const SignUp = () => {
     //변수
     const [id, setId] = useState('');
@@ -71,8 +72,8 @@ const SignUp = () => {
         const currentName = e.target.value;
         setName(currentName);
 
-        if (currentName.length < 1) {
-            setNameMessage('이름은 1자이상 입력해주세요.');
+        if (currentName.length < 2) {
+            setNameMessage('이름은 2자이상 입력해주세요.');
             setIsName(false);
         } else {
             setNameMessage('');
@@ -121,46 +122,45 @@ const SignUp = () => {
         <>
             <h2 style={{textAlign:"center"}}>회원가입</h2>
             <form className="signUp__wrap">
-                <div className="input id">
-                    <h3 className="id label">
+                <div className="signUp__id__wrap">
+                    <h3 className="signUp__wrap__title">
                         <label htmlFor="id">아이디</label>
                     </h3>
                     <input type="text" id="id" onChange={handleSignUpId} />
-                    <p>{ idMessage }</p>
                 </div>
-                <div className="input pwd">
-                    <h3 className="pwd1 label">
+                <div className="signUp__pwd__wrap">
+                    <h3 className="signUp__wrap__title">
                         <label htmlFor="pwd1" >비밀번호</label>
                     </h3>
                     <input type="password" id="pwd1" onChange={handleSignUpPwd} />
-                    <p>{ passwordMessage }</p>
-                    <h3 className="pwd2 label">
+                    <p className="signUp__message">{ passwordMessage }</p>
+                    <h3 className="signUp__wrap__title">
                         <label htmlFor="pwd2">비밀번호 재확인</label>
                     </h3>
                     <input type="password" id="pwd2" onChange={handleSignUpPwd2} />
-                    <p>{passwordConfirmMessage}</p>
+                    <p className="signUp__message">{passwordConfirmMessage}</p>
                 </div>
-                <div className="nickname">
-                    <h3>
+                <div className="signUp__nickname__wrap">
+                    <h3 className="signUp__wrap__title">
                         <label htmlFor ="nickname">닉네임</label>
                     </h3>
                     <input type="text" id="nickname" onChange={handleSignUpNickname} />
-                    <button type = "button" onClick={checkUniqueNickname}>중복여부확인</button>
-                    <p>{ nicknameMessage}</p>
+                    <button type="button" className="nickname__check-btn" onClick={checkUniqueNickname}>중복여부확인</button>
+                    <p className="signUp__message">{ nicknameMessage}</p>
                 </div>
-                <div className="input name">
-                    <h3 className="name label">
+                <div className="signUp__name__wrap">
+                    <h3 className="signUp__wrap__title">
                         <label htmlFor="name">이름</label>
                     </h3>
                     <input type="text" id="name" onChange={handleSignUpName} />
+                    <p className="signUp__message">{nameMessage}</p>
                 </div>
-                <div className="input gender">
-                    <h3 className="gender label">
+                <div className="signUp__gender__wrap">
+                    <h3 className="signUp__wrap__title">
                         <label htmlFor="gender">성별</label>
                     </h3>
                     <select id="gender" name="gender" className="sel" aria-label="성별" onChange={handleSignUpGender}>
-                        <option defaultValue="">성별</option>
-                        <option value="M">남자</option>
+                        <option defaultValue="M">남자</option>
                         <option value="F">여자</option>
                     </select>
                 </div>
