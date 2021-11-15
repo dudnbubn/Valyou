@@ -32,7 +32,6 @@ class CustomUser(AbstractUser):
     gender = models.CharField(choices=GENDER, default="NS", max_length=30)
     artist_level = models.CharField(choices=LEVEL, default="nov", max_length=30)
     revenue = models.IntegerField(default=0)
-    
 
     def __str__(self):
         return self.email

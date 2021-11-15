@@ -29,7 +29,8 @@ const Upload=() => {
         setUploadThumbnail(e.target.value)
     }
     const handleUploadFile = (e) => {
-        setUploadFile(e.target.value)
+        // 이미지 불러오는 부분 수정
+        setUploadFile(e.target.files[0])
     }
     const handleUploadIntro = (e) => {
         setUploadIntro(e.target.value)
@@ -43,23 +44,27 @@ const Upload=() => {
         console.log(uploadThumbnail);
         console.log(uploadFile);
         console.log(uploadIntro);
+        // 미리 FormData() 객체 생성해서 보낼 데이터들 넣어주기
+        let form_data = new FormData();
+        form_data.append('category', uploadCategory);
+        form_data.append('title', uploadTitle);
+        form_data.append('contents', "default");
+        form_data.append('description', uploadIntro);
+        form_data.append('like_count', "0");
+        form_data.append('view_count', "0");
+        form_data.append('file_img', uploadFile);
+        form_data.append('file_name', "default");
+        form_data.append('hashtag', uploadHashtag);
+        form_data.append('artist', "2");
         
-        axios({
-            method: "post",
-            url: 'api/artworks/',
-            data: {
-                artist_email:"1234@gmail.com",
-                category :uploadCategory,
-                title : uploadTitle,
-                contents : "default",
-                description : uploadIntro,
-                like_count : 0,
-                view_count : 0,
-                //file_img: uploadFile,
-                file_name:"default",
-                hashtag : uploadHashtag
+        // 데이터는 form_data, 헤더에 컨텐츠 타입 수정
+        axios.post('api/artworks/', form_data,
+            {
+                 headers: {
+                    'content-type': 'multipart/form-data'
+                 }
             }
-        }).then(() => {
+        ).then(() => {
             /* 홈화면으로 이동*/
             alert('업로드에 성공하였습니다.');
             window.location.href="/";
