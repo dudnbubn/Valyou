@@ -1,74 +1,55 @@
 import axios from 'axios';
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import Items from '../components/items';
+import PaginateGet from '../components/paginateGet';
 import '../css/search.css';
 
-class Search extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            keyword:"",
-            works: [],
-            workPro: [],
-            workAdv: [],
-            workNov: [],
-            loading: false
-        }
-    }
-    loadItems=()=> {
-        const works = axios.get('', {
-            params: {
-                result: this.state.keyword,
-            }
-        });
-        this.setState({ works });
-    };
-
-    sorting = () => {
-        const workP = [...this.state.workPro ];
-        const workA = [ ...this.state.workAdv ];
-        const workN = [ ...this.state.workNov ];
-        this.state.works.map(work => {
-            if (work.level === "pro") {
-                workP.push(work);
-            } else if (work.level === "adv") {
-                workA.push(work);
-            } else if (work.level === "nov") {
-                workN.push(work);
-            }
-        })
-        this.setState({ workPro: workP, workAdv: workA, workNov: workN });
-        this.setState({ loading: true });
-    };
-    render() {
-        return (
-            <div className="searching_result">
-                <h3>검색결과</h3>
-                <div className="professional_search">
-                    <h4>Professional 검색결과</h4>
-                    <ul className="professional_search_list">
-                        <Items posts={this.state.workPro} loading={this.state.loading} />
-                    </ul>
-                    <a className="result_more" href="#">더보기</a>
-                </div>
-                <div className="advanced_search">
-                    <h4>Advanced 검색결과</h4>
-                    <ul className="advanced_search_list">
-                        <Items posts={this.state.workAdv} loading={this.state.loading} />
-                    </ul>
-                    <a className="result_more" href="#">더보기</a>
-                </div>
-                <div className="novice_search">
-                    <h4>Novice 검색결과</h4>
-                    <ul className="novice_search_list">
-                        <Items posts={this.state.workNov} loading={this.state.loading} />
-                    </ul>
-                    <a className="result_more" href="#">더보기</a>
-                </div>
+const Search = () => {
+    const keyword = useParams().keyword;
+    
+    return (
+        <div className="searching_result">
+            <h3>검색결과</h3>
+            <div className="professional_search">
+                <h4>Professional 검색결과</h4>
+                <ul className="professional_search_list">
+                    <PaginateGet
+                        condition={{
+                            level: "pro",
+                            query:keyword
+                                }}
+                        url={ "/api/artworks/search"}
+                    />
+                </ul>
             </div>
-        );    
-    }
+            <div className="advanced_search">
+                <h4>Advanced 검색결과</h4>
+                <ul className="advanced_search_list">
+                    <PaginateGet
+                        condition={{
+                            level: "adv",
+                            query:keyword
+                        }}
+                        url={ "/api/artworks/search"}
+                    />
+                </ul>
+            </div>
+            <div className="novice_search">
+                <h4>Novice 검색결과</h4>
+                <ul className="advanced_search_list">
+                    <PaginateGet
+                        condition={{
+                            level: "nov",
+                            query:keyword
+                        }}
+                        url={ "/api/artworks/search"}
+                    />
+                </ul>
+            </div>
+        </div>
+    );    
+    
 }
 
 export default Search;

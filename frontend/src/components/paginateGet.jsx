@@ -1,38 +1,64 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Items from './items';
-import Pagination from './pagination';
+import '../css/app.css';
 
-const Posts=()=> {
+const PaginateGet=(props)=> {
     const [posts, setPosts] = useState([]);
-    const [loading, setLodaing] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(10);
+    const [loading, setLoading] = useState(true);
+    const [next, setNext] = useState('');
+    const [previous, setPrevious] = useState('');
+    const [canPrevious, setCanPrevious] = useState(false);
+    const [canNext, setCanNext] = useState(false);
 
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+    const condition = props.condition;
+    const basicUrl = props.url;
 
+    const fetchPost = async (url) => {
+        axios.get(url, { params: condition })
+            .then(res => {
+                if (res.data.previous !== null) {
+                    setCanPrevious(true);
+                    setPrevious('/api/' + res.data.previous.slice(22,));
+                } else {
+                    setCanPrevious(false);
+                }
+                if (res.data.next !== null) {
+                    setCanNext(true);
+                    setNext('/api/' + res.data.next.slice(22,));
+                } else {
+                    setCanNext(false);
+                }
+                setPosts(res.data.results);
+                setLoading(false);
+            }).catch(error => {
+                console.log(error);
+            })
+    };
     useEffect(() => {
-        const fetchPosts = async () => {
-            setLodaing(true);
-            const res = await axios.get("/artworks/list");
-            setPosts(res.data);
-            setLodaing(false);
-        };
-        fetchPosts();
-    }, []);
-
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+        fetchPost(basicUrl);
+    }, [condition]);
+    const goToPrePage = () => {
+        fetchPost(previous);
+    }
+    const goToNextPage = () => {
+        fetchPost(next);
+    }
     return (
         <>
-            <Items posts={currentPosts} loading={loading} />
-            <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate ={paginate} />
+            <button className="paginate__btn-pre" onClick={goToPrePage}>
+                <i className="fas fa-angle-left"></i>
+            </button>
+            <ul style={{ display: 'flex', flexWrap:"wrap"}}>
+                <Items posts={posts} loading={loading} />
+            </ul>
+            <button className="paginate__btn-next" onClick={ goToNextPage}>
+                <i className="fas fa-angle-right"></i>
+            </button>
         </>
         
     );
-    
 }
 
-export default Posts;
+export default PaginateGet;

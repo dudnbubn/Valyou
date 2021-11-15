@@ -1,55 +1,120 @@
 import axios from 'axios';
 import React, { Component,useState } from 'react';
-const SignUp =()=> {
-    const [signUPId, setSignUpId] = useState('');
-    const [signUpPwd, setSignUpPwd] = useState('');
-    const [signUpPwd2, setSignUpPwd2] = useState('');
-    const [signUpNickname, setSignUpNickname] = useState('');
-    const [signUpName, setSignUpName] = useState('');
-    const [signUpBirthyy, setSignUpBirthyy] = useState('');
-    const [signUpBirthmm, setSignUpBirthmm] = useState('');
-    const [signUpBirthdd, setSignUpBirthdd] = useState('');
-    const [signUpGender, setSignUpGender] = useState('');
+const SignUp = () => {
+    //변수
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [name, setName] = useState('');
+    const [gender, setGender] = useState('');
+    
+    //오류 메세지
+    const [nameMessage, setNameMessage] = useState('');
+    const [idMessage, setIdMessage] = useState('');
+    const [passwordMessage, setPasswordMessage] = useState('');
+    const [passwordConfirmMessage, setPasswordConfirmMesaage] = useState('');
+    const [nicknameMessage, setNicknameMessage] = useState('');
 
-    const handleSignUpId=(e) => {
-        setSignUpId(e.target.value);
+    //유효성 검사
+    const [isId, setIsId] = useState(false);
+    const [isName, setIsName] = useState(false);
+    const [isPassword, setIsPassword] = useState(false);
+    const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+    const [isNickname, setIsNickname] = useState(false);
+
+
+    const handleSignUpId = (e) => {
+        const checkId = new RegExp(/^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
+        const currentId = e.target.value;
+        setId(currentId);
+
+        if (!checkId.test(currentId)) {
+            setIdMessage('이메일 형식으로 작성해주세요!');
+            setIsId(false);
+        } else {
+            setIdMessage('올바른 형식 입니다:)');
+            setIsId(true);
+        }
     }
     const handleSignUpPwd = (e) => {
-        setSignUpPwd(e.target.value);
+        const checkPwd = new RegExp(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/);
+        const currentPwd = e.target.value;
+        setPassword(currentPwd);
+        if (!checkPwd.test(currentPwd)) {
+            setPasswordMessage('숫자, 영문자, 특수문자 조합으로 8자리 이상, 20자리 이하 입력해주세요!');
+            setIsPassword(false);
+        } else {
+            setPasswordMessage('안전한 비밀번호 입니다!');
+            setIsPassword(true);
+        }
     }
     const handleSignUpPwd2 = (e) => {
-        setSignUpPwd2(e.target.value);
-    }
-    const handleSignUpNickname = (e) => {
-        setSignUpNickname(e.target.value);
+        let timer;
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            const currentPwdConfirm = e.target.value;
+            setPasswordConfirm(currentPwdConfirm);
+            console.log(passwordConfirm);
+            if (password === passwordConfirm) {
+                setPasswordConfirmMesaage('동일한 비밀 번호입니다:)');
+                setIsPasswordConfirm(true);
+            } else {
+                setPasswordConfirmMesaage('비밀번호가 틀려요. 다시 확인해주세요.');
+                setIsPasswordConfirm(false);
+            }
+        },500);
     }
     const handleSignUpName = (e) => {
-        setSignUpName(e.target.value);
+        const currentName = e.target.value;
+        setName(currentName);
+
+        if (currentName.length < 1) {
+            setNameMessage('이름은 1자이상 입력해주세요.');
+            setIsName(false);
+        } else {
+            setNameMessage('');
+            setIsName(true);
+        }
+    }    
+    const handleSignUpNickname = (e) => {
+        setNickname(e.target.value);
     }
-    const handleSignUpBirthyy = (e) => {
-        setSignUpBirthyy(e.target.value);
-    }
-    const handleSignUpBirthmm = (e) => {
-        setSignUpBirthmm(e.target.value);
-    }
-    const handleSignUpBirthdd = (e) => {
-        setSignUpBirthdd(e.target.value);
+    const checkUniqueNickname = () => {
+        axios.get('/api/users/', {
+            params: { nickname: nickname }
+        }).then((res) => {
+            if (res.data === true) {
+                setNicknameMessage('사용 가능한 닉네임입니다.');
+                setIsNickname(true);
+            } else {
+                setNicknameMessage('다른 닉네임을 선택해주세요.');
+                setIsNickname(false);
+            }
+        }).catch(error => {
+            console.log("nickname check", error);
+        })
     }
     const handleSignUpGender = (e) => {
-        setSignUpGender(e.target.value);
+        setGender(e.target.value);
     }
     const signUpSubmit = (e) => {
-        console.log(signUPId, signUpPwd, signUpPwd2, signUpNickname, signUpName, signUpGender);
-        axios.post('', null, {
-            params: {
-                userNickName: signUpNickname,
-                userId: signUPId,
-                userPwd: signUpPwd,
-                userName: signUpName,
-                userBirth: [signUpBirthyy,signUpBirthmm,signUpBirthdd],
-                userGender: signUpGender,
-            }
-        }).then().catch();
+        console.log(id, password, passwordConfirm, nickname, name, gender);
+        axios.post('/api/rest-auth/registration/', {
+            email: id,
+            password1: password,
+            password2: password,
+            artist_name: name,
+            nickname: nickname,
+            gender: gender
+        }).then(() => {
+            alert('회원가입에 성공하였습니다. 로그인해주세요.');
+            window.location.href = "/login";
+        }).catch(error => {
+            console.log(error);
+        });
     }
     return (
         <>
@@ -57,65 +122,53 @@ const SignUp =()=> {
             <form className="signUp__wrap">
                 <div className="input id">
                     <h3 className="id label">
-                        <label for="id">아이디</label>
+                        <label htmlFor="id">아이디</label>
                     </h3>
                     <input type="text" id="id" onChange={handleSignUpId} />
+                    <p>{ idMessage }</p>
                 </div>
                 <div className="input pwd">
                     <h3 className="pwd1 label">
-                        <label for="pwd1" >비밀번호</label>
+                        <label htmlFor="pwd1" >비밀번호</label>
                     </h3>
                     <input type="password" id="pwd1" onChange={handleSignUpPwd} />
+                    <p>{ passwordMessage }</p>
                     <h3 className="pwd2 label">
-                        <label for="pwd2">비밀번호 재확인</label>
+                        <label htmlFor="pwd2">비밀번호 재확인</label>
                     </h3>
                     <input type="password" id="pwd2" onChange={handleSignUpPwd2} />
+                    <p>{passwordConfirmMessage}</p>
                 </div>
                 <div className="nickname">
                     <h3>
-                        <label for ="nickname">닉네임</label>
+                        <label htmlFor ="nickname">닉네임</label>
                     </h3>
                     <input type="text" id="nickname" onChange={handleSignUpNickname} />
+                    <button type = "button" onClick={checkUniqueNickname}>중복여부확인</button>
+                    <p>{ nicknameMessage}</p>
                 </div>
                 <div className="input name">
                     <h3 className="name label">
-                        <label for="name">이름</label>
+                        <label htmlFor="name">이름</label>
                     </h3>
                     <input type="text" id="name" onChange={handleSignUpName} />
                 </div>
-                <div className="input birth">
-                    <h3 className="birth label">
-                        <label for="yy">생년월일 </label>
-                    </h3>
-                    <input type="number" id="yy" placeholder="년(4자)" aria-label="년(4자)" className="int" maxLength="4" onChange={ handleSignUpBirthyy}/>
-                    <select id="mm" className="sel" aria-label="월" onSelect={handleSignUpBirthmm}>
-                        <option value>월</option>
-                        <option value="01">1</option>
-                        <option value="02">2</option>
-                        <option value="03">3</option>
-                        <option value="04">4</option>
-                        <option value="05">5</option>
-                        <option value="06">6</option>
-                        <option value="07">7</option>
-                        <option value="08">8</option>
-                        <option value="09">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                    <input type="number" id="dd" placeholder="일" aria-label="일" className="int" maxLength="2" min="1" max="31" onChange={ handleSignUpBirthdd}/>
-                </div>
                 <div className="input gender">
                     <h3 className="gender label">
-                        <label for="gender">성별</label>
+                        <label htmlFor="gender">성별</label>
                     </h3>
                     <select id="gender" name="gender" className="sel" aria-label="성별" onChange={handleSignUpGender}>
-                        <option value="" selected="">성별</option>
-                                <option value="M">남자</option>
-                                <option value="F">여자</option>
+                        <option defaultValue="">성별</option>
+                        <option value="M">남자</option>
+                        <option value="F">여자</option>
                     </select>
                 </div>
-                <button type="button" onClick={signUpSubmit} className="submint_btn">가입하기</button>
+                <button
+                    type="button"
+                    onClick={signUpSubmit}
+                    className="submint_btn"
+                    disabled = {!(isId && isPassword && isName)}
+                >가입하기</button>
             </form>
         </>
     );

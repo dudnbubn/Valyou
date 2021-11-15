@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const items = ({ posts, loading }) => {
+const Items = ({ posts, loading }) => {
     if (loading) {
         return <h2>Loding</h2>;
     }
@@ -8,15 +8,15 @@ const items = ({ posts, loading }) => {
         return (
             <>
                 {posts.map((post) => (
-                    <li>
+                    <li key={ post.id} className="artwork">
                         <Link to={{
-                            pathname: "/artwork",
-                            state: { artworkId: post.artworkId }
+                            pathname: `/artwork/${post.id}`,
+                            state: { artworkId: post.id }
                         }}>
-                            <img src={post.thumbnail} alt={post.artworkTitle, post.artistName} />
-                            <p>{post.artworkTitle}</p>
-                            <p>{post.artistName}</p>
-                            <p>{post.hashtag}</p>
+                            <img className="artwork__img"src={post.file_img} alt={post.title}/>
+                            <p className="artwork__work__title">{post.title}</p>
+                            <p className="artwork__artist__title">{post.artist_nickname}</p>
+                            <p className="artwork__hashtag">{post.hashtag}</p>
                         </Link>
                     </li>
                 ))}
@@ -25,4 +25,4 @@ const items = ({ posts, loading }) => {
     }
 };
 
-export default items;
+export default Items;

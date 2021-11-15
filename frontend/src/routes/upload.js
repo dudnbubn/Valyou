@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useState} from 'react';
 import '../css/upload.css';
 const Upload=() => {
-    if (sessionStorage.getItem('userId') === null) {
+    /*if (sessionStorage.getItem('userId') === null) {
             alert('로그인부터 해주세요!')
-        }
+        }*/
     const [uploadCategory, setUploadCategory] = useState('art');
     const [uploadTitle, setUploadTitle] = useState('');
     const [uploadHashtag, setUploadHashtag] = useState('');
@@ -29,7 +29,8 @@ const Upload=() => {
         setUploadThumbnail(e.target.value)
     }
     const handleUploadFile = (e) => {
-        setUploadFile(e.target.value)
+        // 이미지 불러오는 부분 수정
+        setUploadFile(e.target.files[0])
     }
     const handleUploadIntro = (e) => {
         setUploadIntro(e.target.value)
@@ -43,20 +44,33 @@ const Upload=() => {
         console.log(uploadThumbnail);
         console.log(uploadFile);
         console.log(uploadIntro);
-        axios.post('', null, {
-            params: {
-                userId:sessionStorage.getItem('userId'),
-                category: uploadCategory,
-                thumbnail: uploadThumbnail,
-                artworkTitle: uploadTitle,
-                hashtag: uploadHashtag,
-                artwork: uploadFile,
-                artworkExplain: uploadIntro
+        // 미리 FormData() 객체 생성해서 보낼 데이터들 넣어주기
+        let form_data = new FormData();
+        form_data.append('category', uploadCategory);
+        form_data.append('title', uploadTitle);
+        form_data.append('contents', "default");
+        form_data.append('description', uploadIntro);
+        form_data.append('like_count', "0");
+        form_data.append('view_count', "0");
+        form_data.append('file_img', uploadFile);
+        form_data.append('file_name', "default");
+        form_data.append('hashtag', uploadHashtag);
+        form_data.append('artist', "2");
+        
+        // 데이터는 form_data, 헤더에 컨텐츠 타입 수정
+        axios.post('api/artworks/', form_data,
+            {
+                 headers: {
+                    'content-type': 'multipart/form-data'
+                 }
             }
-        }).then(()=>{
+        ).then(() => {
             /* 홈화면으로 이동*/
             alert('업로드에 성공하였습니다.');
-        }).catch()
+            window.location.href="/";
+            }).catch(error => {
+                console.log("upload",error);
+            })
     }
     
     return (
@@ -67,7 +81,7 @@ const Upload=() => {
                     <li>
                         <fieldset onChange={handleUploadCategory}>
                             <span className="upload_category">카테고리</span>
-                            <input name="category" id="category_art" valut="art" type="radio" />
+                            <input name="category" id="category_art" value="art" type="radio" />
                             <label htmlFor="category_art">미술</label>
                             <input name="category" id="category_music" value="music" type="radio" />
                             <label htmlFor="category_music">음악</label>

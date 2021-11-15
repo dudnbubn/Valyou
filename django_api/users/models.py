@@ -4,11 +4,18 @@ from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
 
-GENDER_SELECTION = [
-        ('M','Male'),
-        ('F','Female'),
-        ('NS', 'Not Specified'),
+LEVEL = [
+    ("pro", "Professional"),
+    ("adv", "Advanced"),
+    ("nov", "Novice")
 ]
+
+GENDER = [
+    ("NS", "Not Selected"),
+    ("M", "Male"),
+    ("F", "Female")
+]
+
 
 class CustomUser(AbstractUser):
 
@@ -20,14 +27,11 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
+    artist_name = models.CharField(max_length=30)
+    nickname = models.CharField(max_length=30)
+    gender = models.CharField(choices=GENDER, default="NS", max_length=30)
+    artist_level = models.CharField(choices=LEVEL, default="nov", max_length=30)
+    revenue = models.IntegerField(default=0)
 
-    name = models.CharField(max_length=100, null=True)
-    nickname = models.CharField(max_length=100, null=True)
-    phone_number = models.CharField(max_length=11, null=True)
-    birthday = models.DateField(null=True)
-    artist_level = models.CharField(max_length=100, null=True)
-    join_date = models.DateField(auto_now=True, null=True)
-    revenue = models.IntegerField(default=0, null=True)
-    gender = models.CharField(max_length=20, choices=GENDER_SELECTION, null=True)
     def __str__(self):
         return self.email

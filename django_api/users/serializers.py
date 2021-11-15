@@ -1,31 +1,43 @@
-from django.db.models.enums import Choices
-from rest_framework import serializers
-from .models import CustomUser
-from dj_rest_auth.registration.serializers import RegisterSerializer
+from django.contrib.auth import get_user_model
 from django.db import transaction
+from rest_auth.registration.serializers import RegisterSerializer
+from rest_framework import serializers
+from rest_framework_jwt.settings import api_settings
 
-from .models import GENDER_SELECTION
+from .models import *
+from artworks.models import RecentView
+
+User = get_user_model()
+
+JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
+JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
+
+
+class RecentViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecentView
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
+    recent_view_list = RecentViewSerializer(many=True, read_only=True)
+
     class Meta:
-        model = CustomUser
-        fields = ['id', 'email', 'name', 'nickname', 'birthday', 'phone_number','artist_level', 'join_date', 'revenue', 'gender']
+        model = User
+        fields = '__all__'
+        # fields = ['id', 'email', 'artist_name', 'nickname', 'artist_level', 'date_joined', 'revenue', 'gender']
+
 
 class CustomRegisterSerializer(RegisterSerializer):
-    name = serializers.CharField(max_length=100)
-    nickname = serializers.CharField(max_length=100)
-    phone_number = serializers.CharField(max_length=11)
-    birthday = serializers.DateField()
-    gender = serializers.ChoiceField(choices=GENDER_SELECTION)
-
+    artist_name = serializers.CharField(max_length=30)
+    nickname = serializers.CharField(max_length=30)
+    gender = serializers.CharField(max_length=30)
+    
     @transaction.atomic
     def save(self, request):
         user = super().save(request)
+        user.artist_name = self.data.get('artist_name')
         user.nickname = self.data.get('nickname')
-        user.name = self.data.get('name')
-        user.phone_number = self.data.get('phone_number')
-        user.birthday = self.data.get('birthday')
         user.gender = self.data.get('gender')
         user.save()
         return user
-        

@@ -3,8 +3,6 @@ import { Link} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch,faFileUpload,faBell } from "@fortawesome/free-solid-svg-icons";
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
-import Search from '../routes/search';
-import Home from '../routes/home';
 
 class HomeHeader extends Component {
     constructor(props){
@@ -14,15 +12,16 @@ class HomeHeader extends Component {
     onSearch = (event) => {
         event.preventDefault();
         this.props.onSearch(this.myRef.current.value);
-        <Link to={`/search_result/${this.myRef.current.value}`} />
     }
     componentDidMount() {
         const beforeContainer = document.querySelector('.before_login');
         const afterContainer = document.querySelector('.after_login');
+        const signUpContainer = document.querySelector('.before__signup-btn.blind');
         if (sessionStorage.getItem('userId') !== null) {
             beforeContainer.classList.add('blind');
             afterContainer.classList.remove('blind');
         } else {
+            signUpContainer.classList.remove('blind');
             beforeContainer.classList.remove('blind');
             afterContainer.classList.add('blind');
         }
@@ -31,18 +30,14 @@ class HomeHeader extends Component {
         event.preventDefault();
         sessionStorage.removeItem('userId');
     }
+    handleDefault = () => {
+        this.props.onDefault();
+    }
     render() {
         return (
         <header className="header">
-            <div className="header__logo">
-                <Link to={{
-                pathname: "/",
-                state : {
-                    level: "pro",
-                    category: "art",
-                    sort: "latest",
-                }
-            }}>Valyou</Link>
+            <div className="header__logo" >
+                <Link to="/" onClick={this.handleDefault}>Valyou</Link>
             </div>
                 <form className="header__search" onSubmit={this.onSearch}>
                     <input ref={this.myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>
@@ -65,6 +60,9 @@ class HomeHeader extends Component {
                     <li >
                         <button className="before_login">
                             <Link to="/login"> 로그인 </Link>
+                        </button>
+                        <button className="before__signup-btn blind">
+                            <Link to="/sign_up">회원가입</Link>
                         </button>
                         <button className="after_login blind">
                             <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>

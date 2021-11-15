@@ -1,7 +1,7 @@
 html {
   margin: 0;
   padding: 0;
-  min-height: 100%;
+  height: 100%;
   position: relative;
 }
 body {
@@ -9,13 +9,20 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  min-height: 100vh;
+  overflow: hidden;
+  max-height: 100%;
+  height: 100%;
   position: relative;
+  overflow: auto;
+}
+* {
+  box-sizing: border-box;
 }
 ul,
 li,
 ol {
   list-style: none;
+  height: auto;
   padding: 0;
   margin-block-start: 0;
   margin-block-end: 0;
@@ -23,11 +30,23 @@ ol {
 }
 a {
   text-decoration: none;
+  color: black;
 }
 a,
 button {
   cursor: pointer;
   border: none;
+}
+div {
+  height: auto;
+}
+p {
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+#root {
+  height: inherit;
 }
 :root {
   --color-main: #650689;
@@ -152,6 +171,7 @@ button {
 .main__wrap {
   width: 1000px;
   margin: 40px auto;
+  height: auto;
 }
 
 footer {
@@ -161,4 +181,13 @@ footer {
 
   text-align: center;
   font-size: 18px;
+}
+
+.paginate__btn-pre,
+.paginate__btn-next {
+  padding: 0;
+  background-color: var(--color-main);
+  color: white;
+  font-size: 15px;
+  width: 40px;
 }

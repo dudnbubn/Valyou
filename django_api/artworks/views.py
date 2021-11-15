@@ -1,17 +1,21 @@
 import random
 import string
 import pandas as pd
+from django.contrib.auth import get_user_model
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
-from rest_framework import viewsets
+from rest_framework import viewsets, pagination, generics
 from rest_framework.generics import ListAPIView
 
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
+from .paginations import MainPagination
 from .serializers import ArtworkSerializer, ArtworkMainSerializer
 from .models import Artwork
+
+from users.serializers import UserSerializer
 
 
 # artworks/
@@ -29,7 +33,7 @@ class ArtworkSearchViewSet(ListAPIView):
         level = self.request.query_params.get('level')
         query = self.request.query_params.get('query')
 
-        queryset = Artwork.objects.filter(level=level, title__contains=query)
+        queryset = Artwork.objects.filter(level=level, title__contains=query, artist_nickname__contains=query)
 
         return queryset
 
@@ -38,6 +42,7 @@ class ArtworkSearchViewSet(ListAPIView):
 class ArtworkListViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkMainSerializer
+    pagination_class = MainPagination
 
     def get_queryset(self):
         level = self.request.query_params.get('level')
@@ -128,7 +133,7 @@ class ArtworkDataViewSet(ListAPIView):
             level = random.choice(level_pool)
             artist_nickname = ""
             for _ in range(random.randint(4, 10)):
-                title += random.choice(string_pool)
+                artist_nickname += random.choice(string_pool)
 
             size = random.randint(3, 7)
             index = set()
@@ -147,3 +152,9 @@ class ArtworkDataViewSet(ListAPIView):
                                    artist_nickname=artist_nickname,
                                    hashtag=hashtag)
         return queryset
+
+
+class InfoAPI(generics.ListAPIView):
+    #permission_classes = (IsAuthenticated, )
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer

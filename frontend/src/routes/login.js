@@ -11,7 +11,7 @@ function Login() {
         setInputPw(e.target.value)
     }
     const onClickLoginBtn = () => {
-        axios.post('/*id, 비밀번호 보낼 주소*/', null, {
+        axios.post('/api/users/', null, {
             params: {
                 'userId': inputId,
                 'userPw': inputPw
@@ -26,12 +26,13 @@ function Login() {
                 alert('입력하신 비밀번호가 일치하지 않습니다.')
             } else if (res.data.userId === inputId) {
                 sessionStorage.setItem('userId', inputId);
+                alert('로그인에 성공하였습니다');
             }
-            document.location.href = '/';
+            window.location.href = '/';
         }).catch()
     }
     useEffect(() => {
-        axios.get('').then(res=>console.log(res)).catch()
+        //axios.get('').then(res=>console.log(res)).catch()
     },[]);
     return (
         <div className="main__wrap">
