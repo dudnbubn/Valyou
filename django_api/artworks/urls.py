@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework import routers
 
-from .views import ArtworkViewSet
+from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet
 from .views import ArtworkSearchViewSet
 from .views import ArtworkListViewSet
 from .views import ArtworkPopularViewSet
@@ -12,7 +12,7 @@ from .views import InfoAPI
 
 router = routers.DefaultRouter()
 router.register('',ArtworkViewSet)
-
+router.register(r'comments',CommentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('recommend', ArtworkRecommendViewSet.as_view()),
     path('data', ArtworkDataViewSet.as_view()),
     path('info', InfoAPI.as_view()),
+    path('comments/list', CommentListViewSet.as_view()),
 ]

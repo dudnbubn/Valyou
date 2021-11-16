@@ -13,8 +13,8 @@ from rest_framework.generics import ListAPIView
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination
-from .serializers import ArtworkSerializer, ArtworkMainSerializer, ArtworkArtistLevelSerializer
-from .models import Artwork
+from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkMainSerializer, ArtworkArtistLevelSerializer, CommentSerializer
+from .models import Artwork, Comment
 
 from users.serializers import UserSerializer
 
@@ -163,3 +163,12 @@ class InfoAPI(generics.ListAPIView):
     #permission_classes = (IsAuthenticated, )
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class CommentListViewSet(ListAPIView):
+    queryset = Artwork.objects.all()
+    serializer_class = ArtworkCommentSerializer
