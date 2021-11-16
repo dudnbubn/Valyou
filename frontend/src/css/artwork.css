@@ -1,23 +1,28 @@
-.work_name {
+.artwork__viewer__title {
   width: 100%;
   margin-top: 40px;
   text-align: center;
 }
-.work {
-  width: 30vw;
-  height: 40vw;
+.artwork__viewer__work__wrap {
+  width: 80%;
   margin: 40px auto;
   background-color: lightgray;
 }
-.work_information,
-.artist_information,
-.sponsor {
+.artwork__viewer__work {
+  width: 100%;
+  object-fit: scale-down;
+  align-items: center;
+  margin: 0 auto;
+}
+.artwork__viewer__info,
+.artwork__viewer__artistNickname,
+.artwork__viewer__sponsor {
   width: 80%;
   height: 100px;
   background-color: lightgray;
   margin: 20px auto;
 }
-.btn_w {
+.artwork__viewer__btns {
   width: 80%;
   height: 40px;
   justify-content: center;

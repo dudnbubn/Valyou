@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './css/app.css';
 import HomeHeader from './components/homeHeader';
@@ -14,55 +14,58 @@ import Donation from './routes/donation';
 import ArtistProfile from "./routes/profileArtist";
 import MyProfile from './routes/profileMy';
 
-class App extends Component {
+class App extends PureComponent{
   state = {
     level: "pro",
     category: "art",
     sort: "latest",
+    isLogin:false,
   }
-  setLevel = (target) => {
+  setLevelFromOther = (target) => {
     const data = target.dataset.value;
     this.setState({ level: data, category: "art", sort: "latest" });
-  };
-  setCategory = (target) => {
-    const data = target.dataset.value;
-    this.setState({ category: data });
   }
-  setSort = (target) => {
+  setCategoryFromOther = (target) => {
+    const data = target.dataset.value;
+    this.setState({ category: data, sort: "latest" });
+  }
+  setSortFromOther = (target) => {
     const data = target.dataset.value;
     this.setState({ sort: data });
   }
   setDefault = () => {
     this.setState({ level: "pro", category: "art", sort: "latest" });
   }
-  toResearch = (data) => {
-    console.log("research", data);
+  goToSearch = (data) => {
     window.location.href = `/search_result/${data}`;
   }
+  checkLogin = (data) => {
+    this.setState({ isLogin:data });
+  }
   render() {
-    console.log("app", this.state);
-    
+    console.log("home", this.state.isLogin);
     return (
       <>
-        <HomeHeader onSearch={this.toResearch} onDefault={ this.setDefault}/>
-        <HomeNavbar items={this.state} onLevel={this.setLevel} />
+      <HomeHeader onSearch={this.goToSearch} onDefault={this.setDefault}
+        isLoginCheck={this.state.isLogin} onLogout={this.checkLogin} />
+        <HomeNavbar items={{ "level": this.state.level, "category":this.state.category, "sort":this.state.sort }} onLevel={this.setLevelFromOther} />
         <div className="main__wrap">
           <Routes>
             <Route exact path="/" element={
               <Home
-              items={this.state}
-              onCategory={this.setCategory}
-              onSort={this.setSort}
+              items={{ "level": this.state.level, "category":this.state.category, "sort":this.state.sort }}
+              onCategory={this.setCategoryFromOther}
+              onSort={this.setSortFromOther}
               />
             }> </Route>
-            <Route path="/artwork/:artworkId" element={<Artwork />} ></Route>
-            <Route path="/donation" element={<Donation />}></Route>
+            <Route path="/artwork/:artworkId" element={<Artwork isLoginCheck={this.state.isLogin} />} ></Route>
+            <Route path="/donation" element={<Donation isLoginCheck={this.state.isLogin} />}></Route>
             <Route path="/artist_profile/:artistId" element={<ArtistProfile />} ></Route>
-            <Route path="/my_profile/*" element={<MyProfile />}></Route>
+            <Route path="/my_profile/*" element={<MyProfile isLoginCheck={this.state.isLogin} />}></Route>
             <Route path="/sign_up" element={<SignUp />} ></Route>
-            <Route path="/login"  element={<Login />}></Route>
+            <Route path="/login" element={<Login onLogin={ this.checkLogin} />}></Route>
             <Route path="/search_result/:keyword" element={<Search />} ></Route>
-          <Route path="/upload" element={<Upload />} ></Route>
+            <Route path="/upload" element={<Upload isLoginCheck={this.state.isLogin}/>} ></Route>
           </Routes>
         </div>
         {/*<footer>footer</footer>*/}
@@ -71,5 +74,66 @@ class App extends Component {
   }
   
 }
-
+/*
+function App(){
+  const [level, setLevel] = useState("pro");
+  const [category, setCategory] = useState("art");
+  const [sort, setSort] = useState("latest");
+  const [isLogin, setLogin] = useState(false);
+  console.log("app", isLogin);
+  const setLevelFromOther = (target) => {
+    const data = target.dataset.value;
+    setLevel(data);
+    setCategory("art");
+    setSort("latest");
+  }
+  const setCategoryFromOther = (target) => {
+    const data = target.dataset.value;
+    setCategory(data);
+    setSort("latest");
+  }
+  const setSortFromOther = (target) => {
+    const data = target.dataset.value;
+    setSort(data);
+  }
+  const setDefault = () => {
+    setLevel("pro");
+    setCategory("art");
+    setSort("latest");
+  }
+  const goToSearch = (data) => {
+    window.location.href = `/search_result/${data}`;
+  }
+  const checkLogin = (data) => {
+    setLogin(data);
+  }
+  return (
+      <>
+      <HomeHeader onSearch={goToSearch} onDefault={setDefault}
+        isLoginCheck={isLogin} onLogout={checkLogin} />
+        <HomeNavbar items={{ "level": level, "category":category, "sort":sort }} onLevel={setLevelFromOther} />
+        <div className="main__wrap">
+          <Routes>
+            <Route exact path="/" element={
+              <Home
+              items={{ "level": level, "category":category, "sort":sort }}
+              onCategory={setCategoryFromOther}
+              onSort={setSortFromOther}
+              />
+            }> </Route>
+            <Route path="/artwork/:artworkId" element={<Artwork isLoginCheck={isLogin} />} ></Route>
+            <Route path="/donation" element={<Donation isLoginCheck={isLogin} />}></Route>
+            <Route path="/artist_profile/:artistId" element={<ArtistProfile />} ></Route>
+            <Route path="/my_profile/*" element={<MyProfile isLoginCheck={isLogin} />}></Route>
+            <Route path="/sign_up" element={<SignUp />} ></Route>
+            <Route path="/login" element={<Login onLogin={ checkLogin} />}></Route>
+            <Route path="/search_result/:keyword" element={<Search />} ></Route>
+            <Route path="/upload" element={<Upload isLoginCheck={isLogin}/>} ></Route>
+          </Routes>
+        </div>
+        <footer>footer</footer>
+      </>
+    );
+}
+*/
 export default App;

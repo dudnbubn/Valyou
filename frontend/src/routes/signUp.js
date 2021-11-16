@@ -53,7 +53,7 @@ const SignUp = () => {
         const currentPwdConfirm = e.target.value;
         setPasswordConfirm(currentPwdConfirm);
         console.log(passwordConfirm);
-        if (password === passwordConfirm) {
+        if (password === currentPwdConfirm) {
             setPasswordConfirmMesaage('동일한 비밀 번호입니다:)');
             setIsPasswordConfirm(true);
         } else {
@@ -119,19 +119,19 @@ const SignUp = () => {
                         <label htmlFor="id">아이디</label>
                     </h3>
                     <input type="text" id="id" onChange={handleSignUpId} />
-                    <p>{ idMessage }</p>
+                    <p className="signup__status__Message">{ idMessage }</p>
                 </div>
                 <div className="input pwd">
                     <h3 className="pwd1 label">
                         <label htmlFor="pwd1" >비밀번호</label>
                     </h3>
                     <input type="password" id="pwd1" onChange={handleSignUpPwd} />
-                    <p>{ passwordMessage }</p>
+                    <p className="signup__status__Message">{ passwordMessage }</p>
                     <h3 className="pwd2 label">
                         <label htmlFor="pwd2">비밀번호 재확인</label>
                     </h3>
                     <input type="password" id="pwd2" onChange={handleSignUpPwd2} />
-                    <p>{passwordConfirmMessage}</p>
+                    <p className="signup__status__Message">{passwordConfirmMessage}</p>
                 </div>
                 <div className="nickname">
                     <h3>
@@ -139,13 +139,14 @@ const SignUp = () => {
                     </h3>
                     <input type="text" id="nickname" onChange={handleSignUpNickname} />
                     <button type = "button" onClick={checkUniqueNickname}>중복여부확인</button>
-                    <p>{ nicknameMessage}</p>
+                    <p className="signup__status__Message">{ nicknameMessage}</p>
                 </div>
                 <div className="input name">
                     <h3 className="name label">
                         <label htmlFor="name">이름</label>
                     </h3>
                     <input type="text" id="name" onChange={handleSignUpName} />
+                    <p className="signup__status__Message">{nameMessage}</p>
                 </div>
                 <div className="input gender">
                     <h3 className="gender label">
@@ -161,7 +162,7 @@ const SignUp = () => {
                     type="button"
                     onClick={signUpSubmit}
                     className="submint_btn"
-                    disabled = {!(isId && isPassword && isName)}
+                    disabled = {!(isId && isPassword && isPasswordConfirm && isName)}
                 >가입하기</button>
             </form>
         </>

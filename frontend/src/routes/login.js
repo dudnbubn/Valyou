@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import '../css/login.css';
 
-function Login() {
+function Login(props) {
     const [inputId, setInputId] = useState('')
     const [inputPw, setInputPw] = useState('')
-    const [token, setToken] = useState('')
 
     const handleInputID = (e) => {
         setInputId(e.target.value)
@@ -13,34 +12,15 @@ function Login() {
     const handleInputPw = (e) => {
         setInputPw(e.target.value)
     }
-    const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
-    const onSilentRefresh = () => {
-        axios.post('/silent-refresh', {
-                'email': inputId,
-                'password': inputPw
-        }).then(onLoginSuccess)
-            .catch(error => {
-                console.log('onsilentrefresh error', error);
-            })
-    }
-    const onLoginSuccess=(response) => {
-        const { accessToken } = response.data;
-        axios.defaults.headers.common['Authorization'] = `Bearer${accessToken}`;
-        setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
-    };
     const onClickLoginBtn = () => {
         axios.post('/api/rest-auth/login/', {
                 'email': inputId,
                 'password': inputPw
         }).then(res => {
-            console.log(res);
-            onLoginSuccess(res);
-            console.log(res.data.token);
-            setToken(res.data.token);
-            //sessionStorage.setItem('userId', inputId);
-            alert(`로그인에 성공하였습니다${token}`);
-            //window.location.href = '/';
-            console.log(token);
+            const { accessToken } = res.data;
+            axios.defaults.headers.common['Authorization'] = `Bearer${accessToken}`;
+            props.onLogin(true);
+            alert('로그인이 되었습니다.');
         }).catch(() => {
             alert('아이디 혹은 비밀번호를 재확인해주세요.');
         })
