@@ -69,7 +69,7 @@ class Home extends Component {
                                 level: this.props.items.level,
                                 order: "popular"
                             }}
-                            url={"/api/artworks/list"}
+                            url={"/api/artwork/list"}
                         />
                     </div>
                 </div>

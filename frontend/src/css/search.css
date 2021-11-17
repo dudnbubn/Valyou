@@ -17,11 +17,12 @@
 .professional_search_list,
 .advanced_search_list,
 .novice_search_list {
+  padding: 20px 20px;
   width: 100%;
+  min-height: 200px;
   border: 1px solid black;
   display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin: 30px 0;
 }
 .result_more {

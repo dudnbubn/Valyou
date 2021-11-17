@@ -19,6 +19,7 @@ function Login(props) {
         }).then(res => {
             const { accessToken } = res.data;
             axios.defaults.headers.common['Authorization'] = `Bearer${accessToken}`;
+            window.sessionStorage.setItem({ 'nickname': res.data.user.nickname });
             props.onLogin(true);
             alert('로그인이 되었습니다.');
         }).catch(() => {

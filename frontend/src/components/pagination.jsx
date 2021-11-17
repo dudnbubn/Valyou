@@ -11,7 +11,7 @@ const Pagination = (props) => {
     }
     
     return (
-        <ul style={{display:"flex", justifyContent:"center"}}>
+        <ul style={{display:"flex", flexWrap:"nowrap", justifyContent:"center"}}>
             {pageNumber.map(pageNum => (
                 <li key={pageNum} onClick={()=>paginate(pageNum)}>
                     {pageNum}

@@ -1,6 +1,6 @@
 .signUp__wrap {
-  width: 500px;
-  margin: 0 auto;
+  max-width: 450px;
+  margin: 20px auto;
 }
 .input {
   margin: 40px 0;
@@ -8,38 +8,32 @@
 .label {
   margin: 10px 0;
 }
+.signup__status__Message {
+  font-size: 15px;
+  color: red;
+  margin: 10px 0;
+}
 .signUp__wrap input {
-  width: 500px;
+  width: 450px;
   height: 30px;
 }
-#yy,
-#dd {
-  width: 140px;
+#nickname {
+  width: 300px;
 }
-#mm {
-  width: 140px;
-  height: 35px;
-  margin: 0 20px;
+.nickname__btn {
+  width: 130px;
+  height: 31px;
+  margin-left: 10px;
+  background-color: var(--color-pink);
 }
 #gender {
-  width: 500px;
+  width: 450px;
   height: 40px;
-}
-#phoneNo {
-  width: 350px;
-  margin-bottom: 10px;
-}
-.phone_btn {
-  display: inline-block;
-  width: 120px;
-  height: 35px;
-  margin-left: 20px;
-  border: 1px solid lightgray;
-  background-color: lightgray;
 }
 .submint_btn {
   border: none;
-  width: 500px;
+  width: 450px;
   height: 35px;
-  background-color: lightgray;
+  color: white;
+  background-color: var(--color-main);
 }
