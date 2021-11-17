@@ -1,9 +1,14 @@
 .recommend__wrap {
-  max-width: 1000px;
+  width: 1000px;
   height: 280px;
   margin: 0 auto;
   padding: 10px 10px 10px;
   background-color: #bfaeee;
+}
+.recommend__title {
+  margin: 20px;
+  font-size: 20px;
+  font-weight: bold;
 }
 .container {
   clear: both;

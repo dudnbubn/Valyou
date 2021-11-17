@@ -5,7 +5,6 @@ import { faSearch,faFileUpload,faBell } from "@fortawesome/free-solid-svg-icons"
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 
 function HomeHeader(props) {
-    console.log(props);
     const myRef = useRef();
     
     const onSearch = (event) => {
@@ -16,7 +15,7 @@ function HomeHeader(props) {
         const beforeContainer = document.querySelector('.before_login');
         const afterContainer = document.querySelector('.after_login');
         const signUpContainer = document.querySelector('.before__signup-btn');
-        console.log(props.isLoginCheck);
+        
         if (props.isLoginCheck) {
             beforeContainer.classList.add('blind');
             signUpContainer.classList.add('blind');

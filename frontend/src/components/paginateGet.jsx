@@ -47,7 +47,7 @@ const PaginateGet=(props)=> {
         fetchPost(next);
     }
     return (
-        <>
+        <div style={{display:"flex", justifyContent:"space-around",alignItems:"center"}}>
             <button className="paginate__btn-pre" onClick={goToPrePage}>
                 <FontAwesomeIcon icon={faAngleLeft}/>
             </button>
@@ -57,7 +57,7 @@ const PaginateGet=(props)=> {
             <button className="paginate__btn-next" onClick={ goToNextPage}>
                 <FontAwesomeIcon icon={faAngleRight} />
             </button>
-        </>
+        </div>
         
     );
 }

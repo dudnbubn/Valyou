@@ -16,7 +16,6 @@ class HomeNavbar extends PureComponent {
         this.activateTab();
     }
     render() {
-        console.log("navbar");
         return (
             <Link to="/">
                 <ul className="levels">

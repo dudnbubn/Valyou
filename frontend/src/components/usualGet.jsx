@@ -12,7 +12,6 @@ const UsualGet = (props) => {
     useEffect(() => {
         axios.get(url, { params: condition })
             .then(res => {
-                console.log("usualGet", res.data);
                 setPosts(res.data.results);
                 setLoading(false);
             }).catch(error => {

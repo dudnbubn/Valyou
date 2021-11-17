@@ -35,6 +35,7 @@ class Home extends Component {
         return (
             <>
                 <div className="recommend__wrap">
+                    <p className="recommend__title">이런 작품은 어떠세요?</p>
                     <PaginateGet condition={{
                             level: this.props.items.level,
                         }}

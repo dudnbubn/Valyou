@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import '../css/upload.css';
 const Upload=() => {
     /*if (sessionStorage.getItem('userId') === null) {
@@ -72,7 +72,15 @@ const Upload=() => {
                 console.log("upload",error);
             })
     }
-    
+    useEffect(() => {
+        if (window.sessionStorage.getItem('nickname')!==null) {
+            return;
+        }
+        else {
+            alert('로그인을 먼저 해주세요.');
+            window.location.href = "/login";
+        }
+    },[window.sessionStorage.getItem('nickname')])
     return (
         <div className="work_upload">
             <h3 style={{textAlign:"center"}}>작품 올리기</h3>

@@ -2,6 +2,8 @@
   width: 100%;
   margin-top: 40px;
   text-align: center;
+  font-size: 40px;
+  font-weight: bold;
 }
 .artwork__viewer__work__wrap {
   width: 80%;
@@ -14,8 +16,17 @@
   align-items: center;
   margin: 0 auto;
 }
+
+.artwork__viewer__artistNickname {
+  width: 100%;
+  font-size: 30px;
+  margin: 20px 0;
+  text-align: center;
+}
+.artwork__viewer__artistInfo {
+  background-color: transparent;
+}
 .artwork__viewer__info,
-.artwork__viewer__artistNickname,
 .artwork__viewer__sponsor {
   width: 80%;
   height: 100px;
@@ -37,15 +48,38 @@
   border-radius: 5px;
   margin: auto 10px;
 }
+.artwork__viewer__related_works {
+  width: 100%;
+  height: 200px;
+  background-color: lightgray;
+  margin: 20px auto;
+}
 .related_work_recommendation {
   width: 100%;
   height: 200px;
   background-color: lightgray;
   margin: 20px auto;
 }
-.comment__wrap {
+.artwork__viewer__comments {
   width: 100%;
   height: 200px;
   margin: 20px auto;
   background-color: lightgray;
+}
+.artwork__viewer__myComment {
+  display: flex;
+}
+.myComment__input {
+  margin: 20px;
+  margin-right: 0;
+  width: 95%;
+  height: 80px;
+}
+.myComment__btn {
+  width: 10%;
+  height: 80px;
+  background-color: var(--color-pink);
+  border-radius: 8px;
+  margin: 20px 20px;
+  font-size: 20px;
 }
