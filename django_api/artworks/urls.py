@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework import routers
 
-from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet
+from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet
 from .views import ArtworkSearchViewSet
 from .views import ArtworkListViewSet
 from .views import ArtworkPopularViewSet
@@ -12,6 +12,8 @@ from .views import InfoAPI
 
 router = routers.DefaultRouter()
 router.register(r'', ArtworkViewSet)
+
+
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -28,6 +30,15 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy'
     })),
+
     path('comments/list', CommentListViewSet.as_view()),
 
+
+    path('recent-view', RecentViewSet.as_view({
+        'get': 'list',
+        'post': 'create',
+        'put': 'update',
+        'patch': 'partial_update',
+        'delete': 'destroy'
+    })),
 ]

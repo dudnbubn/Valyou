@@ -18,7 +18,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
 class ArtworkPopularSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
-        exclude = ('file_img', 'hashtag')
+        exclude = ('hashtag',)
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
@@ -34,6 +34,12 @@ class ArtworkArtistLevelSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['artist'] = UserSerializer(instance.artist).data['artist_level']
         return response
+
+
+class RecentViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecentView
+        fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
