@@ -1,9 +1,9 @@
 .recommend__wrap {
-  max-width: 960px;
-  height: 300px;
+  max-width: 1000px;
+  height: 280px;
   margin: 0 auto;
-  padding: 12px 10px 14px;
-  background-color: lightgray;
+  padding: 10px 10px 10px;
+  background-color: #bfaeee;
 }
 .container {
   clear: both;
@@ -51,10 +51,10 @@
   height: 80px;
 }
 .artwork__work__title {
-  color: darkgray;
+  color: black;
 }
 .artwork__artist__title {
-  color: darkgray;
+  color: gray;
 }
 .artwork__hashtag {
   color: lightgray;

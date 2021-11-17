@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const Items = ({ posts, loading }) => {
+const PopularItems = ({ posts, loading }) => {
     if (loading) {
         return <h2>Loading</h2>;
     }
@@ -13,10 +13,8 @@ const Items = ({ posts, loading }) => {
                             pathname: `/artwork/${post.id}`,
                             state: { artworkId: post.id }
                         }}>
-                            <img className="artwork__img"src={post.file_img} alt={post.title}/>
                             <p className="artwork__work__title">{post.title}</p>
                             <p className="artwork__artist__title">{post.artist.nickname}</p>
-                            <p className="artwork__hashtag">{post.hashtag}</p>
                         </Link>
                     </li>
                 ))}
@@ -25,4 +23,4 @@ const Items = ({ posts, loading }) => {
     }
 };
 
-export default Items;
+export default PopularItems;

@@ -12,8 +12,8 @@ from rest_framework.generics import ListAPIView
 
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
-from .paginations import MainPagination
-from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkMainSerializer, ArtworkArtistLevelSerializer, CommentSerializer
+from .paginations import MainPagination, RecommendationPagination
+from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer
 from .models import Artwork, Comment
 
 from users.serializers import UserSerializer
@@ -63,11 +63,11 @@ class ArtworkListViewSet(ListAPIView):
 # artworks/popular
 class ArtworkPopularViewSet(ListAPIView):
     queryset = Artwork.objects.all()
-    serializer_class = ArtworkMainSerializer
+    serializer_class = ArtworkPopularSerializer
 
     def get_queryset(self):
         level = self.request.query_params.get('level')
-        queryset = Artwork.objects.filter(level=level).order_by('-like_count')
+        queryset = Artwork.objects.filter(artist__artist_level=level).order_by('-like_count')
 
         return queryset
 
@@ -76,6 +76,7 @@ class ArtworkPopularViewSet(ListAPIView):
 class ArtworkRecommendViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
+    pagination_class = RecommendationPagination
 
     def get_queryset(self):
         queryset = Artwork.objects.all()

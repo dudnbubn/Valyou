@@ -51,7 +51,7 @@ const PaginateGet=(props)=> {
             <button className="paginate__btn-pre" onClick={goToPrePage}>
                 <FontAwesomeIcon icon={faAngleLeft}/>
             </button>
-            <ul style={{ display: 'flex', flexWrap:"wrap"}}>
+            <ul style={{ display: 'flex', flexWrap:"wrap", justifyContent:"space-around"}}>
                 <Items posts={posts} loading={loading} />
             </ul>
             <button className="paginate__btn-next" onClick={ goToNextPage}>

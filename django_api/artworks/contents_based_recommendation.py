@@ -18,7 +18,7 @@ def make_array(txt):
 
 
 def find_recommended_work(df, sorted_idx, work_num, top_n=10):
-    top_sim_idx = sorted_idx[work_num, -(top_n + 1) * 2:]
+    top_sim_idx = sorted_idx[work_num, -(top_n + 1):]
     top_sim_idx = top_sim_idx.reshape(-1, )
 
     return top_sim_idx

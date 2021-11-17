@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Items from './items';
+import PopularItems from "./popularItems";
 
 const UsualGet = (props) => {
     const [posts, setPosts] = useState([]);
@@ -22,7 +23,7 @@ const UsualGet = (props) => {
 
     return (
         <ul>
-            <Items posts={posts.slice(count)} loading={loading} />
+            <PopularItems posts={posts.slice(count)} loading={loading} />
         </ul>
     )
 };

@@ -15,11 +15,15 @@ class ArtworkSerializer(serializers.ModelSerializer):
         return response
 
 
-class ArtworkMainSerializer(serializers.ModelSerializer):
+class ArtworkPopularSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
-        fields = ('id', 'category', 'title', 'artist_nickname', 'like_count', 'file_img', 'hashtag')
+        exclude = ('file_img', 'hashtag')
 
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['artist'] = UserSerializer(instance.artist).data
+        return response
 
 class ArtworkArtistLevelSerializer(serializers.ModelSerializer):
     class Meta:

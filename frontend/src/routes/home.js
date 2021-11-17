@@ -63,13 +63,11 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="levels__top5">
-                        <UsualGet
-                            count={this.state.recommend}
-                            condition={{
+                        <UsualGet condition={{
                                 level: this.props.items.level,
                                 order: "popular"
                             }}
-                            url={"/api/artworks/list"}
+                            url={"/api/artworks/popular"}
                         />
                     </div>
                 </div>
