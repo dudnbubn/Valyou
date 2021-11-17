@@ -69,7 +69,7 @@ function HomeHeader(props) {
                         <button className="before_login">
                             <Link to="/login"> 로그인 </Link>
                         </button>
-                        <button className="before__signup-btn blind">
+                        <button className="before__signup-btn">
                             <Link to="/sign_up">회원가입</Link>
                         </button>
                         <button className="after_login blind" onClick={viewBottom}>

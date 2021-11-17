@@ -114,24 +114,26 @@ p {
   background-color: transparent;
   width: 40px;
   height: 40px;
+  margin: 0 0 0 20px;
   font-size: 35px;
   color: var(--color-main);
   padding: 0;
   cursor: pointer;
 }
-.before_login {
+.before_login,
+.before__signup-btn {
   border: none;
   background-color: transparent;
   font-size: 16px;
   padding: 0;
-  width: 50px;
+  width: 70px;
   height: 40px;
 }
 .after_login {
   border: none;
   background-color: transparent;
   font-size: 38px;
-  padding: 0;
+  margin: 0 0 0 20px;
   width: 40px;
   height: 40px;
 }
