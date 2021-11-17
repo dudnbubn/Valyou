@@ -18,7 +18,7 @@
 .contents__wrap {
   float: left;
   position: relative;
-  width: 694px;
+  width: 730px;
   height: auto;
   min-height: 300px;
   padding-left: 10px;
@@ -62,7 +62,7 @@
 }
 .levels__top5 {
   float: right;
-  min-width: 150px;
+  width: 250px;
   padding-right: 10px;
   border: 1px solid black;
 }

@@ -25,6 +25,7 @@ function Login(props) {
             window.sessionStorage.setItem('id',res.data.user.id);
             props.onLogin(true);
             alert('로그인이 되었습니다.');
+            window.location.href = "/";
         }).catch(() => {
             alert('아이디 혹은 비밀번호를 재확인해주세요.');
         })
