@@ -18,8 +18,9 @@
 .contents__wrap {
   float: left;
   position: relative;
-  max-width: 694px;
+  width: 694px;
   height: auto;
+  min-height: 300px;
   padding-left: 10px;
   border: 1px solid black;
 }
@@ -43,7 +44,7 @@
 }
 .artwork {
   width: 120px;
-  margin: 10px 45px;
+  margin: 10px 20px;
 }
 .artwork__img {
   width: 100px;
@@ -72,8 +73,6 @@
 }
 .categories li {
   padding: 10px 20px;
-  border: 1px solid lightgray;
-  border-bottom: none;
 }
 .category__btn.active,
 .sort__btn.active,

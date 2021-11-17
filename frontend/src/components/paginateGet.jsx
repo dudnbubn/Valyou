@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Items from './items';
@@ -48,13 +49,13 @@ const PaginateGet=(props)=> {
     return (
         <>
             <button className="paginate__btn-pre" onClick={goToPrePage}>
-                <i className="fas fa-angle-left"></i>
+                <FontAwesomeIcon icon={faAngleLeft}/>
             </button>
             <ul style={{ display: 'flex', flexWrap:"wrap"}}>
                 <Items posts={posts} loading={loading} />
             </ul>
             <button className="paginate__btn-next" onClick={ goToNextPage}>
-                <i className="fas fa-angle-right"></i>
+                <FontAwesomeIcon icon={faAngleRight} />
             </button>
         </>
         

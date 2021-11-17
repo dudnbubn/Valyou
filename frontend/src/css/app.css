@@ -50,6 +50,12 @@ p {
 }
 :root {
   --color-main: #650689;
+  --color-light-pupple: #b70078;
+  --color-red: #ea3c61;
+  --color-orange: #ff7d4c;
+  --color-light-oragne: ##ffbc4b;
+  --color-yellow: #f9f871;
+  --color-pink: #ffe8ff;
   --radius-range: 4px;
 }
 
@@ -186,8 +192,8 @@ footer {
 .paginate__btn-pre,
 .paginate__btn-next {
   padding: 0;
-  background-color: var(--color-main);
-  color: white;
-  font-size: 15px;
+  background-color: transparent;
+  color: var(--color-main);
+  font-size: 40px;
   width: 40px;
 }

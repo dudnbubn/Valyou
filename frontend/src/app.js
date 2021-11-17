@@ -42,12 +42,20 @@ class App extends PureComponent{
   checkLogin = (data) => {
     this.setState({ isLogin:data });
   }
+  componentDidMount = () => {
+    const temp = window.sessionStorage.getItem('nickname');
+    if (temp!==null) {
+      this.setState({ isLogin: true });
+    } else {
+      this.setState({ isLogin: false });
+    }
+  }
   render() {
-    console.log("home", this.state.isLogin);
+    const { isLogin } = this.state;
     return (
       <>
       <HomeHeader onSearch={this.goToSearch} onDefault={this.setDefault}
-        isLoginCheck={this.state.isLogin} onLogout={this.checkLogin} />
+        isLoginCheck={isLogin} onLogout={this.checkLogin} />
         <HomeNavbar items={{ "level": this.state.level, "category":this.state.category, "sort":this.state.sort }} onLevel={this.setLevelFromOther} />
         <div className="main__wrap">
           <Routes>
@@ -58,14 +66,14 @@ class App extends PureComponent{
               onSort={this.setSortFromOther}
               />
             }> </Route>
-            <Route path="/artwork/:artworkId" element={<Artwork isLoginCheck={this.state.isLogin} />} ></Route>
-            <Route path="/donation" element={<Donation isLoginCheck={this.state.isLogin} />}></Route>
+            <Route path="/artwork/:artworkId" element={<Artwork isLoginCheck={isLogin} />} ></Route>
+            <Route path="/donation" element={<Donation isLoginCheck={isLogin} />}></Route>
             <Route path="/artist_profile/:artistId" element={<ArtistProfile />} ></Route>
-            <Route path="/my_profile/*" element={<MyProfile isLoginCheck={this.state.isLogin} />}></Route>
+            <Route path="/my_profile/*" element={<MyProfile isLoginCheck={isLogin} />}></Route>
             <Route path="/sign_up" element={<SignUp />} ></Route>
             <Route path="/login" element={<Login onLogin={ this.checkLogin} />}></Route>
             <Route path="/search_result/:keyword" element={<Search />} ></Route>
-            <Route path="/upload" element={<Upload isLoginCheck={this.state.isLogin}/>} ></Route>
+            <Route path="/upload" element={<Upload isLoginCheck={isLogin}/>} ></Route>
           </Routes>
         </div>
         {/*<footer>footer</footer>*/}

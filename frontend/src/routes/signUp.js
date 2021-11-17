@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { Component,useState } from 'react';
+import '../css/signUp.css';
+
 const SignUp = () => {
     //변수
     const [id, setId] = useState('');
@@ -127,6 +129,8 @@ const SignUp = () => {
                     </h3>
                     <input type="password" id="pwd1" onChange={handleSignUpPwd} />
                     <p className="signup__status__Message">{ passwordMessage }</p>
+                </div>
+                <div class="input pwd2">
                     <h3 className="pwd2 label">
                         <label htmlFor="pwd2">비밀번호 재확인</label>
                     </h3>
@@ -138,7 +142,7 @@ const SignUp = () => {
                         <label htmlFor ="nickname">닉네임</label>
                     </h3>
                     <input type="text" id="nickname" onChange={handleSignUpNickname} />
-                    <button type = "button" onClick={checkUniqueNickname}>중복여부확인</button>
+                    <button className="nickname__btn" type = "button" onClick={checkUniqueNickname}>중복여부확인</button>
                     <p className="signup__status__Message">{ nicknameMessage}</p>
                 </div>
                 <div className="input name">
@@ -153,8 +157,7 @@ const SignUp = () => {
                         <label htmlFor="gender">성별</label>
                     </h3>
                     <select id="gender" name="gender" className="sel" aria-label="성별" onChange={handleSignUpGender}>
-                        <option defaultValue="">성별</option>
-                        <option value="M">남자</option>
+                        <option defaultValue="M">남자</option>
                         <option value="F">여자</option>
                     </select>
                 </div>
