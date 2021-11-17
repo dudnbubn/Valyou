@@ -138,8 +138,22 @@ p {
   height: 40px;
 }
 .my__choiceList {
-  display: none;
-  font-size: 5px;
+  position: absolute;
+  right: 35px;
+  top: 70px;
+  background-color: var(--color-light-oragne);
+  width: 100px;
+  height: auto;
+  font-size: 12px;
+  border-radius: 8px;
+}
+.my__choiceList li {
+  margin: 12px 0;
+  text-align: center;
+}
+.logout__btn {
+  background-color: transparent;
+  border: none;
 }
 .after_login:hover .my__choiceList {
   display: block;

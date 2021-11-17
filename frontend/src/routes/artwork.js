@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHome } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import React, { Component, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -85,9 +85,12 @@ const Artwork = ({ location }) => {
             <div className="artwork__viewer__title">
                 <p>{work.title}</p>
             </div>
-            <div className="artwork__viewer__artistNickname">                
-                <button className="artwork__viewer__artistInfo">
-                    <Link to={`/artist_profile/${viewerArtistNickname}`}>{viewerArtistNickname}</Link>
+            <div className="artwork__viewer__artistNickname">
+                {viewerArtistNickname}    
+                <button className="artwork__viewer__artistInfo" style={{display:'inline', fontSize:"30px"}}>
+                    <Link to={`/artist_profile/${viewerArtistNickname}`}>
+                        <FontAwesomeIcon icon={faHome} />
+                    </Link>
                 </button>
             </div>
             <div className="artwork__viewer__info">

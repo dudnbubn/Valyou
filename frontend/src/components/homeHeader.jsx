@@ -28,17 +28,19 @@ function HomeHeader(props) {
     }, [props.isLoginCheck]);
     const handleLogout = (event) => {
         event.preventDefault();
+        viewBottom();
         props.onLogout(false);
+        window.location.href = "/";
     }
     const handleDefault = () => {
         props.onDefault();
     }
     const viewBottom = () => {
-        const container = document.querySelector("my__choiceList");
-        if (container.classList.contains('blind')) {
-            container.classList.remove('blind');
+        const choiceContainer = document.querySelector(".my__choiceList");
+        if (choiceContainer.classList.contains('blind')) {
+            choiceContainer.classList.remove('blind');
         } else {
-            container.classList.add('blind');
+            choiceContainer.classList.add('blind');
         }
     }
     return (
@@ -75,20 +77,20 @@ function HomeHeader(props) {
                             <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>
                         </button>
                         
-                        <ul className="my__choiceList blind">
-                            <li>
-                                <Link to="/my_profile">내 작가 페이지</Link>
-                            </li>
-                            <li>
-                                <Link to="/my_profile">내 정보 페이지</Link>
-                            </li>
-                            <li>
-                                <button type="button" onClick={handleLogout}>로그아웃</button>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </div>
+            <ul className="my__choiceList blind">
+                <li>
+                    <Link to={`/artist_profile/${window.sessionStorage.getItem('nickname')}`}>내 작가 페이지</Link>
+                </li>
+                <li>
+                    <Link to="/my_profile/myInfo">내 정보 페이지</Link>
+                </li>
+                <li>
+                    <button className="logout__btn" type="button" onClick={handleLogout}>로그아웃</button>
+                </li>
+            </ul>
         </header>
     );
 }
