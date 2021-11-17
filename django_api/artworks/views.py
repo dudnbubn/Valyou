@@ -2,6 +2,7 @@ import random
 import string
 import pandas as pd
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.db.models import Prefetch, Q
 
 from sklearn.metrics.pairwise import cosine_similarity
@@ -50,7 +51,7 @@ class ArtworkListViewSet(ListAPIView):
         level = self.request.query_params.get('level')
         category = self.request.query_params.get('category')
         order = self.request.query_params.get('order')
-        print(self.request.META['HTTP_AUTHORIZATION'])
+        # print(self.request.META['HTTP_AUTHORIZATION'])
         queryset = Artwork.objects.filter(artist__artist_level=level, category=category)
 
         if order == 'popular':
@@ -79,9 +80,15 @@ class ArtworkRecommendViewSet(ListAPIView):
 
     def get_queryset(self):
         queryset = Artwork.objects.all()
-        target_artwork = self.request.query_params.get('id')
-        if target_artwork is None:
-            target_artwork = 1
+        target_artwork = 1
+
+        if not self.request.user.is_anonymous:
+            print("I'm User")
+            artist_id = self.request.user.pk
+            artist = RecentView.objects.filter(user=artist_id)
+            target_artwork = list(artist.values_list('recent', flat=True))[-1]
+            print(target_artwork)
+
 
         artwork_id = list(queryset.values_list('id', flat=True))
         title = queryset.values_list('title', flat=True)

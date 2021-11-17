@@ -18,7 +18,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
 class ArtworkPopularSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
-        exclude = ('file_img', 'hashtag')
+        exclude = ('hashtag',)
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
