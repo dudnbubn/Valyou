@@ -39,7 +39,6 @@ const Artwork = ({ location }) => {
             }).catch(error => {
                 console.log("artwork.js recommend", error);
             });
-
         axios.get('', {
             "artwork":artworkId
         }).then(res => {
@@ -47,16 +46,6 @@ const Artwork = ({ location }) => {
         }).catch(() => {
             alert('댓글을 받아오는데 실패했습니다.');
         })
-
-        axios.post('/api/artworks/recent-view',{
-            user : id,
-            recent : artworkId
-        }).then(res => {
-            console.log(res.data);
-        }).catch(error => {
-            console.log("artwork.js", error);
-        });
-
     }, []);
     //코멘트 입력시 받아오기
     const updateComment = (e) => {
@@ -80,9 +69,7 @@ const Artwork = ({ location }) => {
     }
     const addLikeCount = () => {
         const likeCountIcon = document.querySelector('.sign__like');
-        likeCountIcon.style.color = "red";
-        likeCountIcon.style.color = "red";
-
+        likeCountIcon.style.color = "red";  
         /*axios.post('',{})
             .then(() => {
                 const likeCountIcon = document.querySelector('.sign__like');
