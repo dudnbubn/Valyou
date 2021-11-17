@@ -14,12 +14,11 @@ from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination, RecommendationPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer
-from .models import Artwork, Comment
+from .models import Artwork, Comment, RecentView
 
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, RecentViewSerializer
 
 
-# artworks/
 class ArtworkViewSet(viewsets.ModelViewSet):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
@@ -165,6 +164,11 @@ class InfoAPI(generics.ListAPIView):
     #permission_classes = (IsAuthenticated, )
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+
+class RecentViewSet(viewsets.ModelViewSet):
+    queryset = RecentView.objects.all()
+    serializer_class = RecentViewSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):

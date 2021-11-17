@@ -36,6 +36,12 @@ class ArtworkArtistLevelSerializer(serializers.ModelSerializer):
         return response
 
 
+class RecentViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecentView
+        fields = '__all__'
+
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

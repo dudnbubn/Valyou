@@ -12,6 +12,8 @@ const Artwork = ({ location }) => {
     const [myComment, setComment] = useState('');
 
     useEffect(() => {
+        const id = window.sessionStorage.getItem('id');
+
         const url = '/api/artworks/' + artworkId + "/";
         axios.get(url)
             .then(res => {
@@ -20,12 +22,21 @@ const Artwork = ({ location }) => {
             }).catch(error => {
                 console.log("artwork.js", error);
             });
-        axios.get("/api/artworks/", { params: { id:artworkId } })
-            .then(res => {
-                setRecommendWork(res.data);
-            }).catch(error => {
-                console.log("artwork.js recommend", error);
-            });
+        // axios.get("/api/artworks/", { params: { id:artworkId } })
+        //     .then(res => {
+        //         setRecommendWork(res.data);
+        //     }).catch(error => {
+        //         console.log("artwork.js recommend", error);
+        //     });
+        axios.post('/api/artworks/recent-view',{
+            user : id,
+            recent : artworkId
+        }).then(res => {
+            console.log(res.data);
+        }).catch(error => {
+            console.log("artwork.js", error);
+        });
+
     }, []);
     const updateComment = (e) => {
         setComment(e.target.value);
@@ -51,10 +62,10 @@ const Artwork = ({ location }) => {
                 { work.description}
             </div>
             <div className="artwork__viewer__artistNickname">
-                {work.artist_nickname}
+                {/*{work.artist.nickname}*/}
             </div>
             <button className="artwork__viewer__artistInfo">
-                <Link to={`/artist_profile/${work.artist_nickname}`}>이 작가의 다른 작품 더보기</Link>
+                {/*<Link to={`/artist_profile/${work.artist.nickname}`}>이 작가의 다른 작품 더보기</Link>*/}
             </button>
             <div className="artwork__viewer__sponsor">
                 {/*{work.sponsor.map(people => {

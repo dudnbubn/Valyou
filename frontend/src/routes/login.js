@@ -22,6 +22,7 @@ function Login(props) {
             console.log(token)
             axios.defaults.headers.common['Authorization'] = "jwt " + token;
             window.sessionStorage.setItem('nickname',res.data.user.nickname);
+            window.sessionStorage.setItem('id',res.data.user.id);
             props.onLogin(true);
             alert('로그인이 되었습니다.');
         }).catch(() => {
