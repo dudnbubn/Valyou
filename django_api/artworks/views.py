@@ -51,7 +51,7 @@ class ArtworkListViewSet(ListAPIView):
         level = self.request.query_params.get('level')
         category = self.request.query_params.get('category')
         order = self.request.query_params.get('order')
-
+        print(self.request.META['HTTP_AUTHORIZATION'])
         queryset = Artwork.objects.filter(artist__artist_level=level, category=category)
 
         if order == 'popular':

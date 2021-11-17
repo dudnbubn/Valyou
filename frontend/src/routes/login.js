@@ -17,9 +17,11 @@ function Login(props) {
                 'email': inputId,
                 'password': inputPw
         }).then(res => {
-            const { accessToken } = res.data;
-            axios.defaults.headers.common['Authorization'] = `Bearer${accessToken}`;
-            window.sessionStorage.setItem({ 'nickname': res.data.user.nickname });
+            const { token } = res.data;
+            console.log(res.data)
+            console.log(token)
+            axios.defaults.headers.common['Authorization'] = "jwt " + token;
+            window.sessionStorage.setItem('nickname',res.data.user.nickname);
             props.onLogin(true);
             alert('로그인이 되었습니다.');
         }).catch(() => {
