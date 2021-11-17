@@ -76,10 +76,10 @@ const Upload=() => {
     return (
         <div className="work_upload">
             <h3 style={{textAlign:"center"}}>작품 올리기</h3>
-            <form className="upload_htmlForm" onSubmit={ workUploadSubmit}>
+            <form className="upload_form" onSubmit={ workUploadSubmit}>
                 <ul>
                     <li>
-                        <fieldset onChange={handleUploadCategory}>
+                        <fieldset className="choice__category" onChange={handleUploadCategory}>
                             <span className="upload_category">카테고리</span>
                             <input name="category" id="category_art" value="art" type="radio" />
                             <label htmlFor="category_art">미술</label>
@@ -90,15 +90,15 @@ const Upload=() => {
                         </fieldset>
                     </li>
                     <li>
-                        <label className="title" htmlFor="work_title">작품명</label>
-                        <input type="text" id="work_title" onChange={handleUploadTitle} />
+                        <label className="upload__title" htmlFor="work_title">작품명</label>
+                        <input type="text" id="work__title" onChange={handleUploadTitle} />
                     </li>
                     <li>
                         <label className="hashtag" htmlFor="hashtag">해시태그</label>
                         <input type="text" id="hashtag" onChange={handleUploadHashtag} />
                     </li>
                     <li>
-                        <fieldset onChange={handleUploadHtmlFor}>
+                        <fieldset className="choice__formality"onChange={handleUploadHtmlFor}>
                             <span className="htmlFormality">작품 형식</span>
                             <input name="htmlFormality" id="htmlFormality_art" value="image/*" type="radio" />
                             <label htmlFor="htmlFormality_art">그림</label>
@@ -109,20 +109,20 @@ const Upload=() => {
                         </fieldset>
                     </li>
                     <li>
-                        <label htmlFor="thumbnail">작품 썸네일</label>
-                        <input type="file" id ="thumbnail" accept=".jpg, .jpeg, .png"></input>
+                        <label htmlFor="upload__thumbnail">작품 썸네일</label>
+                        <input type="file" id ="upload__thumbnail" accept=".jpg, .jpeg, .png"></input>
                     </li>
                     <li>
-                        <label className="upload_here" htmlFor="upload_here">작품 업로드</label>
-                        <input type="file" id="upload_here" multiple="multiple" accept={uploadHtmlFormal } onChange={handleUploadFile} />
+                        <label className="upload__here" htmlFor="upload_here">작품 업로드</label>
+                        <input type="file" id="upload__here" multiple="multiple" accept={uploadHtmlFormal } onChange={handleUploadFile} />
                     </li>
                     <li>
-                        <label className="work_info" htmlFor="introdcue_work">작품 설명</label>
-                        <textarea cols="65" rows="7" id="introdcue_work"
+                        <label className="work_info" htmlFor="introdcue__work">작품 설명</label>
+                        <textarea cols="65" rows="7" id="introduce__work"
                             placeholder="작품에 대한 설명을 적어주세요." onChange={handleUploadIntro}></textarea>
                     </li>
                 </ul>
-                <button type="submit">업로드하기</button>
+                <button className="upload__btn" type="submit">업로드하기</button>
             </form>
         </div>
     );
