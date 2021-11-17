@@ -50,7 +50,6 @@ class ArtworkListViewSet(ListAPIView):
     def get_queryset(self):
         level = self.request.query_params.get('level')
         category = self.request.query_params.get('category')
-
         order = self.request.query_params.get('order')
 
         queryset = Artwork.objects.filter(artist__artist_level=level, category=category)
@@ -81,6 +80,8 @@ class ArtworkRecommendViewSet(ListAPIView):
     def get_queryset(self):
         queryset = Artwork.objects.all()
         target_artwork = self.request.query_params.get('id')
+        if target_artwork is None:
+            target_artwork = 1
 
         artwork_id = list(queryset.values_list('id', flat=True))
         title = queryset.values_list('title', flat=True)
@@ -116,19 +117,22 @@ class ArtworkRecommendViewSet(ListAPIView):
 class ArtworkDataViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
+    flag = 0
 
     def get_queryset(self):
         queryset = Artwork.objects.all()
 
+        if self.flag == 1:
+            self.flag = 0
+            return queryset
+        self.flag = 1
+
         string_pool = string.ascii_letters + string.digits
-        email_pool = ['@gmail.com', '@naver.com', '@daum.net']
         category_pool = ['art', 'music', 'literal']
         level_pool = ['pro', 'adv', 'nov']
-        for _ in range(5):
-            artist_email = ""
-            for _ in range(random.randint(4, 12)):
-                artist_email += random.choice(string_pool)
-            artist_email += random.choice(email_pool)
+        artist_size = get_user_model().objects.all().count()
+
+        for _ in range(100):
             category = random.choice(category_pool)
             title = ""
             for _ in range(random.randint(4, 12)):
@@ -136,9 +140,6 @@ class ArtworkDataViewSet(ListAPIView):
             like_count = random.randint(0, 10)
             view_count = random.randint(1, 10000)
             level = random.choice(level_pool)
-            artist_nickname = ""
-            for _ in range(random.randint(4, 10)):
-                artist_nickname += random.choice(string_pool)
 
             size = random.randint(3, 7)
             index = set()
@@ -147,15 +148,15 @@ class ArtworkDataViewSet(ListAPIView):
 
             index = [emotion.tag[i] for i in index]
             hashtag = ' '.join(index)
+            artist_id = random.randint(2, artist_size)
 
-            Artwork.objects.create(artist_email=artist_email,
-                                   category=category,
+            Artwork.objects.create(category=category,
                                    title=title,
                                    like_count=like_count,
                                    view_count=view_count,
-                                   level=level,
-                                   artist_nickname=artist_nickname,
-                                   hashtag=hashtag)
+                                   hashtag=hashtag,
+                                   artist=get_user_model().objects.get(id=artist_id)
+                                   )
         return queryset
 
 
@@ -168,6 +169,7 @@ class InfoAPI(generics.ListAPIView):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
 
 class CommentListViewSet(ListAPIView):
     queryset = Artwork.objects.all()

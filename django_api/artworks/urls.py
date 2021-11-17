@@ -11,8 +11,7 @@ from .views import ArtworkDataViewSet
 from .views import InfoAPI
 
 router = routers.DefaultRouter()
-router.register('',ArtworkViewSet)
-router.register(r'comments',CommentViewSet)
+router.register(r'', ArtworkViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -22,5 +21,13 @@ urlpatterns = [
     path('recommend', ArtworkRecommendViewSet.as_view()),
     path('data', ArtworkDataViewSet.as_view()),
     path('info', InfoAPI.as_view()),
+    path('comments', CommentViewSet.as_view({
+        'get': 'list',
+        'post': 'create',
+        'put': 'update',
+        'patch': 'partial_update',
+        'delete': 'destroy'
+    })),
     path('comments/list', CommentListViewSet.as_view()),
+
 ]
