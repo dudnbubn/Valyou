@@ -25,6 +25,7 @@ class ArtworkPopularSerializer(serializers.ModelSerializer):
         response['artist'] = UserSerializer(instance.artist).data
         return response
 
+
 class ArtworkArtistLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork

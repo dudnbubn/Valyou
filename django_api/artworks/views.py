@@ -146,7 +146,6 @@ class ArtworkDataViewSet(ListAPIView):
                 title += random.choice(string_pool)
             like_count = random.randint(0, 10)
             view_count = random.randint(1, 10000)
-            level = random.choice(level_pool)
 
             size = random.randint(3, 7)
             index = set()
@@ -156,11 +155,12 @@ class ArtworkDataViewSet(ListAPIView):
             index = [emotion.tag[i] for i in index]
             hashtag = ' '.join(index)
             artist_id = random.randint(2, artist_size)
-
+            file_img = 'default_image' + str(random.randint(1, 20)) + '.jpeg'
             Artwork.objects.create(category=category,
                                    title=title,
                                    like_count=like_count,
                                    view_count=view_count,
+                                   file_img=file_img,
                                    hashtag=hashtag,
                                    artist=get_user_model().objects.get(id=artist_id)
                                    )

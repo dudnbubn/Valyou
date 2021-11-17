@@ -39,7 +39,7 @@ const Artwork = ({ location }) => {
             }).catch(error => {
                 console.log("artwork.js recommend", error);
             });
-<<<<<<< HEAD
+
         axios.get('', {
             "artwork":artworkId
         }).then(res => {
@@ -47,7 +47,7 @@ const Artwork = ({ location }) => {
         }).catch(() => {
             alert('댓글을 받아오는데 실패했습니다.');
         })
-=======
+
         axios.post('/api/artworks/recent-view',{
             user : id,
             recent : artworkId
@@ -57,19 +57,14 @@ const Artwork = ({ location }) => {
             console.log("artwork.js", error);
         });
 
->>>>>>> 4342295b46745e33732248dccdf52be888a81f45
     }, []);
     //코멘트 입력시 받아오기
     const updateComment = (e) => {
         if (window.sessionStorage.getItem('nickname') !== null) {
-<<<<<<< HEAD
             setMyComment(e.target.value);
             
         } else {
             alert('로그인이 필요합니다.');
-=======
-
->>>>>>> 4342295b46745e33732248dccdf52be888a81f45
         }
     }
     const postComment = () => {
@@ -85,11 +80,9 @@ const Artwork = ({ location }) => {
     }
     const addLikeCount = () => {
         const likeCountIcon = document.querySelector('.sign__like');
-<<<<<<< HEAD
-        likeCountIcon.style.color = "red";  
-=======
-                likeCountIcon.style.color = "red";
->>>>>>> 4342295b46745e33732248dccdf52be888a81f45
+        likeCountIcon.style.color = "red";
+        likeCountIcon.style.color = "red";
+
         /*axios.post('',{})
             .then(() => {
                 const likeCountIcon = document.querySelector('.sign__like');
