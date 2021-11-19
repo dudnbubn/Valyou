@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { Component,useState } from 'react';
+import React, { useState } from 'react';
 import '../css/signUp.css';
 
 const SignUp = () => {
@@ -130,7 +130,7 @@ const SignUp = () => {
                     <input type="password" id="pwd1" onChange={handleSignUpPwd} />
                     <p className="signup__status__Message">{ passwordMessage }</p>
                 </div>
-                <div class="input pwd2">
+                <div className="input pwd2">
                     <h3 className="pwd2 label">
                         <label htmlFor="pwd2">비밀번호 재확인</label>
                     </h3>

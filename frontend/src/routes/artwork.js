@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { Component, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import Viewer from '../components/viewer';
 import '../css/artwork.css';
 
 const Artwork = ({ location }) => {
@@ -14,6 +15,8 @@ const Artwork = ({ location }) => {
     const [recommendWork, setRecommendWork] = useState([]);
     const [myComment, setMyComment] = useState('');
     const [comments, setComments] = useState([]);
+
+    const [fileExtension, setFileExtension] = useState('');
 
     useEffect(() => {
         const id = window.sessionStorage.getItem('id');
@@ -26,8 +29,11 @@ const Artwork = ({ location }) => {
         const url = '/api/artworks/' + artworkId + "/";
         axios.get(url)
             .then(res => {
-                console.log(res.data);
                 setWork(res.data);
+                var _fileLen = res.data.file_img.length;
+                var _lastDot = res.data.file_img.lastIndexOf('.');
+                var _fileExt = res.data.file_img.substring(_lastDot, _fileLen).toLowerCase();
+                setFileExtension(_fileExt);
                 setViewerArtistNickname(res.data.artist.nickname);
             }).catch(error => {
                 console.log("artwork.js", error);
@@ -80,7 +86,11 @@ const Artwork = ({ location }) => {
         <>
             
             <div className="artwork__viewer__work__wrap">
-                <img className="artwork__viewer__work" src={work.file_img} alt={work.title}/>
+                <Viewer
+                    extension={fileExtension}
+                    files={work.file_img}
+                    title={work.title}
+                />
             </div>
             <div className="artwork__viewer__title">
                 <p>{work.title}</p>

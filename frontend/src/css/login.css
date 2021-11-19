@@ -12,11 +12,14 @@
 .login__id-input,
 .login__pwd-input {
   width: 300px;
+  height: 20px;
   font-size: 15px;
   margin: 20px 10px;
   border: none;
   border-bottom: 1px solid lightgray;
   display: inline;
+  outline: none;
+  background-color: transparent;
 }
 .login__id__wrap,
 .login__pwd__wrap {

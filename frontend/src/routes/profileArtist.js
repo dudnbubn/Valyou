@@ -3,15 +3,15 @@ import axios from 'axios';
 import '../css/profileArtist.css';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import PaginateGet from '../components/paginateGet';
+import '../css/profileArtist.css';
+import PaginateGet2 from '../components/paginateGet2';
 
 const ProfileArtist = () => {
-    const artistNickname = useParams();
+    const artistNickname = useParams().artistNickname;
+
     const [photo, setPhoto] = useState('');
     const [explain, setExplain] = useState('');
     const [likeCount, setLikeCount] = useState(0);
-    const [artworkList, setArtworkList] = useState([]);
-    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         axios.get('/users', {
@@ -22,43 +22,43 @@ const ProfileArtist = () => {
             setPhoto(res.data.img);
             setExplain(res.data.explain);
             setLikeCount(res.data.likeCount);
-            setArtworkList(res.data.results);
-            setLoading(false);
             
         }).catch(() => {
-            setLoading(true);
+            
         })
     }, []);
     
-    if (loading == true) {
-        return <p>Loading</p>
-    }
-    else {
-        return (
-            <>
-                <div className="artist_profile">
-                    <div className="artist_detail">
-                        <div className="artist_img">
-                            <img src={photo} alt={artistNickname}></img>
-                        </div>
-                        <div className="artist_introduce">
-                            <p>{artistNickname} </p>
-                            <p>{explain}</p>
-                        </div>
+    
+    return (
+        <>
+            <div className="artist_profile">
+                <div className="artist_detail">
+                    <div className="artist_img">
+                        {/*<img src={photo} alt={artistNickname}></img>*/}
                     </div>
-                    <div className="artist_btn">
-                        <button className="like"> 관심{likeCount}</button>
-                        <button className="dona">
-                            <Link to={`/donation/${artistNickname}`}>후원하기</Link>
-                        </button>
+                    <div className="artist_introduce">
+                        <p>{artistNickname} </p>
+                        <p>explain</p>
                     </div>
                 </div>
-                <div className="artist_work">
-                    
+                <div className="artist_btn">
+                    <button className="like"> 관심{likeCount}</button>
+                    <button className="dona">
+                        <Link to={`/donation/${artistNickname}`}>후원하기</Link>
+                    </button>
                 </div>
-            </>
-        );
-    }
+            </div>
+            <div className="artist_work">
+                <PaginateGet2 condition={{
+
+                }}
+                url={""}
+                name="artistProfile__artworks"
+                />
+            </div>
+        </>
+    );
+    
 };
 
     

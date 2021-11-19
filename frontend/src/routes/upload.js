@@ -2,9 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState} from 'react';
 import '../css/upload.css';
 const Upload=() => {
-    /*if (sessionStorage.getItem('userId') === null) {
-            alert('로그인부터 해주세요!')
-        }*/
     const [uploadCategory, setUploadCategory] = useState('art');
     const [uploadTitle, setUploadTitle] = useState('');
     const [uploadHashtag, setUploadHashtag] = useState('');
@@ -13,37 +10,54 @@ const Upload=() => {
     const [uploadFile, setUploadFile] = useState('');
     const [uploadIntro, setUploadIntro] = useState('');
     
+    const [isuploadCategory, setIsUploadCategory] = useState(false);
+    const [isuploadTitle, setIsUploadTitle] = useState(false);
+    const [isuploadHashtag, setIsUploadHashtag] = useState(false);
+    const [isuploadHtmlFormal, setIsUploadHtmlFor] = useState(false);
+    const [isuploadThumbnail, setIsUploadThumbnail] = useState(false);
+    const [isuploadFile, setIsUploadFile] = useState(false);
+    const [isuploadIntro, setIsUploadIntro] = useState(false);
+
+    const [uploadHashMessage, setUploadHashMessage] = useState("");
+    const [uploadMessage, setUploadMessage] = useState("");
+    const transformLink = "https://convertio.co/kr/doc-epub/"
+
     const handleUploadCategory = (e) => {
-        setUploadCategory(e.target.value)
+        setUploadCategory(e.target.value);
+        setIsUploadCategory(true);
     }
     const handleUploadTitle = (e) => {
-        setUploadTitle(e.target.value)
+        setUploadTitle(e.target.value);
+        setIsUploadTitle(true);
     }
     const handleUploadHashtag = (e) => {
-        setUploadHashtag(e.target.value)
+        setUploadHashtag(e.target.value);
+        setUploadHashMessage("띄어쓰기로 구분하여 최대 1000자까지 입력 가능");
+        setIsUploadHashtag(true);
     }
     const handleUploadHtmlFor = (e) => {
-        setUploadHtmlFor(e.target.value)
+        setUploadHtmlFor(e.target.value);
+        if (e.target.value === '.epub') {;
+            setUploadMessage('.epub확장자 문서 변환 사이트로 이동');
+        } else {
+            setUploadMessage('');
+        }
+        setIsUploadHtmlFor(true);
     }
     const handleUploadThumbnail = (e) => {
-        setUploadThumbnail(e.target.value)
+        setUploadThumbnail(e.target.value);
+        setIsUploadThumbnail(true);
     }
     const handleUploadFile = (e) => {
         // 이미지 불러오는 부분 수정
-        setUploadFile(e.target.files[0])
+        setUploadFile(e.target.files[0]);
+        setIsUploadFile(true);
     }
     const handleUploadIntro = (e) => {
-        setUploadIntro(e.target.value)
+        setUploadIntro(e.target.value);
+        setIsUploadIntro(true);
     }
     const workUploadSubmit = (event) => {
-        event.preventDefault();
-        console.log(uploadCategory );
-        console.log(uploadTitle);
-        console.log(uploadHashtag);
-        console.log(uploadHtmlFormal);
-        console.log(uploadThumbnail);
-        console.log(uploadFile);
-        console.log(uploadIntro);
         // 미리 FormData() 객체 생성해서 보낼 데이터들 넣어주기
         let form_data = new FormData();
         form_data.append('category', uploadCategory);
@@ -68,7 +82,7 @@ const Upload=() => {
             /* 홈화면으로 이동*/
             alert('업로드에 성공하였습니다.');
             window.location.href="/";
-            }).catch(error => {
+        }).catch(error => {
                 console.log("upload",error);
             })
     }
@@ -99,38 +113,42 @@ const Upload=() => {
                     </li>
                     <li>
                         <label className="upload__title" htmlFor="work_title">작품명</label>
-                        <input type="text" id="work__title" onChange={handleUploadTitle} />
+                        <input type="text" id="work__title" onChange={handleUploadTitle} maxLength='60' />
                     </li>
                     <li>
                         <label className="hashtag" htmlFor="hashtag">해시태그</label>
-                        <input type="text" id="hashtag" onChange={handleUploadHashtag} />
+                        <input type="text" id="hashtag" maxLength='1000' onChange={handleUploadHashtag} />
+                        <p style={{color:"red"}}>{uploadHashMessage}</p>
                     </li>
                     <li>
                         <fieldset className="choice__formality"onChange={handleUploadHtmlFor}>
                             <span className="htmlFormality">작품 형식</span>
                             <input name="htmlFormality" id="htmlFormality_art" value="image/*" type="radio" />
                             <label htmlFor="htmlFormality_art">그림</label>
-                            <input name="htmlFormality" id="htmlFormality_music" value="video/*" type="radio" />
-                            <label htmlFor="htmlFormality_music">영상</label>
-                            <input name="htmlFormality" id="htmlFormality_writing" value=".doc" type="radio" />
-                            <label htmlFor ="htmlFormality_writing">글</label>
+                            <input name="htmlFormality" id="htmlFormality_music" value=".mp4" type="radio" />
+                            <label htmlFor="htmlFormality_music">영상(.mp4만 가능)</label>
+                            <input name="htmlFormality" id="htmlFormality_writing" value=".epub" type="radio" />
+                            <label htmlFor ="htmlFormality_writing">글(.epub만 가능)</label>
                         </fieldset>
                     </li>
                     <li>
                         <label htmlFor="upload__thumbnail">작품 썸네일</label>
-                        <input type="file" id ="upload__thumbnail" accept=".jpg, .jpeg, .png"></input>
+                        <input type="file" id="upload__thumbnail" accept=".jpg, .jpeg, .png" onChange={ handleUploadThumbnail}></input>
                     </li>
                     <li>
                         <label className="upload__here" htmlFor="upload_here">작품 업로드</label>
-                        <input type="file" id="upload__here" multiple="multiple" accept={uploadHtmlFormal } onChange={handleUploadFile} />
+                        <input type="file" id="upload__here" multiple="multiple" accept={uploadHtmlFormal} onChange={handleUploadFile} />
+                        <p><a href={transformLink} target="_blank" style={{color:"red"}}>{uploadMessage }</a></p>
                     </li>
                     <li>
                         <label className="work_info" htmlFor="introdcue__work">작품 설명</label>
-                        <textarea cols="65" rows="7" id="introduce__work"
-                            placeholder="작품에 대한 설명을 적어주세요." onChange={handleUploadIntro}></textarea>
+                        <textarea cols="65" rows="7" id="introduce__work" maxLength="200"
+                            placeholder="200자 이내로 작품에 대한 설명을 적어주세요." onChange={handleUploadIntro}></textarea>
                     </li>
                 </ul>
-                <button className="upload__btn" type="submit">업로드하기</button>
+                <button className="upload__btn" type="submit"
+                    disabled={!(isuploadCategory&&isuploadFile&&isuploadHtmlFormal&&isuploadThumbnail&&isuploadTitle)}
+                >업로드하기</button>
             </form>
         </div>
     );

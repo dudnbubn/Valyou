@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Items from './items';
 import '../css/app.css';
 
-const PaginateGet=(props)=> {
+const PaginateGet2=(props)=> {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [next, setNext] = useState('');
@@ -47,19 +47,22 @@ const PaginateGet=(props)=> {
         fetchPost(next);
     }
     return (
-        <div className={ props.name} style={{ width:"100%", display:"flex", justifyContent:"space-evenly",alignItems:"center"}}>
-            <button className="paginate__btn-pre" onClick={goToPrePage}>
-                <FontAwesomeIcon icon={faAngleLeft}/>
-            </button>
-            <ul style={{width:"80%",display: 'flex', flexWrap:"wrap", justifyContent:"space-around"}}>
+        <div className={ props.name}>
+            <ul style={{ display: 'flex', flexWrap:"wrap", justifyContent:"space-around"}}>
                 <Items posts={posts} loading={loading} />
             </ul>
-            <button className="paginate__btn-next" onClick={ goToNextPage}>
-                <FontAwesomeIcon icon={faAngleRight} />
-            </button>
+            <div className="pagination__btns" style={{display:"flex", justifyContent:"center"}}>
+                <button className="paginate__btn-pre" onClick={goToPrePage}>
+                    <FontAwesomeIcon icon={faAngleLeft}/>
+                </button>
+                <button className="paginate__btn-next" onClick={ goToNextPage}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </button>
+            </div>
+            
         </div>
         
     );
 }
 
-export default PaginateGet;
+export default PaginateGet2;

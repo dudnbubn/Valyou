@@ -68,7 +68,7 @@ class App extends PureComponent{
             }> </Route>
             <Route path="/artwork/:artworkId" element={<Artwork isLoginCheck={isLogin} />} ></Route>
             <Route path="/donation" element={<Donation isLoginCheck={isLogin} />}></Route>
-            <Route path="/artist_profile/:artistId" element={<ArtistProfile />} ></Route>
+            <Route path="/artist_profile/:artistNickname" element={<ArtistProfile />} ></Route>
             <Route path="/my_profile/*" element={<MyProfile isLoginCheck={isLogin} />}></Route>
             <Route path="/sign_up" element={<SignUp />} ></Route>
             <Route path="/login" element={<Login onLogin={ this.checkLogin} />}></Route>

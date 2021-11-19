@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../css/home.css';
 import UsualGet from '../components/usualGet';
 import PaginateGet from '../components/paginateGet';
+import PaginateGet2 from '../components/paginateGet2';
 
 class Home extends Component {
     constructor(props) {
@@ -39,7 +40,8 @@ class Home extends Component {
                     <PaginateGet condition={{
                             level: this.props.items.level,
                         }}
-                        url={ "/api/artworks/recommend"}
+                        url={"/api/artworks/recommend"}
+                        name="home__recommend"
                     />
                 </div>
                 <div className="container">
@@ -54,12 +56,13 @@ class Home extends Component {
                                 <li className="sort__btn active" id="latest" data-value="latest" onClick={ this.checkStandard }>신작순</li>
                                 <li className="sort__btn" id="popular" data-value="popular" onClick={this.checkStandard}>인기순</li>
                             </ul>
-                            <PaginateGet condition={{
+                            <PaginateGet2 condition={{
                                 level: this.props.items.level,
                                 category: this.props.items.category,
                                 order: this.props.items.sort
                             }}
-                                url={ "/api/artworks/list"}
+                                url={"/api/artworks/list"}
+                                name="home__main"
                             />
                         </div>
                     </div>

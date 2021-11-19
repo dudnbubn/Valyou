@@ -7,19 +7,15 @@ import Donation from './profileMyDonation';
 import ProfileMyInfo from './profileMyInfo';
 
 class ProfileMy extends Component {
-    goToWhereTab = (data) => {
-        console.log(data);
-        window.location.href = `/my_profile/${data}`;
-    }
     render() {
         return (
             <>
-                <ProfileNavbar onTab={ this.goToWhereTab} />
+                <ProfileNavbar />
                 <Routes>
                     <Route path="/recent" element={<Recent />} />
                     <Route path="/like" element={<Like />} />
                     <Route path="/donation" element={<Donation />} />
-                    <Route path="/myInfo" element={<ProfileMyInfo/>} />
+                    <Route exact path="/" element={<ProfileMyInfo/>} />
                 </Routes>
             </>
         );
