@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { Component,useState } from 'react';
+import React, { useState } from 'react';
 import '../css/signUp.css';
 
 const SignUp = () => {
@@ -10,7 +10,8 @@ const SignUp = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
     const [gender, setGender] = useState('');
-    
+    const [image, setImage] = useState();
+
     //오류 메세지
     const [nameMessage, setNameMessage] = useState('');
     const [idMessage, setIdMessage] = useState('');
@@ -93,11 +94,14 @@ const SignUp = () => {
             console.log("nickname check", error);
         })
     }
+    const handleSignUpImage = (e) => {
+        setImage(e.target.value);
+    }
     const handleSignUpGender = (e) => {
         setGender(e.target.value);
     }
     const signUpSubmit = (e) => {
-        console.log(id, password, passwordConfirm, nickname, name, gender);
+        console.log(id, password, passwordConfirm, nickname, name, gender,image);
         axios.post('/api/rest-auth/registration/', {
             email: id,
             password1: password,
@@ -130,7 +134,7 @@ const SignUp = () => {
                     <input type="password" id="pwd1" onChange={handleSignUpPwd} />
                     <p className="signup__status__Message">{ passwordMessage }</p>
                 </div>
-                <div class="input pwd2">
+                <div className="input pwd2">
                     <h3 className="pwd2 label">
                         <label htmlFor="pwd2">비밀번호 재확인</label>
                     </h3>
@@ -144,6 +148,12 @@ const SignUp = () => {
                     <input type="text" id="nickname" onChange={handleSignUpNickname} />
                     <button className="nickname__btn" type = "button" onClick={checkUniqueNickname}>중복여부확인</button>
                     <p className="signup__status__Message">{ nicknameMessage}</p>
+                </div>
+                <div className="myImage">
+                    <h3>
+                        <label htmlFor ="profileImage">이미지</label>
+                    </h3>
+                    <input type="file" id="profileImage" onChange={handleSignUpImage} />
                 </div>
                 <div className="input name">
                     <h3 className="name label">

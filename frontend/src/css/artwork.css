@@ -63,9 +63,8 @@
 }
 .artwork__viewer__comments {
   width: 100%;
-  height: 200px;
+  height: auto;
   margin: 20px auto;
-  background-color: lightgray;
 }
 .artwork__viewer__myComment {
   display: flex;

@@ -95,7 +95,7 @@ p {
   margin-left: 5px;
 }
 .header__info__btns {
-  min-width: 140px;
+  min-width: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -114,11 +114,18 @@ p {
   background-color: transparent;
   width: 40px;
   height: 40px;
-  margin: 0 0 0 20px;
   font-size: 35px;
   color: var(--color-main);
   padding: 0;
   cursor: pointer;
+}
+.alarm__list {
+  width: 100px;
+  height: 100px;
+  background-color: lightgray;
+  position: absolute;
+  top: 70px;
+  right: 120px;
 }
 .before_login,
 .before__signup-btn {
@@ -133,20 +140,25 @@ p {
   border: none;
   background-color: transparent;
   font-size: 38px;
-  margin: 0 0 0 20px;
   width: 40px;
   height: 40px;
 }
 .my__choiceList {
-  display: none;
-  font-size: 5px;
-}
-.after_login:hover .my__choiceList {
-  display: block;
-  z-index: 10;
   position: absolute;
-  right: 10px;
-  width: 50px;
+  top: 70px;
+  background-color: var(--color-light-oragne);
+  width: 100px;
+  height: auto;
+  font-size: 12px;
+  border-radius: 8px;
+}
+.my__choiceList li {
+  margin: 12px 0;
+  text-align: center;
+}
+.logout__btn {
+  background-color: transparent;
+  border: none;
 }
 /*homeNavbar*/
 .levels {

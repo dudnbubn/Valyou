@@ -4,7 +4,6 @@ import './index.css';
 import App from './app';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import axios from 'axios';
 
 ReactDOM.render(
   <React.StrictMode>

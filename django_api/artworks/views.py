@@ -189,3 +189,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 class CommentListViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkCommentSerializer
+
+class CommentGetViewSet(ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    def get_queryset(self):
+        return Comment.objects.filter(artwork=self.kwargs['artwork'])

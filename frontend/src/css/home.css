@@ -79,8 +79,6 @@
 .categories li {
   padding: 10px 20px;
 }
-.category__btn.active,
-.sort__btn.active,
-.level__btn.active {
+.active {
   font-weight: bold;
 }

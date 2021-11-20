@@ -2,10 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Items from './items';
 import '../css/app.css';
+import Comment from '../components/comment';
 
-const PaginateGet=(props)=> {
+const Comments=(props)=> {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [next, setNext] = useState('');
@@ -13,11 +13,10 @@ const PaginateGet=(props)=> {
     const [canPrevious, setCanPrevious] = useState(false);
     const [canNext, setCanNext] = useState(false);
 
-    const condition = props.condition;
     const basicUrl = props.url;
 
     const fetchPost = async (url) => {
-        axios.get(url, { params: condition })
+        axios.get(url)
             .then(res => {
                 if (res.data.previous !== null) {
                     setCanPrevious(true);
@@ -28,6 +27,7 @@ const PaginateGet=(props)=> {
                 if (res.data.next !== null) {
                     setCanNext(true);
                     setNext('/api/' + res.data.next.slice(22,));
+                    
                 } else {
                     setCanNext(false);
                 }
@@ -39,27 +39,47 @@ const PaginateGet=(props)=> {
     };
     useEffect(() => {
         fetchPost(basicUrl);
-    }, [condition]);
+    }, []);
     const goToPrePage = () => {
-        fetchPost(previous);
+        if (canPrevious === true) {
+            fetchPost(previous);
+        }
+        /*console.log(canPrevious, canNext);
+        let preContainer = document.querySelector('.paginate__btn-pre');
+        if (canPrevious === false) {
+            preContainer.style.color ="#d3d3d3";
+        } else {
+            preContainer.style.color = "#650689";
+        }*/
     }
     const goToNextPage = () => {
-        fetchPost(next);
+        if (canNext === true) {
+            fetchPost(next);
+        }
+        /*let nextContainer = document.querySelector('.paginate__btn-next');
+        if (canNext === false) {
+            nextContainer.style.color = "#d3d3d3";
+        } else {
+            nextContainer.style.color = "#650689";
+        }*/
     }
     return (
-        <div className={ props.name} style={{ width:"100%", display:"flex", justifyContent:"space-evenly",alignItems:"center"}}>
-            <button className="paginate__btn-pre" onClick={goToPrePage}>
-                <FontAwesomeIcon icon={faAngleLeft}/>
-            </button>
-            <ul style={{width:"80%",display: 'flex', flexWrap:"wrap", justifyContent:"space-around"}}>
-                <Items posts={posts} loading={loading} />
-            </ul>
-            <button className="paginate__btn-next" onClick={ goToNextPage}>
-                <FontAwesomeIcon icon={faAngleRight} />
-            </button>
+        <div className={ props.name}>
+            <ul>{
+                <Comment posts={posts} loading={loading}/>
+            }</ul>
+            <div className="pagination__btns" style={{display:"flex", justifyContent:"center"}}>
+                <button className="paginate__btn-pre" onClick={goToPrePage}>
+                    <FontAwesomeIcon icon={faAngleLeft}/>
+                </button>
+                <button className="paginate__btn-next" onClick={ goToNextPage}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </button>
+            </div>
+            
         </div>
         
     );
 }
 
-export default PaginateGet;
+export default Comments;

@@ -1,19 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHome } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import Viewer from '../components/viewer';
+import Comments from '../components/comments';
 import '../css/artwork.css';
-
 const Artwork = ({ location }) => {
     const artworkId = useParams().artworkId;
 
     const [work, setWork] = useState([]);
     const [viewerArtistNickname, setViewerArtistNickname] = useState("");
     const [recommendWork, setRecommendWork] = useState([]);
-    const [myComment, setMyComment] = useState('');
-    const [comments, setComments] = useState([]);
+    const myComment__input = useRef();
+
+    const [fileExtension, setFileExtension] = useState('');
 
     useEffect(() => {
         const id = window.sessionStorage.getItem('id');
@@ -26,8 +28,11 @@ const Artwork = ({ location }) => {
         const url = '/api/artworks/' + artworkId + "/";
         axios.get(url)
             .then(res => {
-                console.log(res.data);
                 setWork(res.data);
+                var _fileLen = res.data.file_img.length;
+                var _lastDot = res.data.file_img.lastIndexOf('.');
+                var _fileExt = res.data.file_img.substring(_lastDot, _fileLen).toLowerCase();
+                setFileExtension(_fileExt);
                 setViewerArtistNickname(res.data.artist.nickname);
             }).catch(error => {
                 console.log("artwork.js", error);
@@ -48,33 +53,23 @@ const Artwork = ({ location }) => {
             }).catch(error => {
                 console.log("artwork.js recommend", error);
             });
-        axios.get('', {
-            "artwork":artworkId
-        }).then(res => {
-            setComments(res.data);
-        }).catch(() => {
-            alert('댓글을 받아오는데 실패했습니다.');
-        })
-    }, []);
+    }, [artworkId]);
     //코멘트 입력시 받아오기
-    const updateComment = (e) => {
-        if (window.sessionStorage.getItem('nickname') !== null) {
-            setMyComment(e.target.value);
-            
-        } else {
-            alert('로그인이 필요합니다.');
-        }
-    }
     const postComment = () => {
-        axios.post('/api/artworks/comments', {
+        let myComment = myComment__input.current.value
+        if (true) {
+            axios.post('/api/artworks/comments', {
                 "comment": myComment,
                 "user": window.sessionStorage.getItem('id'),
-                "artwork":artworkId,
+                "artwork": artworkId,
             }).then(() => {
                 alert('성공적으로 입력했습니다.');
             }).catch(() => {
                 alert('입력에 실패했습니다.')
-            }) 
+            })
+        } else {
+            alert('댓글이 입력되지 않았습니다.');
+        }
     }
     const addLikeCount = () => {
         const likeCountIcon = document.querySelector('.sign__like');
@@ -89,14 +84,21 @@ const Artwork = ({ location }) => {
         <>
             
             <div className="artwork__viewer__work__wrap">
-                <img className="artwork__viewer__work" src={work.file_img} alt={work.title}/>
+                <Viewer
+                    extension={fileExtension}
+                    files={work.file_img}
+                    title={work.title}
+                />
             </div>
             <div className="artwork__viewer__title">
                 <p>{work.title}</p>
             </div>
-            <div className="artwork__viewer__artistNickname">                
-                <button className="artwork__viewer__artistInfo">
-                    <Link to={`/artist_profile/${viewerArtistNickname}`}>{viewerArtistNickname}</Link>
+            <div className="artwork__viewer__artistNickname">
+                {viewerArtistNickname}    
+                <button className="artwork__viewer__artistInfo" style={{display:'inline', fontSize:"30px"}}>
+                    <Link to={`/artist_profile/${viewerArtistNickname}`}>
+                        <FontAwesomeIcon icon={faHome} />
+                    </Link>
                 </button>
             </div>
             <div className="artwork__viewer__info">
@@ -123,16 +125,15 @@ const Artwork = ({ location }) => {
             </div>
             <div className="artwork__viewer__comments">
                 <div className="artwork__viewer__myComment">
-                    <textarea className="myComment__input"
+                    <textarea ref={ myComment__input} className="myComment__input"
                         placeholder="욕설과 비방은 자제해 주세요."
-                        onChange={ updateComment }
                     ></textarea>
                     <button className="myComment__btn" onClick={postComment}>등록</button>
                 </div>
-                
-                <ul>
-                    나머지 코멘트들 pagination 이용해서 삽입
-                </ul>
+                <Comments
+                    url={`/api/artworks/comments/${artworkId}/`}
+                    name="artwork__commens"
+                />
             </div>
         </>
     );

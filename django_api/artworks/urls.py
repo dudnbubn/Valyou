@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework import routers
 
-from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet
+from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet, CommentGetViewSet
 from .views import ArtworkSearchViewSet
 from .views import ArtworkListViewSet
 from .views import ArtworkPopularViewSet
@@ -30,9 +30,8 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy'
     })),
-
     path('comments/list', CommentListViewSet.as_view()),
-
+    path('comments/<artwork>/', CommentGetViewSet.as_view()),
 
     path('recent-view', RecentViewSet.as_view({
         'get': 'list',

@@ -1,17 +1,39 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import '../css/profileMy.css';
 
 class MyProfileNavbar extends Component {
     goToWhereTab = (e) => {
-        this.props.onTab(e.target.dataset.tab);
+        const activeMyProfileNav = document.querySelector(".myProfile__nav-li.active");
+        const newActiveMyProfileNav = e.target;
+        
+        activeMyProfileNav.classList.remove('active');
+        newActiveMyProfileNav.classList.add('active');
     }
+
     render() {
         return (
-            <ul onClick={ this.goToWhereTab}>
-                <li data-tab="recent">최근 본 작품</li>
-                <li data-tab="like">관심 작품</li>
-                <li data-tab="donation">후원 내역</li>
-                <li data-tab="myInfo">내 정보</li>
+            <ul className="myProfile__main__nav" onClick={this.goToWhereTab} >
+                <li>
+                    <Link to="/my_profile/recent" className="myProfile__nav-li">
+                        최근 본 작품
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/my_profile/like" className="myProfile__nav-li">
+                        관심 작품
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/my_profile/donation" className="myProfile__nav-li">
+                        후원 내역
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/my_profile/" className="myProfile__nav-li active">
+                        내 정보
+                    </Link>
+                </li>
             </ul>
         );
     }

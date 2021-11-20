@@ -1,0 +1,7 @@
+.myProfile__main__nav {
+  display: flex;
+}
+.myProfile__main__nav li {
+  margin: 0 20px;
+  font-size: 20px;
+}

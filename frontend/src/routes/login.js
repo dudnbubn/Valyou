@@ -18,8 +18,6 @@ function Login(props) {
                 'password': inputPw
         }).then(res => {
             const { token } = res.data;
-            console.log(res.data)
-            console.log(token)
             axios.defaults.headers.common['Authorization'] = "jwt " + token;
             window.sessionStorage.setItem('nickname',res.data.user.nickname);
             window.sessionStorage.setItem('id',res.data.user.id);
@@ -42,7 +40,7 @@ function Login(props) {
                 <label htmlFor="login__pwd">비밀번호(Password) : </label>
                 <input type="password" id="login__pwd" value={inputPw} className="login__pwd-input" onChange={handleInputPw}></input>
             </div>
-            <button type="button" className="login__btn" onClick={onClickLoginBtn}>로그인</button>
+            <button type="submit" className="login__btn" onClick={onClickLoginBtn}>로그인</button>
         </div>
     );
 

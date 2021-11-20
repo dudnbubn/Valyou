@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
-
+import PaginateGet from '../components/paginateGet';
+import PaginateGet2 from '../components/paginateGet2';
 class ProfileMyLike extends Component {
     render() {
         return (
             <div>
-                관심 작품
+                <PaginateGet condition={{
+
+                    }}
+                    url={""}
+                    name="myProfile__like__artist"
+                />
+                <PaginateGet2 condition={{
+
+                }}
+                    url={""}
+                    name="myProfile__like__artworks"
+                />
             </div>
         );
     }
