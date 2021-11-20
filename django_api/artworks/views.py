@@ -14,7 +14,8 @@ from rest_framework.generics import ListAPIView
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination, RecommendationPagination
-from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer
+from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
+    CommentIncludeNicknameSerializer
 from .models import Artwork, Comment, RecentView
 
 from users.serializers import UserSerializer, RecentViewSerializer
@@ -190,8 +191,10 @@ class CommentListViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkCommentSerializer
 
+
 class CommentGetViewSet(ListAPIView):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    serializer_class = CommentIncludeNicknameSerializer
+
     def get_queryset(self):
         return Comment.objects.filter(artwork=self.kwargs['artwork'])

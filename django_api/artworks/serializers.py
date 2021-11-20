@@ -49,6 +49,17 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CommentIncludeNicknameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['user'] = UserSerializer(instance.user).data['nickname']
+        return response
+
+
 class ArtworkCommentSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     class Meta:
