@@ -14,7 +14,8 @@ from rest_framework.generics import ListAPIView
 from . import emotion
 from .contents_based_recommendation import weighted_rating, find_recommended_work
 from .paginations import MainPagination, RecommendationPagination
-from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer
+from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
+    CommentIncludeNicknameSerializer
 from .models import Artwork, Comment, RecentView
 
 from users.serializers import UserSerializer, RecentViewSerializer
@@ -35,7 +36,8 @@ class ArtworkSearchViewSet(ListAPIView):
         query = self.request.query_params.get('query')
 
         queryset = Artwork.objects.filter(
-            Q(artist__artist_level=level) & (Q(title__contains=query) | Q(artist__nickname__contains=query))
+            Q(artist__artist_level=level) &
+            (Q(title__contains=query) | Q(artist__nickname__contains=query) | Q(hashtag__contains=query))
         )
 
         return queryset
@@ -52,7 +54,7 @@ class ArtworkListViewSet(ListAPIView):
         category = self.request.query_params.get('category')
         order = self.request.query_params.get('order')
         # print(self.request.META['HTTP_AUTHORIZATION'])
-        queryset = Artwork.objects.filter(artist__artist_level=level, category=category)
+        queryset = Artwork.objects.filter(artist__artist_level=level, category=category).order_by('-id')
 
         if order == 'popular':
             queryset = queryset.order_by('-like_count')
@@ -86,9 +88,9 @@ class ArtworkRecommendViewSet(ListAPIView):
             print("I'm User")
             artist_id = self.request.user.pk
             artist = RecentView.objects.filter(user=artist_id)
-            target_artwork = list(artist.values_list('recent', flat=True))[-1]
+            if len(list(artist.values_list('recent', flat=True))) != 0:
+                target_artwork = list(artist.values_list('recent', flat=True))[-1]
             print(target_artwork)
-
 
         artwork_id = list(queryset.values_list('id', flat=True))
         title = queryset.values_list('title', flat=True)
@@ -117,7 +119,7 @@ class ArtworkRecommendViewSet(ListAPIView):
         for index, work in enumerate(similar_work):
             similar_work[index] = artwork_id[work]
 
-        return Artwork.objects.filter(id__in=similar_work)
+        return Artwork.objects.filter(id__in=similar_work).order_by('-id')
 
 
 # artworks/data
@@ -136,17 +138,18 @@ class ArtworkDataViewSet(ListAPIView):
 
         string_pool = string.ascii_letters + string.digits
         category_pool = ['art', 'music', 'literal']
-        level_pool = ['pro', 'adv', 'nov']
+        img_pool = ['default_image.jpeg']
+        for i in range(1, 21):
+            img_pool.append('default/default_image' + str(i) + '.jpeg')
         artist_size = get_user_model().objects.all().count()
 
-        for _ in range(100):
+        for _ in range(1000):
             category = random.choice(category_pool)
             title = ""
             for _ in range(random.randint(4, 12)):
                 title += random.choice(string_pool)
             like_count = random.randint(0, 10)
             view_count = random.randint(1, 10000)
-            level = random.choice(level_pool)
 
             size = random.randint(3, 7)
             index = set()
@@ -156,11 +159,12 @@ class ArtworkDataViewSet(ListAPIView):
             index = [emotion.tag[i] for i in index]
             hashtag = ' '.join(index)
             artist_id = random.randint(2, artist_size)
-
+            file_img = random.choice(img_pool)
             Artwork.objects.create(category=category,
                                    title=title,
                                    like_count=like_count,
                                    view_count=view_count,
+                                   file_img=file_img,
                                    hashtag=hashtag,
                                    artist=get_user_model().objects.get(id=artist_id)
                                    )
@@ -187,8 +191,10 @@ class CommentListViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkCommentSerializer
 
+
 class CommentGetViewSet(ListAPIView):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    serializer_class = CommentIncludeNicknameSerializer
+
     def get_queryset(self):
         return Comment.objects.filter(artwork=self.kwargs['artwork'])

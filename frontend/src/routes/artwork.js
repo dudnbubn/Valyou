@@ -40,6 +40,15 @@ const Artwork = ({ location }) => {
             }).catch(error => {
                 console.log("artwork.js", error);
             });
+        axios.post('/api/artworks/recent-view',{
+            user : id,
+            recent : artworkId
+        }).then(res => {
+            console.log(res.data);
+        }).catch(error => {
+            console.log("artwork.js", error);
+        });
+
         //유사 추천 작품 받아오기
         axios.get("/api/artworks/", { params: { id:artworkId } })
             .then(res => {

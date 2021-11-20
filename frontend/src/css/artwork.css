@@ -8,6 +8,8 @@
 .artwork__viewer__work__wrap {
   width: 80%;
   margin: 40px auto;
+  border: black solid 4px;
+  background-color: lightgray;
 }
 .artwork__viewer__work {
   width: 100%;
