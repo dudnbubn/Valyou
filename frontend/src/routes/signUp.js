@@ -108,7 +108,8 @@ const SignUp = () => {
             password2: password,
             artist_name: name,
             nickname: nickname,
-            gender: gender
+            gender: gender,
+            //artist_img : image
         }).then(() => {
             alert('회원가입에 성공하였습니다. 로그인해주세요.');
             window.location.href = "/login";

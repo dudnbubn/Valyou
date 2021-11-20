@@ -6,12 +6,15 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import Viewer from '../components/viewer';
 import Comments from '../components/comments';
+import RatingStar from '../components/ratingStar';
 import '../css/artwork.css';
 const Artwork = ({ location }) => {
     const artworkId = useParams().artworkId;
 
     const [work, setWork] = useState([]);
     const [viewerArtistNickname, setViewerArtistNickname] = useState("");
+    const [rating, setRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(0);
     const [recommendWork, setRecommendWork] = useState([]);
     const myComment__input = useRef();
 
@@ -45,6 +48,14 @@ const Artwork = ({ location }) => {
                 console.log("artwork.js recommend", error);
             });
     }, [artworkId]);
+
+    //마우스가 별위에 올라가면 state변경
+    const onMouseEnter = (index) => setHoverRating(index);
+    //마우스가 별밖으로 나가면 state 0으로 변경
+    const onMouseLeave = () => setHoverRating(0);
+    //클릭시 별 index를 state에 저장
+    const onSaveRating = (index) => setRating(index);
+
     //코멘트 입력시 받아오기
     const postComment = () => {
         let myComment = myComment__input.current.value
@@ -72,8 +83,7 @@ const Artwork = ({ location }) => {
             })*/
     }
     return (
-        <>
-            
+        <>  
             <div className="artwork__viewer__work__wrap">
                 <Viewer
                     extension={fileExtension}
@@ -93,14 +103,20 @@ const Artwork = ({ location }) => {
                 </button>
             </div>
             <div className="artwork__viewer__info">
+                작품설명
                 { work.description}
             </div>
             
             <div className="artwork__viewer__sponsor">
+                후원인단
                 {/*{work.sponsor.map(people => {
                     <li>{ people}</li>
                 })}*/}
             </div>
+            <RatingStar
+                artworkId={artworkId}
+                name="artwork__rating"
+            />
             <div className="artwork__viewer__btns">
                 <button className="work_like" onClick={addLikeCount}>
                     <FontAwesomeIcon className="sign__like" icon={faHeart} style={{color:"gray", marginRight:"5px",}}/>
