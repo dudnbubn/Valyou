@@ -8,17 +8,23 @@ import ProfileMyInfo from './profileMyInfo';
 
 class ProfileMy extends Component {
     render() {
-        return (
-            <>
-                <ProfileNavbar />
-                <Routes>
-                    <Route path="/recent" element={<Recent />} />
-                    <Route path="/like" element={<Like />} />
-                    <Route path="/donation" element={<Donation />} />
-                    <Route exact path="/" element={<ProfileMyInfo/>} />
-                </Routes>
-            </>
-        );
+        if (window.sessionStorage.getItem('nickname') === null) {
+            alert('로그인이 필요한 작업입니다.');
+            window.location.href = "/login";
+        } else {
+            return (
+                <>
+                    <ProfileNavbar />
+                    <Routes>
+                        <Route path="/recent" element={<Recent />} />
+                        <Route path="/like" element={<Like />} />
+                        <Route path="/donation" element={<Donation />} />
+                        <Route exact path="/" element={<ProfileMyInfo/>} />
+                    </Routes>
+                </>
+            );
+        }
+        
     }
 }
 

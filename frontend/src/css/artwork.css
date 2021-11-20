@@ -8,7 +8,6 @@
 .artwork__viewer__work__wrap {
   width: 80%;
   margin: 40px auto;
-  background-color: lightgray;
 }
 .artwork__viewer__work {
   width: 100%;
@@ -62,9 +61,8 @@
 }
 .artwork__viewer__comments {
   width: 100%;
-  height: 200px;
+  height: auto;
   margin: 20px auto;
-  background-color: lightgray;
 }
 .artwork__viewer__myComment {
   display: flex;
