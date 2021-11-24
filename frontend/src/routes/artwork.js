@@ -8,13 +8,13 @@ import Viewer from '../components/viewer';
 import Comments from '../components/comments';
 import RatingStar from '../components/ratingStar';
 import '../css/artwork.css';
+import PaginateGet from '../components/paginateGet';
 const Artwork = ({ location }) => {
     const artworkId = useParams().artworkId;
 
     const [work, setWork] = useState([]);
     const [viewerArtistNickname, setViewerArtistNickname] = useState("");
-    const [rating, setRating] = useState(0);
-    const [hoverRating, setHoverRating] = useState(0);
+    const [sponsor, setSponsor] = useState([]);
     const [recommendWork, setRecommendWork] = useState([]);
     const myComment__input = useRef();
 
@@ -25,7 +25,7 @@ const Artwork = ({ location }) => {
 
         //사용자의 최근 본 작품 목록에 추가
         if (window.sessionStorage.getItem('nickname') !== null) {
-
+            axios.post('', {id:artworkId}).then().catch();
         }
         //작품 정보 받아오기
         const url = '/api/artworks/' + artworkId + "/";
@@ -37,33 +37,11 @@ const Artwork = ({ location }) => {
                 var _fileExt = res.data.file_img.substring(_lastDot, _fileLen).toLowerCase();
                 setFileExtension(_fileExt);
                 setViewerArtistNickname(res.data.artist.nickname);
+                //setSponsor(res.data.)
             }).catch(error => {
                 console.log("artwork.js", error);
             });
-        axios.post('/api/artworks/recent-view',{
-            user : id,
-            recent : artworkId
-        }).then(res => {
-            console.log(res.data);
-        }).catch(error => {
-            console.log("artwork.js", error);
-        });
-
-        //유사 추천 작품 받아오기
-        axios.get("/api/artworks/", { params: { id:artworkId } })
-            .then(res => {
-                setRecommendWork(res.data);
-            }).catch(error => {
-                console.log("artwork.js recommend", error);
-            });
     }, [artworkId]);
-
-    //마우스가 별위에 올라가면 state변경
-    const onMouseEnter = (index) => setHoverRating(index);
-    //마우스가 별밖으로 나가면 state 0으로 변경
-    const onMouseLeave = () => setHoverRating(0);
-    //클릭시 별 index를 state에 저장
-    const onSaveRating = (index) => setRating(index);
 
     //코멘트 입력시 받아오기
     const postComment = () => {
@@ -89,6 +67,8 @@ const Artwork = ({ location }) => {
             .then(() => {
                 const likeCountIcon = document.querySelector('.sign__like');
                 likeCountIcon.style.color = "red";
+            }).cathch(error=>{
+                console.log(error);
             })*/
     }
     return (
@@ -134,10 +114,13 @@ const Artwork = ({ location }) => {
                 <button className="work_report">신고</button>
             </div>
             <div className="artwork__viewer__related_works">
-                <img className="artwork__work" src={recommendWork.thumbnail} alt={ `${recommendWork.artistName}의 ${recommendWork.artworkTitle}`} />
-                    <p>{recommendWork.artworkTitle}</p>
-                    <p>{recommendWork.artistName}</p>
-                    <p>{recommendWork.hashtag}</p>
+                <PaginateGet
+                    condition={{
+                            id:artworkId,
+                        }}
+                    url={"/api/artworks/"}
+                    name="artwork__viewer__recommend"
+                />
             </div>
             <div className="artwork__viewer__comments">
                 <div className="artwork__viewer__myComment">
