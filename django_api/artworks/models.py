@@ -11,10 +11,13 @@ class Artwork(models.Model):
     like_count = models.IntegerField(default=0, null=False)
     view_count = models.IntegerField(default=0, null=False)
     upload_date = models.DateField(auto_now=True)
-    file_img = models.ImageField(default='default_image.jpeg')
-    file_name = models.CharField(max_length=1000)
     hashtag = models.CharField(max_length=1000)
-    
+
+    rating = models.IntegerField(default=0, null=False)
+    rating_count = models.IntegerField(default=0, null=False)
+    file_category = models.CharField(max_length=100)
+    thumbnail_img = models.ImageField(default='default_image.jpeg')
+
     artist = models.ForeignKey(to=get_user_model(), related_name='artist', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -39,3 +42,15 @@ class Comment(models.Model):
     
     def __str__(self):
         return str(self.id)
+
+
+class File(models.Model):
+    id = models.AutoField(primary_key=True)
+    artwork = models.ForeignKey(to=Artwork, related_name='file', on_delete=models.CASCADE)
+    upload_file = models.FileField('default.epub')
+
+
+class Image(models.Model):
+    id = models.AutoField(primary_key=True)
+    artwork = models.ForeignKey(to=Artwork, related_name='img', on_delete=models.CASCADE)
+    upload_file = models.ImageField('default_image.jpeg')

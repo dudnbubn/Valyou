@@ -2,17 +2,17 @@ import random
 import string
 import pandas as pd
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
-from django.db.models import Prefetch, Q
+from django.db.models import Q
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
-from rest_framework import viewsets, pagination, generics
+from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
 from . import emotion
-from .contents_based_recommendation import weighted_rating, find_recommended_work
+from .contents_based_recommendation import find_recommended_work
 from .paginations import MainPagination, RecommendationPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
     CommentIncludeNicknameSerializer
@@ -24,6 +24,16 @@ from users.serializers import UserSerializer, RecentViewSerializer
 class ArtworkViewSet(viewsets.ModelViewSet):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
+    parser_classes = (MultiPartParser, FormParser, )
+
+    def perform_create(self, serializer, format=None):
+        owner = self.request.user
+        if self.request.data.get('file_category') == 'image/*':
+            images = self.request.data.get('file')
+            for image in images:
+                serializer.save(owner=owner, product_image=images)
+        else:
+            serializer.save(owner=owner)
 
 
 # artworks/search
@@ -53,7 +63,6 @@ class ArtworkListViewSet(ListAPIView):
         level = self.request.query_params.get('level')
         category = self.request.query_params.get('category')
         order = self.request.query_params.get('order')
-        # print(self.request.META['HTTP_AUTHORIZATION'])
         queryset = Artwork.objects.filter(artist__artist_level=level, category=category).order_by('-id')
 
         if order == 'popular':

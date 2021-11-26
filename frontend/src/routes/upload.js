@@ -50,7 +50,7 @@ const Upload=() => {
     }
     const handleUploadFile = (e) => {
         // 이미지 불러오는 부분 수정
-        setUploadFile(e.target.files[0]);
+        setUploadFile(e.target.files);
         setIsUploadFile(true);
     }
     const handleUploadIntro = (e) => {
@@ -66,11 +66,12 @@ const Upload=() => {
         form_data.append('description', uploadIntro);
         form_data.append('like_count', "0");
         form_data.append('view_count', "0");
-        form_data.append('file_img', uploadFile);
+        form_data.append('file_category', uploadHtmlFormal);
+        form_data.append('file', uploadFile);
         form_data.append('file_name', "default");
         form_data.append('hashtag', uploadHashtag);
         form_data.append('artist', "2");
-        
+
         // 데이터는 form_data, 헤더에 컨텐츠 타입 수정
         axios.post('api/artworks/', form_data,
             {
@@ -84,6 +85,7 @@ const Upload=() => {
             window.location.href="/";
         }).catch(error => {
                 console.log("upload",error);
+                console.log(form_data)
             })
     }
     useEffect(() => {

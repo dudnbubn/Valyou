@@ -33,5 +33,7 @@ class CustomUser(AbstractUser):
     artist_level = models.CharField(choices=LEVEL, default="nov", max_length=30)
     revenue = models.IntegerField(default=0)
 
+    artist_img = models.ImageField(default='default.jpeg')
+
     def __str__(self):
         return self.email
