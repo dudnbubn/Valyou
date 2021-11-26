@@ -6,12 +6,15 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import Viewer from '../components/viewer';
 import Comments from '../components/comments';
+import RatingStar from '../components/ratingStar';
 import '../css/artwork.css';
+import PaginateGet from '../components/paginateGet';
 const Artwork = ({ location }) => {
     const artworkId = useParams().artworkId;
 
     const [work, setWork] = useState([]);
     const [viewerArtistNickname, setViewerArtistNickname] = useState("");
+    const [sponsor, setSponsor] = useState([]);
     const [recommendWork, setRecommendWork] = useState([]);
     const myComment__input = useRef();
 
@@ -22,7 +25,7 @@ const Artwork = ({ location }) => {
 
         //사용자의 최근 본 작품 목록에 추가
         if (window.sessionStorage.getItem('nickname') !== null) {
-
+            axios.post('', {id:artworkId}).then().catch();
         }
         //작품 정보 받아오기
         const url = '/api/artworks/' + artworkId + "/";
@@ -34,26 +37,12 @@ const Artwork = ({ location }) => {
                 var _fileExt = res.data.file_img.substring(_lastDot, _fileLen).toLowerCase();
                 setFileExtension(_fileExt);
                 setViewerArtistNickname(res.data.artist.nickname);
+                //setSponsor(res.data.)
             }).catch(error => {
                 console.log("artwork.js", error);
             });
-        axios.post('/api/artworks/recent-view',{
-            user : id,
-            recent : artworkId
-        }).then(res => {
-            console.log(res.data);
-        }).catch(error => {
-            console.log("artwork.js", error);
-        });
-
-        //유사 추천 작품 받아오기
-        axios.get("/api/artworks/", { params: { id:artworkId } })
-            .then(res => {
-                setRecommendWork(res.data);
-            }).catch(error => {
-                console.log("artwork.js recommend", error);
-            });
     }, [artworkId]);
+
     //코멘트 입력시 받아오기
     const postComment = () => {
         let myComment = myComment__input.current.value
@@ -78,11 +67,12 @@ const Artwork = ({ location }) => {
             .then(() => {
                 const likeCountIcon = document.querySelector('.sign__like');
                 likeCountIcon.style.color = "red";
+            }).cathch(error=>{
+                console.log(error);
             })*/
     }
     return (
-        <>
-            
+        <>  
             <div className="artwork__viewer__work__wrap">
                 <Viewer
                     extension={fileExtension}
@@ -102,14 +92,20 @@ const Artwork = ({ location }) => {
                 </button>
             </div>
             <div className="artwork__viewer__info">
+                작품설명
                 { work.description}
             </div>
             
             <div className="artwork__viewer__sponsor">
+                후원인단
                 {/*{work.sponsor.map(people => {
                     <li>{ people}</li>
                 })}*/}
             </div>
+            <RatingStar
+                artworkId={artworkId}
+                name="artwork__rating"
+            />
             <div className="artwork__viewer__btns">
                 <button className="work_like" onClick={addLikeCount}>
                     <FontAwesomeIcon className="sign__like" icon={faHeart} style={{color:"gray", marginRight:"5px",}}/>
@@ -118,10 +114,13 @@ const Artwork = ({ location }) => {
                 <button className="work_report">신고</button>
             </div>
             <div className="artwork__viewer__related_works">
-                <img className="artwork__work" src={recommendWork.thumbnail} alt={ `${recommendWork.artistName}의 ${recommendWork.artworkTitle}`} />
-                    <p>{recommendWork.artworkTitle}</p>
-                    <p>{recommendWork.artistName}</p>
-                    <p>{recommendWork.hashtag}</p>
+                <PaginateGet
+                    condition={{
+                            id:artworkId,
+                        }}
+                    url={"/api/artworks/"}
+                    name="artwork__viewer__recommend"
+                />
             </div>
             <div className="artwork__viewer__comments">
                 <div className="artwork__viewer__myComment">

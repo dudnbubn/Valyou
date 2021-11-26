@@ -3,7 +3,7 @@ import { EpubViewer, ReactEpubViewer } from 'react-epub-viewer';
 import ReactPlayer from 'react-player';
 
 const Viewer = (props) => {
-    const viewerRef = useRef();
+    const viewerRef = useRef(null);
     
     if (props.extension === ".jpeg"
         || props.extension === ".jpg"

@@ -58,6 +58,7 @@ function HomeHeader(props) {
             choiceContainer.classList.add('blind');
         }
     }
+    //알림 내용 받아오기
     const alarmBottom = () => {
         if (window.sessionStorage.getItem('nickname')!==null) {
             showalarmBottom();
@@ -76,9 +77,9 @@ function HomeHeader(props) {
     }
     const showalarmBottom = () => {
         const alarmContainer = document.querySelector('.alarm__list');
-        
         if (alarmContainer.classList.contains('blind')) {
             alarmContainer.classList.remove('blind');
+            alarmBottom();
         } else {
             alarmContainer.classList.add('blind');
         }

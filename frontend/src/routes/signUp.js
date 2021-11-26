@@ -55,7 +55,7 @@ const SignUp = () => {
     const handleSignUpPwd2 = (e) => {
         const currentPwdConfirm = e.target.value;
         setPasswordConfirm(currentPwdConfirm);
-        console.log(passwordConfirm);
+        //console.log(passwordConfirm);
         if (password === currentPwdConfirm) {
             setPasswordConfirmMesaage('동일한 비밀 번호입니다:)');
             setIsPasswordConfirm(true);
@@ -80,9 +80,8 @@ const SignUp = () => {
         setNickname(e.target.value);
     }
     const checkUniqueNickname = () => {
-        axios.get('/api/users/', {
-            params: { nickname: nickname }
-        }).then((res) => {
+        axios.get('/api/users/', { nickname: nickname })
+            .then((res) => {
             if (res.data === true) {
                 setNicknameMessage('사용 가능한 닉네임입니다.');
                 setIsNickname(true);
@@ -101,14 +100,15 @@ const SignUp = () => {
         setGender(e.target.value);
     }
     const signUpSubmit = (e) => {
-        console.log(id, password, passwordConfirm, nickname, name, gender,image);
+        //console.log(id, password, passwordConfirm, nickname, name, gender,image);
         axios.post('/api/rest-auth/registration/', {
             email: id,
             password1: password,
             password2: password,
             artist_name: name,
             nickname: nickname,
-            gender: "M"
+            gender: gender,
+            //artist_img : image
         }).then(() => {
             alert('회원가입에 성공하였습니다. 로그인해주세요.');
             window.location.href = "/login";

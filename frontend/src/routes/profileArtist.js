@@ -18,13 +18,13 @@ const ProfileArtist = () => {
             params:
                 { nickname: artistNickname }
         }).then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             setPhoto(res.data.img);
             setExplain(res.data.explain);
             setLikeCount(res.data.likeCount);
             
-        }).catch(() => {
-            
+        }).catch((error) => {
+            console.log(error);
         })
     }, []);
     
