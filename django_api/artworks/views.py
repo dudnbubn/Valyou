@@ -3,12 +3,14 @@ import string
 import pandas as pd
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from requests import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.utils import json
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.generics import ListAPIView
 
 from . import emotion
@@ -16,7 +18,7 @@ from .contents_based_recommendation import find_recommended_work
 from .paginations import MainPagination, RecommendationPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
     CommentIncludeNicknameSerializer
-from .models import Artwork, Comment, RecentView
+from .models import Artwork, Comment, RecentView, Image, File
 
 from users.serializers import UserSerializer, RecentViewSerializer
 
@@ -24,16 +26,33 @@ from users.serializers import UserSerializer, RecentViewSerializer
 class ArtworkViewSet(viewsets.ModelViewSet):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
-    parser_classes = (MultiPartParser, FormParser, )
+    parser_classes = (MultiPartParser, )
+    def create(self, request):
+        request.data._mutable = True
+        files_data = request.data.pop('file')
 
-    def perform_create(self, serializer, format=None):
-        owner = self.request.user
-        if self.request.data.get('file_category') == 'image/*':
-            images = self.request.data.get('file')
-            for image in images:
-                serializer.save(owner=owner, product_image=images)
+        artist = request.data.pop('artist')
+        data = request.data.dict()
+        file_category = data['file_category']
+
+        artwork = Artwork.objects.create(
+                                        category=data['category'],
+                                        title=data['title'],
+                                        like_count=data['like_count'],
+                                        view_count=data['view_count'],
+                                        description=data['description'],
+                                        file_category=data['file_category'],
+                                        hashtag=data['hashtag'],
+                                        artist=get_user_model().objects.get(id=int(artist[0]))
+                                       )
+        if file_category == "image/*":
+            for file_data in files_data:
+                Image.objects.create(artwork=artwork, upload_file=file_data)
         else:
-            serializer.save(owner=owner)
+            for file_data in files_data:
+                File.objects.create(artwork=artwork, upload_file=file_data)
+
+        return Response(status_code=status.HTTP_201_CREATED)
 
 
 # artworks/search

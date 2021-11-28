@@ -25,7 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-        # fields = ['id', 'email', 'artist_name', 'nickname', 'artist_level', 'date_joined', 'revenue', 'gender']
 
 
 class CustomRegisterSerializer(RegisterSerializer):

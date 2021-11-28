@@ -29,7 +29,8 @@ const RatingStart = (props) => {
         if (window.sessionStorage.getItem('nickname') !== null) {
             if (hoverRating>0&&hoverRating<6 && rating === 6) {
                 setRating(hoverRating);
-                axios.post('', {
+                const url = '/api/artworks/' + props.artworkId + '/'
+                axios.patch(url, {
                     "artworkId": props.artworkId,
                     "rating":rating
                 }).then(res => {

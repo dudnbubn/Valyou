@@ -16,6 +16,7 @@ const Artwork = ({ location }) => {
     const [viewerArtistNickname, setViewerArtistNickname] = useState("");
     const [sponsor, setSponsor] = useState([]);
     const [recommendWork, setRecommendWork] = useState([]);
+    const [likeCount, setLikeCount] = useState(0);
     const myComment__input = useRef();
 
     const [fileExtension, setFileExtension] = useState('');
@@ -25,7 +26,14 @@ const Artwork = ({ location }) => {
 
         //사용자의 최근 본 작품 목록에 추가
         if (window.sessionStorage.getItem('nickname') !== null) {
-            axios.post('', {id:artworkId}).then().catch();
+            axios.post('/api/artworks/recent-view',{
+                 user : id,
+                recent : artworkId
+            }).then(res => {
+                console.log(res.data);
+            }).catch(error => {
+                console.log("artwork.js", error);
+            });
         }
         //작품 정보 받아오기
         const url = '/api/artworks/' + artworkId + "/";
@@ -37,6 +45,8 @@ const Artwork = ({ location }) => {
                 var _fileExt = res.data.file_img.substring(_lastDot, _fileLen).toLowerCase();
                 setFileExtension(_fileExt);
                 setViewerArtistNickname(res.data.artist.nickname);
+                setLikeCount(res.data.like_count);
+
                 //setSponsor(res.data.)
             }).catch(error => {
                 console.log("artwork.js", error);
@@ -61,15 +71,17 @@ const Artwork = ({ location }) => {
         }
     }
     const addLikeCount = () => {
-        const likeCountIcon = document.querySelector('.sign__like');
-        likeCountIcon.style.color = "red";  
-        /*axios.post('',{})
+        const url = '/api/artworks/' + artworkId + "/";
+
+        axios.put(url,{
+                like_count : likeCount + 1
+            })
             .then(() => {
                 const likeCountIcon = document.querySelector('.sign__like');
                 likeCountIcon.style.color = "red";
-            }).cathch(error=>{
+            }).catch(error=>{
                 console.log(error);
-            })*/
+            })
     }
     return (
         <>  
