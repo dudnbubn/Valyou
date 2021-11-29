@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
@@ -37,3 +37,12 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class FavoriteArtist(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(to=CustomUser, related_name='favorite_artist_list', on_delete=models.CASCADE)
+    artist = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)

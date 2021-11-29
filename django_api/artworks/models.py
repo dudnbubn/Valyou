@@ -19,7 +19,6 @@ class Artwork(models.Model):
     thumbnail_img = models.ImageField(default='default_image.jpeg')
 
     artist = models.ForeignKey(to=get_user_model(), related_name='artist', on_delete=models.CASCADE)
-    favorite_artist = models.ForeignKey(to=get_user_model(), related_name='favorite_artist', on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.id)
@@ -59,7 +58,7 @@ class Image(models.Model):
 
 class FavoriteArtwork(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(to=get_user_model(), related_name='favorite_artworks', on_delete=models.CASCADE)
+    user = models.ForeignKey(to=get_user_model(), related_name='favorite_artwork_list', on_delete=models.CASCADE)
     artwork = models.ForeignKey(to=Artwork, on_delete=models.CASCADE)
 
     def __str__(self):

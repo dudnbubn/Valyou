@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 
 from .models import *
-from artworks.models import RecentView
+from artworks.models import RecentView, FavoriteArtwork
 
 User = get_user_model()
 
@@ -19,8 +19,21 @@ class RecentViewSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class FavoriteArtworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteArtwork
+        field = '__all__'
+
+
+class FavoriteArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteArtist
+        field = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     recent_view_list = RecentViewSerializer(many=True, read_only=True)
+    favorite_artwork_list = FavoriteArtworkSerializer(many=True, read_only=True)
+    favorite_artist_list = FavoriteArtistSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
