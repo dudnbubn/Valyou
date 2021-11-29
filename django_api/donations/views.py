@@ -16,7 +16,7 @@ class DonationViewSet(viewsets.ModelViewSet):
         data = request.data.dict()
         sender = get_user_model().objects.get(id=data['sender'])
         receiver = get_user_model().objects.get(nickname=data['receiver'])
-        money = data['donationPrice']
+        money = data['price']
         sender_revenue = int(sender.revenue) - int(money)
         receiver_revenue = int(receiver.revenue) + int(money)
 

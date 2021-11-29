@@ -43,7 +43,7 @@ const Donation = () => {
     }
     const sendDonation = () => {
         const user_id = window.sessionStorage.getItem('id')
-        axios.post('', {
+        axios.post('/api/donations/', {
             sender : user_id,
             receiver : artistNickname,
             price : donationPrice,
