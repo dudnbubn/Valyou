@@ -67,6 +67,7 @@ class Home extends Component {
                         </div>
                     </div>
                     <div className="levels__top5">
+                        <h3 style={{textAlign:"center"}}>{this.props.items.level}의 인기작품</h3>
                         <UsualGet condition={{
                                 level: this.props.items.level,
                                 order: "popular"

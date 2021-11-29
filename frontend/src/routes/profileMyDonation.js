@@ -1,13 +1,23 @@
-import React, { Component } from 'react';
+import axios from 'axios';
+import React, { Component, useEffect, useState } from 'react';
 
-class ProfileMyDonation extends Component {
-    render() {
-        return (
-            <div>
-                후원 내역
-            </div>
-        );
-    }
+const ProfileMyDonation = () => {
+    const [donationList, setDonationList] = useState([]);
+
+    useEffect(() => {
+        axios.get('', {
+            
+        }).then(res => {
+            setDonationList(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    })
+    return (
+        <div>
+
+        </div>
+    );
 }
 
 export default ProfileMyDonation;

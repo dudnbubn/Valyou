@@ -33,9 +33,17 @@ a {
   color: black;
 }
 a,
-button {
+button,
+.artwork {
   cursor: pointer;
   border: none;
+  transition: 0.3em ease;
+}
+
+a:hover,
+button:hover,
+.artwork:hover {
+  transform: scale(1.05);
 }
 div {
   height: auto;
@@ -57,6 +65,7 @@ p {
   --color-yellow: #f9f871;
   --color-pink: #ffe8ff;
   --radius-range: 4px;
+  --color-background: #fff5ff;
 }
 
 .blind {
@@ -72,20 +81,27 @@ p {
   justify-content: space-around;
   margin: 17px 0;
 }
+.header__logo {
+  min-width: 200px;
+  text-align: center;
+}
 .header__search {
-  width: 400px;
+  min-width: 500px;
   display: flex;
   justify-content: space-around;
 }
 .search__input {
-  width: 360px;
+  min-width: 90%;
   height: 35px;
   border: none;
   border-bottom: 2px solid var(--color-main);
 }
+.search__input::placeholder {
+  text-align: center;
+}
 .search__btn {
   background-color: transparent;
-  width: 40px;
+  width: 8%;
   height: 40px;
   font-size: 25px;
   color: white;
@@ -120,12 +136,12 @@ p {
   cursor: pointer;
 }
 .alarm__list {
-  width: 100px;
-  height: 100px;
+  width: 400px;
+  height: 800px;
   background-color: lightgray;
   position: absolute;
   top: 70px;
-  right: 120px;
+  left: 1100px;
 }
 .before_login,
 .before__signup-btn {
@@ -146,8 +162,9 @@ p {
 .my__choiceList {
   position: absolute;
   top: 70px;
-  background-color: var(--color-light-oragne);
-  width: 100px;
+  left: 1510px;
+  background-color: var(--color-main);
+  width: 130px;
   height: auto;
   font-size: 12px;
   border-radius: 8px;
@@ -155,6 +172,10 @@ p {
 .my__choiceList li {
   margin: 12px 0;
   text-align: center;
+  color: white;
+}
+.my__choiceList span {
+  color: white;
 }
 .logout__btn {
   background-color: transparent;
@@ -190,7 +211,8 @@ p {
 }
 .main__wrap {
   max-width: 1000px;
-  margin: 40px auto;
+  padding: 40px 0;
+  margin: 0 auto;
   height: auto;
 }
 

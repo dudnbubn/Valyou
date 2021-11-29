@@ -6,15 +6,15 @@ class ProfileMyLike extends Component {
         return (
             <div>
                 <PaginateGet condition={{
-                    nickname:window.sessionStorage.getItem('nickname'),
+                    id:window.sessionStorage.getItem('id'),
                     }}
-                    url={"/api/"}
+                    url={"/api/my-favorite-artist"}
                     name="myProfile__like__artists"
                 />
                 <PaginateGet2 condition={{
-                    nickname:window.sessionStorage.getItem('nickname'),
+                    id : window.sessionStorage.getItem('id'),
                 }}
-                    url={"/api/"}
+                    url={"/api/artworks/my-favorite-artwork"}
                     name="myProfile__like__artworks"
                 />
             </div>

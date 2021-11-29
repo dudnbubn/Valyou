@@ -5,6 +5,8 @@ import { faSearch,faFileUpload,faBell } from "@fortawesome/free-solid-svg-icons"
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import Alarms from './alarms';
+import logo from "./logo.png";
+import '../css/app.css';
 
 function HomeHeader(props) {
     const myRef = useRef();
@@ -50,7 +52,6 @@ function HomeHeader(props) {
     }
     const viewBottom = () => {
         const afterContainer = document.querySelector('.after_login');
-        
         const choiceContainer = document.querySelector(".my__choiceList");
         if (choiceContainer.classList.contains('blind')) {
             choiceContainer.classList.remove('blind');
@@ -62,13 +63,14 @@ function HomeHeader(props) {
     const alarmBottom = () => {
         if (window.sessionStorage.getItem('nickname')!==null) {
             showalarmBottom();
-        /*axios.get('', {})
+        axios.get('/api/', {})
             .then(res => {
                 setAlarmList(res.data);
                 setAlarmLoding(false);
             }).catch(error => {
                 console.log('알림을 받아올 수 없습니다.');
-            })*/
+                setAlarmLoding(true);
+            })
         } else {
             alert('로그인이 필요합니다.');
             window.location.href = "/login";
@@ -79,7 +81,6 @@ function HomeHeader(props) {
         const alarmContainer = document.querySelector('.alarm__list');
         if (alarmContainer.classList.contains('blind')) {
             alarmContainer.classList.remove('blind');
-            alarmBottom();
         } else {
             alarmContainer.classList.add('blind');
         }
@@ -87,14 +88,16 @@ function HomeHeader(props) {
     return (
         <header className="header">
             <div className="header__logo" >
-                <Link to="/" onClick={handleDefault}>Valyou</Link>
+                <Link to="/" onClick={handleDefault}>
+                    <img src={logo} alt="valyou" style={{ width: "100px", height:"80px"}}/>
+                </Link>
             </div>
-                <form className="header__search" onSubmit={onSearch}>
-                    <input ref={myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>
-                    <button type="buttond" className="search__btn" title="검색" alt="검색" onSubmit={onSearch}> 
-                        <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                </form>
+            <form className="header__search" onSubmit={onSearch}>
+                <input ref={myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>
+                <button type="buttond" className="search__btn" title="검색" alt="검색" onSubmit={onSearch}> 
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
+            </form>
             <div className="header__info">
                 <ul className="header__info__btns">
                     <li className="btn__upload">
@@ -121,15 +124,15 @@ function HomeHeader(props) {
                     </li>
                 </ul>
             </div>
-            <ul className="my__choiceList blind" style={{right:`${choiceListX}`}}>
+            <ul className="my__choiceList blind" style={{ right: `${choiceListX}`}}>
                 <li>
-                    <Link to={`/artist_profile/${window.sessionStorage.getItem('nickname')}`}>내 작가 페이지</Link>
+                    <Link to={`/artist_profile/${window.sessionStorage.getItem('nickname')}`}><span>내 작가 페이지</span></Link>
                 </li>
                 <li>
-                    <Link to="/my_profile/">내 정보 페이지</Link>
+                    <Link to="/my_profile/"><span>내 정보 페이지</span></Link>
                 </li>
                 <li>
-                    <button className="logout__btn" type="button" onClick={handleLogout}>로그아웃</button>
+                    <button className="logout__btn" type="button" onClick={handleLogout} style={{color:"white"}}>로그아웃</button>
                 </li>
             </ul>
             <ul className="alarm__list blind">

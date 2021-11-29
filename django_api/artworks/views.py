@@ -22,13 +22,16 @@ from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPop
     CommentIncludeNicknameSerializer
 from .models import Artwork, Comment, RecentView, Image, File, FavoriteArtwork
 
-from users.serializers import UserSerializer, RecentViewSerializer
+from users.serializers import UserSerializer, RecentViewSerializer, FavoriteArtworkSerializer
+
+from .utils import EnablePartialUpdateMixin
 
 
-class ArtworkViewSet(viewsets.ModelViewSet):
+class ArtworkViewSet(EnablePartialUpdateMixin, viewsets.ModelViewSet):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
     parser_classes = (MultiPartParser, )
+
     def create(self, request):
         request.data._mutable = True
         files_data = request.data.pop('file')
@@ -65,13 +68,16 @@ class ArtworkSearchViewSet(ListAPIView):
     def get_queryset(self):
         level = self.request.query_params.get('level')
         query = self.request.query_params.get('query')
+        hash = self.request.query_params.get('hash')
 
-        queryset = Artwork.objects.filter(
-            Q(artist__artist_level=level) &
-            (Q(title__contains=query) | Q(artist__nickname__contains=query) | Q(hashtag__contains=query))
-        )
+        if hash == 'True':
+            return Artwork.objects.filter(artist__artist_level=level, hashtag__contains=query)
+        else:
+            return Artwork.objects.filter(
+                Q(artist__artist_level=level) &
+                (Q(title__contains=query) | Q(artist__nickname__contains=query))
+            )
 
-        return queryset
 
 
 # artworks/list
@@ -104,6 +110,18 @@ class ArtworkPopularViewSet(ListAPIView):
         return queryset
 
 
+# artworks/byartist
+class ArtworkByArtistViewSet(ListAPIView):
+    queryset = Artwork.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def get_queryset(self):
+        nickname = self.request.query_params.get('nickname')
+        queryset = Artwork.objects.filter(artist__nickname=nickname)
+
+        return queryset
+
+
 # artworks/recommend
 class ArtworkRecommendViewSet(ListAPIView):
     queryset = Artwork.objects.all()
@@ -112,7 +130,7 @@ class ArtworkRecommendViewSet(ListAPIView):
 
     def get_queryset(self):
         queryset = Artwork.objects.all()
-        target_artwork = 8
+        target_artwork = 1
 
         if not self.request.user.is_anonymous:
             artist_id = self.request.user.pk
@@ -143,13 +161,10 @@ class ArtworkRecommendViewSet(ListAPIView):
 
         artwork_df['weighted_rating'] = weighted_rating(artwork_df)
         target_artwork = list(artwork_id).index(int(target_artwork))
-        similar_work = find_recommended_work(artwork_df, tag_sim_idx, work_num=target_artwork).tolist()
         similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
                                                                                work_num=target_artwork).iloc[::-1]
         similar_work_sorted_by_rating = similar_work_sorted_by_rating['id'].tolist()
         print(similar_work_sorted_by_rating)
-        # for index, work in enumerate(similar_work):
-        #     similar_work[index] = artwork_id[work]
 
         return Artwork.objects.filter(id__in=similar_work_sorted_by_rating).order_by('-id')
 
@@ -221,6 +236,17 @@ class RecentViewSet(viewsets.ModelViewSet):
     serializer_class = RecentViewSerializer
 
 
+class MyRecentViewSet(ListAPIView):
+    queryset = RecentView.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get('id')
+        recent_view_list = list(RecentView.objects.filter(user=user_id).values_list('recent', flat=True))
+
+        return Artwork.objects.filter(id__in=recent_view_list)
+
+
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -238,3 +264,18 @@ class CommentGetViewSet(ListAPIView):
     def get_queryset(self):
         return Comment.objects.filter(artwork=self.kwargs['artwork'])
 
+
+class FavoriteArtworkViewSet(viewsets.ModelViewSet):
+    queryset = FavoriteArtwork.objects.all()
+    serializer_class = FavoriteArtworkSerializer
+
+
+class MyFavoriteArtworkViewSet(ListAPIView):
+    queryset = Artwork.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get('id')
+        favorite_artwork_list = list(FavoriteArtwork.objects.filter(user=user_id).values_list('artwork', flat=True))
+
+        return Artwork.objects.filter(id__in=favorite_artwork_list)
