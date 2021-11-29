@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework import routers
 
-from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet, CommentGetViewSet
+from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, FavoriteArtworkViewSet, RecentViewSet, CommentGetViewSet
 from .views import ArtworkSearchViewSet
 from .views import ArtworkListViewSet
 from .views import ArtworkPopularViewSet
@@ -40,4 +40,5 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy'
     })),
+    path('favorite/<favorite>', FavoriteArtworkViewSet),
 ]
