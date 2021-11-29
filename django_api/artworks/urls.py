@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.urls import path
 from rest_framework import routers
 
+from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, FavoriteArtworkViewSet, RecentViewSet, CommentGetViewSet
 from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet, CommentGetViewSet, \
     ArtworkByArtistViewSet
 from .views import ArtworkSearchViewSet
@@ -10,9 +11,12 @@ from .views import ArtworkPopularViewSet
 from .views import ArtworkRecommendViewSet
 from .views import ArtworkDataViewSet
 from .views import InfoAPI
+from .views import FavoriteArtworkListViewSet
 
 router = routers.DefaultRouter()
 router.register(r'', ArtworkViewSet)
+
+
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -40,4 +44,6 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy'
     })),
+    path('favorite', FavoriteArtworkListViewSet.as_view()),
+    path('favorite/<favorite_artist>/', FavoriteArtworkViewSet.as_view()),
 ]
