@@ -26,8 +26,18 @@ const ProfileArtist = () => {
         }).catch((error) => {
             console.log(error);
         })
-    }, []);
-    
+    }, [likeCount]);
+    const pushLikeArtist = () => {
+        axios.post('', {
+            
+        }).then(() => {
+            let changeCount = likeCount + 1;
+            setLikeCount({ changeCount });
+            
+        }).catch(error => {
+            console.log(error);
+        })
+    }
     
     return (
         <>
@@ -42,7 +52,7 @@ const ProfileArtist = () => {
                     </div>
                 </div>
                 <div className="artist_btn">
-                    <button className="like"> 관심{likeCount}</button>
+                    <button className="like" onClick={ pushLikeArtist }> 관심{likeCount}</button>
                     <button className="dona">
                         <Link to={`/donation/${artistNickname}`}>후원하기</Link>
                     </button>

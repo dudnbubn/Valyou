@@ -51,7 +51,6 @@ function HomeHeader(props) {
     }
     const viewBottom = () => {
         const afterContainer = document.querySelector('.after_login');
-        
         const choiceContainer = document.querySelector(".my__choiceList");
         if (choiceContainer.classList.contains('blind')) {
             choiceContainer.classList.remove('blind');
@@ -92,12 +91,12 @@ function HomeHeader(props) {
                     <img src={logo} alt="valyou" style={{ width: "100px", height:"80px"}}/>
                 </Link>
             </div>
-                <form className="header__search" onSubmit={onSearch}>
-                    <input ref={myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>
-                    <button type="buttond" className="search__btn" title="검색" alt="검색" onSubmit={onSearch}> 
-                        <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                </form>
+            <form className="header__search" onSubmit={onSearch}>
+                <input ref={myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>
+                <button type="buttond" className="search__btn" title="검색" alt="검색" onSubmit={onSearch}> 
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
+            </form>
             <div className="header__info">
                 <ul className="header__info__btns">
                     <li className="btn__upload">

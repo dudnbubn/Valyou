@@ -6,18 +6,17 @@ import PaginateGet from '../components/paginateGet';
 import '../css/search.css';
 
 const Search = () => {
-    const keyword = useParams().keyword;
-    
+    let keyword = useParams().keyword;
     return (
         <div className="searching_result">
-            <h3>검색결과</h3>
+            <h3>{ keyword}에 대한 검색결과</h3>
             <div className="professional_search">
                 <h4>Professional 검색결과</h4>
                 <ul className="professional_search_list">
                     <PaginateGet
                         condition={{
                             level: "pro",
-                            query:keyword
+                            query: keyword,
                                 }}
                         url={ "/api/artworks/search"}
                     />
