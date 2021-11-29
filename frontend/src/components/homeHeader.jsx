@@ -5,6 +5,7 @@ import { faSearch,faFileUpload,faBell } from "@fortawesome/free-solid-svg-icons"
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import Alarms from './alarms';
+import logo from "./logo.png";
 
 function HomeHeader(props) {
     const myRef = useRef();
@@ -87,7 +88,9 @@ function HomeHeader(props) {
     return (
         <header className="header">
             <div className="header__logo" >
-                <Link to="/" onClick={handleDefault}>Valyou</Link>
+                <Link to="/" onClick={handleDefault}>
+                    <img src={logo} alt="valyou" style={{ width: "100px", height:"80px"}}/>
+                </Link>
             </div>
                 <form className="header__search" onSubmit={onSearch}>
                     <input ref={myRef} type="text" id="se.keyword" className="search__input" title="검색어 입력" maxLength="18" placeholder="작품명/예술가명 혹은 해쉬태그를 통해 검색할 수 있습니다."/>
