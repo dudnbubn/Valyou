@@ -236,6 +236,17 @@ class RecentViewSet(viewsets.ModelViewSet):
     serializer_class = RecentViewSerializer
 
 
+class MyRecentViewSet(ListAPIView):
+    queryset = RecentView.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get('id')
+        recent_view_list = list(RecentView.objects.filter(user=user_id).values_list('recent', flat=True))
+
+        return Artwork.objects.filter(id__in=recent_view_list)
+
+
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -259,9 +270,9 @@ class FavoriteArtworkListViewSet(ListAPIView):
     serializer_class = FavoriteArtworkSerializer
     
 
-class FavoriteArtworkViewSet(ListAPIView):
-    queryset = Artwork.objects.all()
-    serializer_class = ArtworkSerializer
-    
-    def get_queryset(self):
-        return FavoriteArtwork.objects.filter(user=self.kwargs['favorite_artist'])
+# class FavoriteArtworkViewSet(ListAPIView):
+#     queryset = Artwork.objects.all()
+#     serializer_class = ArtworkSerializer
+#
+#     def get_queryset(self):
+#         return FavoriteArtwork.objects.filter(user=self.kwargs['favorite_artist'])

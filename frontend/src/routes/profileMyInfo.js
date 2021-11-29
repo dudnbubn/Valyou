@@ -53,13 +53,19 @@ const ProfileMyInfo=()=> {
     }
     //이미지 변경 함수
     const imageChange = (e) => {
-        const image = e.target.value
+        const image = e.target.files[0]
         setNewImage(image);
     }
     const pushChangedImage = () => {
-        axios.patch('/api/users', {
-            artist_img:newImage,
-        }).then(() => {
+        const user_id = window.sessionStorage.getItem('id')
+        let form_data = new FormData()
+        form_data.append('artist_img', newImage);
+        axios.patch('/api/users/' + user_id + '/', form_data,{
+            headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+        ).then(() => {
             
         }).catch(error => {
             console.log(error);
@@ -122,7 +128,7 @@ const ProfileMyInfo=()=> {
                     <h3>닉네임(Nickname) : {nickname }</h3>
                 </li>
                 <li className="myProfile__image">
-                    <img href={preImage} alt={nickname}/>
+                    <img src={preImage} alt={nickname}/>
                     <label htmlFor="change__image"><h3>이미지 변경</h3></label>
                     <input type="file" id="change__image" onChange={imageChange} />
                     <button className="change__image-btn" onClick={pushChangedImage}>변경하기</button>

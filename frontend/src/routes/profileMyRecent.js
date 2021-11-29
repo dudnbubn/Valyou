@@ -5,9 +5,9 @@ class ProfileMyRecent extends Component {
         return (
             <div>
                 <PaginateGet2 condition={{
-                    nickname:window.sessionStorage.getItem('nickname'),
+                    id:window.sessionStorage.getItem('id'),
                 }}
-                    url={"/api/"}
+                    url={"/api/artworks/my-recent"}
                     name="myProfile__recent__artworks"
                 />
             </div>
