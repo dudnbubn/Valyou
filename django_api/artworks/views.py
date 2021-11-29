@@ -14,7 +14,8 @@ from rest_framework import viewsets, generics, status
 from rest_framework.generics import ListAPIView
 
 from . import emotion
-from .contents_based_recommendation import find_recommended_work
+from .contents_based_recommendation import find_recommended_work, weighted_rating, \
+    find_recommended_work_sorted_by_rating
 from .paginations import MainPagination, RecommendationPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
     CommentIncludeNicknameSerializer
@@ -113,7 +114,6 @@ class ArtworkRecommendViewSet(ListAPIView):
         target_artwork = 1
 
         if not self.request.user.is_anonymous:
-            print("I'm User")
             artist_id = self.request.user.pk
             artist = RecentView.objects.filter(user=artist_id)
             if len(list(artist.values_list('recent', flat=True))) != 0:
@@ -140,9 +140,11 @@ class ArtworkRecommendViewSet(ListAPIView):
         tag_sim = cosine_similarity(tag_vector, tag_vector)
         tag_sim_idx = tag_sim.argsort(axis=1)
 
-        # artwork_df['weighted_rating'] = weighted_rating(artwork_df)
+        artwork_df['weighted_rating'] = weighted_rating(artwork_df)
         target_artwork = list(artwork_id).index(int(target_artwork))
         similar_work = find_recommended_work(artwork_df, tag_sim_idx, work_num=target_artwork).tolist()
+        similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
+                                                                               work_num=target_artwork).iloc[::-1]
 
         for index, work in enumerate(similar_work):
             similar_work[index] = artwork_id[work]
@@ -178,6 +180,8 @@ class ArtworkDataViewSet(ListAPIView):
                 title += random.choice(string_pool)
             like_count = random.randint(0, 10)
             view_count = random.randint(1, 10000)
+            rating = random.randint(0, 10000)
+            rating_count = random.randint(0, int(rating / 5))
 
             size = random.randint(3, 7)
             index = set()
@@ -187,15 +191,20 @@ class ArtworkDataViewSet(ListAPIView):
             index = [emotion.tag[i] for i in index]
             hashtag = ' '.join(index)
             artist_id = random.randint(2, artist_size)
+            thumbnail_img = random.choice(img_pool)
             file_img = random.choice(img_pool)
-            Artwork.objects.create(category=category,
-                                   title=title,
-                                   like_count=like_count,
-                                   view_count=view_count,
-                                   file_img=file_img,
-                                   hashtag=hashtag,
-                                   artist=get_user_model().objects.get(id=artist_id)
+            artwork = Artwork.objects.create(category=category,
+                                    title=title,
+                                    like_count=like_count,
+                                    view_count=view_count,
+                                    rating=rating,
+                                    rating_count=rating_count,
+                                    hashtag=hashtag,
+                                    file_category="image/*",
+                                    thumbnail_img=thumbnail_img,
+                                    artist=get_user_model().objects.get(id=artist_id)
                                    )
+            Image.objects.create(artwork=artwork, upload_file=file_img)
         return queryset
 
 
