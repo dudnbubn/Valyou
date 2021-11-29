@@ -37,7 +37,7 @@ const Upload=() => {
     }
     const handleUploadHtmlFor = (e) => {
         setUploadHtmlFor(e.target.value);
-        if (e.target.value === '.epub') {
+        if (e.target.value === '.epub') {;
             setUploadMessage('.epub확장자 문서 변환 사이트로 이동');
         } else {
             setUploadMessage('');
@@ -45,7 +45,7 @@ const Upload=() => {
         setIsUploadHtmlFor(true);
     }
     const handleUploadThumbnail = (e) => {
-        setUploadThumbnail(e.target.files[0]);
+        setUploadThumbnail(e.target.value);
         setIsUploadThumbnail(true);
     }
     const handleUploadFile = (e) => {
@@ -66,15 +66,10 @@ const Upload=() => {
         form_data.append('description', uploadIntro);
         form_data.append('like_count', "0");
         form_data.append('view_count', "0");
-
-        form_data.append('thumbnail_img', uploadThumbnail);
-        form_data.append('file_category', uploadHtmlFormal);
-        for (let i = 0; i < uploadFile.length; i++) {
-            form_data.append(`file`, uploadFile[i]);
-        }
+        form_data.append('file_img', uploadFile);
         form_data.append('hashtag', uploadHashtag);
         form_data.append('artist', "2");
-
+        //form_data.append('file_category', uploadHtmlFormal);
         
         // 데이터는 form_data, 헤더에 컨텐츠 타입 수정
         axios.post('api/artworks/', form_data,
@@ -147,7 +142,7 @@ const Upload=() => {
                     </li>
                     <li>
                         <label className="work_info" htmlFor="introdcue__work">작품 설명</label>
-                        <textarea cols="65" rows="7" id="introduce__work" maxLength="200" value="aaaa"
+                        <textarea cols="65" rows="7" id="introduce__work" maxLength="200"
                             placeholder="200자 이내로 작품에 대한 설명을 적어주세요." onChange={handleUploadIntro}></textarea>
                     </li>
                 </ul>
