@@ -3,16 +3,37 @@
 }
 .info__donation {
   width: 80%;
-  height: 500px;
-  background-color: lightgray;
+  height: auto;
+  border: 5px solid var(--color-pink);
+  border-radius: 16px;
   margin: 0 auto;
-  padding-top: 50px;
+  padding: 50px;
+  text-align: center;
+}
+.info__donation table {
+  margin: 0 auto;
+}
+.info__donation-1,
+.info__donation-2 {
+  margin-bottom: 40px;
 }
 .donation__artist__profile {
-  width: 60%;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   margin: 50px auto;
-  background-color: lightgray;
+  text-align: center;
+}
+.donation__artist__profile img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 3px solid var(--color-light-pupple);
+  margin: 0 auto;
+}
+.donation__artist__profile div {
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
 }
 .donation_detail {
   margin: 50px auto;

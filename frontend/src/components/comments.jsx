@@ -65,7 +65,7 @@ const Comments=(props)=> {
     }
     return (
         <div className={ props.name}>
-            <ul>{
+            <ul className ="artwork__comments">{
                 <Comment posts={posts} loading={loading}/>
             }</ul>
             <div className="pagination__btns" style={{display:"flex", justifyContent:"center"}}>

@@ -121,20 +121,21 @@ const Artwork = ({ location }) => {
                 <p>{work.title}</p>
             </div>
             <div className="artwork__viewer__artistNickname">
-                {viewerArtistNickname}    
-                <button className="artwork__viewer__artistInfo" style={{display:'inline', fontSize:"30px"}}>
+                {viewerArtistNickname}
+                <br />
+                <button className="artwork__viewer__artistInfo" style={{display:'inline', fontSize:"15px", color:"#d3d3d3"}}>
                     <Link to={`/artist_profile/${viewerArtistNickname}`}>
-                        <FontAwesomeIcon icon={faHome} />
+                        작가 페이지로 이동<FontAwesomeIcon icon={faHome} />
                     </Link>
                 </button>
             </div>
             <div className="artwork__viewer__info">
-                작품설명
+                작품에 대한 설명
                 { work.description}
             </div>
             
             <div className="artwork__viewer__sponsor">
-                후원인단
+                후원해 주신 분들
                 {/*{work.sponsor.map(people => {
                     <li>{ people}</li>
                 })}*/}
@@ -151,6 +152,7 @@ const Artwork = ({ location }) => {
                 <button className="work_report">신고</button>
             </div>
             <div className="artwork__viewer__related_works">
+                <h3 style={{textAlign:"center"}}>{ work.title}와/과 유사한 이런 작품은 어떤가요?</h3>
                 <PaginateGet
                     condition={{
                             id:artworkId,
