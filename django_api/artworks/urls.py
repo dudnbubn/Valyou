@@ -9,6 +9,7 @@ from .views import ArtworkPopularViewSet
 from .views import ArtworkRecommendViewSet
 from .views import ArtworkDataViewSet
 from .views import InfoAPI
+from .views import FavoriteArtworkListViewSet
 
 router = routers.DefaultRouter()
 router.register(r'', ArtworkViewSet)
@@ -40,5 +41,6 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy'
     })),
-    path('favorite/<favorite>', FavoriteArtworkViewSet),
+    path('favorite', FavoriteArtworkListViewSet.as_view()),
+    path('favorite/<favorite_artist>/', FavoriteArtworkViewSet.as_view()),
 ]

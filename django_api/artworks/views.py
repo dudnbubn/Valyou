@@ -1,5 +1,6 @@
 import random
 import string
+from django.contrib.auth.models import User
 import pandas as pd
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -238,9 +239,14 @@ class CommentGetViewSet(ListAPIView):
         return Comment.objects.filter(artwork=self.kwargs['artwork'])
 
 
+class FavoriteArtworkListViewSet(ListAPIView):
+    queryset = FavoriteArtwork.objects.all()
+    serializer_class = FavoriteArtworkSerializer
+    
+
 class FavoriteArtworkViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
     
     def get_queryset(self):
-        return Artwork.objects.filter(favorite=self.kwargs['favorite'])
+        return FavoriteArtwork.objects.filter(user=self.kwargs['favorite_artist'])
