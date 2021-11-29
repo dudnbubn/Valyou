@@ -11,7 +11,7 @@ class DonationViewSet(viewsets.ModelViewSet):
     serializer_class = DonationSerializer
 
 
-class DonateDetailVeiwSet(ListAPIView):
+class DonateDetailViewSet(ListAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
