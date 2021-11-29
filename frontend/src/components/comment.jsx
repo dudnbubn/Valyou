@@ -11,8 +11,8 @@ const Items = ({ posts, loading }) => {
             <>
                 {posts.map((post) => (
                     <li key={ post.id} className="comment_userNickname">
-                        <p>{post.id}</p>
-                        <p>{post.comment}</p>
+                        <p className="comment__id">{post.user}</p>
+                        <p className="comment__comment">{post.comment}</p>
                     </li>
                 ))}
             </> 

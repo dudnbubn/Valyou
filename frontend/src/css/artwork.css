@@ -25,11 +25,19 @@
 .artwork__viewer__artistInfo {
   background-color: transparent;
 }
-.artwork__viewer__info,
-.artwork__viewer__sponsor {
+.artwork__viewer__info {
   width: 80%;
-  height: 100px;
-  background-color: lightgray;
+  height: auto;
+  font-size: 20px;
+  text-align: center;
+  margin: 20px auto;
+}
+.artwork__viewer__sponsor {
+  width: 60%;
+  height: auto;
+  font-size: 18px;
+  text-align: center;
+  border: 3px solid var(--color-pink);
   margin: 20px auto;
 }
 .artwork__viewer__btns {
@@ -86,4 +94,18 @@
   border-radius: 8px;
   margin: 20px 20px;
   font-size: 20px;
+}
+.artwork__comments li {
+  border-bottom: 1px solid gray;
+  padding: 20px 20px;
+}
+.artwork__comments li:last-child {
+  border: none;
+}
+.comment__id {
+  font-size: 20px;
+  font-weight: bold;
+}
+.comment__comment {
+  padding: 10px 0 0 40px;
 }
