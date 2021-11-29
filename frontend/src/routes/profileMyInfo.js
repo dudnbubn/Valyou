@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
+import '../css/profileMy.css';
 const ProfileMyInfo=()=> {
     const [id, setId] = useState("");
     const [newPwd, setNewPwd] = useState("");
@@ -54,10 +54,13 @@ const ProfileMyInfo=()=> {
     //이미지 변경 함수
     const imageChange = (e) => {
         const image = e.target.value
-        axios.post('', {
-            artistImage:image
+        setNewImage(image);
+    }
+    const pushChangedImage = () => {
+        axios.patch('/api/users', {
+            artist_img:newImage,
         }).then(() => {
-            setNewImage(image);
+            
         }).catch(error => {
             console.log(error);
         })
@@ -90,9 +93,6 @@ const ProfileMyInfo=()=> {
         return confirmAction;
     }
     const deleteConfirm = () => {
-        //console.log("삭제했습니다.");
-        //window.sessionStorage.clear();
-        //axios.defaults.headers.common['Authorization'] = "jwt " + '';
         memberLeave()
     }
     const cancleConfirm = () => {
@@ -104,31 +104,36 @@ const ProfileMyInfo=()=> {
         cancleConfirm
     )
     return (
-        <div>
-            <div className="myProfile__ID">
-                <p>아이디(ID) : {id}</p>
-            </div>
-            <div className="myProfile__pwd">
-                <p>비밀번호 변경</p>
-                <label htmlFor="change__password">변경 희망 비밀번호</label>
-                <input type="password" id="change__password" onChange={changePwd} />
-                <label htmlFor="change__password-confirm">변경 희망 비밀번호 확인</label>
-                <input type="password" id="change__password-confirm" onChange={cahngePwdConfirm} />
-                <button type="button" disabled={!isPwdConfirm} onClick={sendChangePwd} >비밀번호 변경하기</button>
-                <p>{ pwdMessage}</p>
-            </div>
-            <div className="myProfile__nickname">
-                <p>닉네임(Nickname) : {nickname }</p>
-            </div>
-            <div className="myProfile__image">
-                <img href="" alt=""/>
-                <label htmlFor="change__image">이미지 변경</label>
-                <input type="file" id="change__image" onChange={ imageChange} />
-            </div>
-            <div className="myProfile__cash">
-                <p>현재 잔액 : { cash }</p>
-            </div>
-            <button type="button" onClick={confirmDelete}>회원 탈퇴</button>
+        <div className="myInfo__wrap">
+            <ul>
+                <li className="myProfile__ID">
+                    <h3>아이디(ID) : {id}</h3>
+                </li>
+                <li className="myProfile__pwd">
+                    <h3>비밀번호 변경</h3>
+                    <label htmlFor="change__password">변경 희망 비밀번호</label>
+                    <input type="password" id="change__password" onChange={changePwd} />
+                    <label htmlFor="change__password-confirm">변경 희망 비밀번호 확인</label>
+                    <input type="password" id="change__password-confirm" onChange={cahngePwdConfirm} />
+                    <button type="button" disabled={!isPwdConfirm} onClick={sendChangePwd} >비밀번호 변경하기</button>
+                    <p>{ pwdMessage}</p>
+                </li>
+                <li className="myProfile__nickname">
+                    <h3>닉네임(Nickname) : {nickname }</h3>
+                </li>
+                <li className="myProfile__image">
+                    <img href={preImage} alt={nickname}/>
+                    <label htmlFor="change__image"><h3>이미지 변경</h3></label>
+                    <input type="file" id="change__image" onChange={imageChange} />
+                    <button className="change__image-btn" onClick={pushChangedImage}>변경하기</button>
+                </li>
+                <li className="myProfile__cash">
+                    <h3>현재 잔액 : { cash }</h3>
+                </li>
+                <li>
+                    <button id="deleteID-btn" type="button" onClick={confirmDelete}>회원 탈퇴</button>
+                </li>
+            </ul>
         </div>
     );
 

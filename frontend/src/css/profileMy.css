@@ -5,3 +5,13 @@
   margin: 0 20px;
   font-size: 20px;
 }
+.myInfo__wrap {
+  margin: 60px auto;
+}
+.myInfo__wrap li {
+  margin: 40px 0;
+}
+#change__password,
+#change__password-confirm {
+  margin-right: 20px;
+}

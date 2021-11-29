@@ -12,9 +12,9 @@ class ProfileMyLike extends Component {
                     name="myProfile__like__artists"
                 />
                 <PaginateGet2 condition={{
-                    nickname:window.sessionStorage.getItem('nickname'),
+                    id : window.sessionStorage.getItem('id'),
                 }}
-                    url={"/api/"}
+                    url={"/api/artworks/favorite"}
                     name="myProfile__like__artworks"
                 />
             </div>

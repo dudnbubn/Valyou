@@ -128,12 +128,12 @@ p {
   cursor: pointer;
 }
 .alarm__list {
-  width: 100px;
-  height: 100px;
+  width: 400px;
+  height: 800px;
   background-color: lightgray;
   position: absolute;
   top: 70px;
-  right: 120px;
+  left: 1100px;
 }
 .before_login,
 .before__signup-btn {
@@ -154,8 +154,9 @@ p {
 .my__choiceList {
   position: absolute;
   top: 70px;
-  background-color: var(--color-light-oragne);
-  width: 100px;
+  left: 1510px;
+  background-color: var(--color-main);
+  width: 130px;
   height: auto;
   font-size: 12px;
   border-radius: 8px;
@@ -163,6 +164,10 @@ p {
 .my__choiceList li {
   margin: 12px 0;
   text-align: center;
+  color: white;
+}
+.my__choiceList span {
+  color: white;
 }
 .logout__btn {
   background-color: transparent;
