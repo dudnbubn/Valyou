@@ -111,7 +111,7 @@ class ArtworkRecommendViewSet(ListAPIView):
 
     def get_queryset(self):
         queryset = Artwork.objects.all()
-        target_artwork = 1
+        target_artwork = 8
 
         if not self.request.user.is_anonymous:
             artist_id = self.request.user.pk
@@ -122,8 +122,8 @@ class ArtworkRecommendViewSet(ListAPIView):
 
         artwork_id = list(queryset.values_list('id', flat=True))
         title = queryset.values_list('title', flat=True)
-        rating = queryset.values_list('like_count', flat=True)
-        rating_count = queryset.values_list('view_count', flat=True)
+        rating = queryset.values_list('rating', flat=True)
+        rating_count = queryset.values_list('rating_count', flat=True)
         hashtag = queryset.values_list('hashtag', flat=True)
 
         d = {
@@ -145,11 +145,12 @@ class ArtworkRecommendViewSet(ListAPIView):
         similar_work = find_recommended_work(artwork_df, tag_sim_idx, work_num=target_artwork).tolist()
         similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
                                                                                work_num=target_artwork).iloc[::-1]
+        similar_work_sorted_by_rating = similar_work_sorted_by_rating['id'].tolist()
+        print(similar_work_sorted_by_rating)
+        # for index, work in enumerate(similar_work):
+        #     similar_work[index] = artwork_id[work]
 
-        for index, work in enumerate(similar_work):
-            similar_work[index] = artwork_id[work]
-
-        return Artwork.objects.filter(id__in=similar_work).order_by('-id')
+        return Artwork.objects.filter(id__in=similar_work_sorted_by_rating).order_by('-id')
 
 
 # artworks/data
