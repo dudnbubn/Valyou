@@ -4,6 +4,7 @@ from rest_framework import routers
 
 from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet, CommentGetViewSet, \
     ArtworkByArtistViewSet, MyRecentViewSet
+from .views import CommentListViewSet, ArtworkViewSet, CommentViewSet, RecentViewSet, CommentGetViewSet
 from .views import ArtworkSearchViewSet
 from .views import ArtworkListViewSet
 from .views import ArtworkPopularViewSet

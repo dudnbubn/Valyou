@@ -8,6 +8,7 @@ class Donation(models.Model):
     giver = ForeignKey(to=get_user_model(), related_name='giver', on_delete=models.PROTECT)
     sender = ForeignKey(to=get_user_model(), related_name='sender', on_delete=models.PROTECT)
     donation = models.IntegerField()
+    donate_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.id)

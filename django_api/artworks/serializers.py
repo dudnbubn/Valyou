@@ -82,8 +82,3 @@ class ArtworkCommentSerializer(serializers.ModelSerializer):
         model = Artwork
         fields = ('id', 'title', 'comments')
 
-
-class FavoriteArtworkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FavoriteArtwork
-        fields = '__all__'
