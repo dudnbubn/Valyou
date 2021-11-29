@@ -10,6 +10,7 @@ const RatingStart = (props) => {
     const ratingContainer = document.querySelector(`.${props.name}`);
     const mouseUp = (e) => {
         const value = e.target.dataset.value;
+        console.log(value);
         if (value !== undefined && rating===6) {
             for (let i = 0; i < value; i++){
                 setHoverRating(value);

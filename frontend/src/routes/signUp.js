@@ -94,7 +94,7 @@ const SignUp = () => {
         })
     }
     const handleSignUpImage = (e) => {
-        setImage(e.target.value);
+        setImage(e.target.files[0]);
     }
     const handleSignUpGender = (e) => {
         setGender(e.target.value);
@@ -167,7 +167,7 @@ const SignUp = () => {
                         <label htmlFor="gender">성별</label>
                     </h3>
                     <select id="gender" name="gender" className="sel" aria-label="성별" onChange={handleSignUpGender}>
-                        <option defaultValue="M">남자</option>
+                        <option defaultValue="M" value="M">남자</option>
                         <option value="F">여자</option>
                     </select>
                 </div>

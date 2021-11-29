@@ -111,7 +111,7 @@ class ArtworkRecommendViewSet(ListAPIView):
 
     def get_queryset(self):
         queryset = Artwork.objects.all()
-        target_artwork = 8
+        target_artwork = 1
 
         if not self.request.user.is_anonymous:
             artist_id = self.request.user.pk
@@ -142,13 +142,10 @@ class ArtworkRecommendViewSet(ListAPIView):
 
         artwork_df['weighted_rating'] = weighted_rating(artwork_df)
         target_artwork = list(artwork_id).index(int(target_artwork))
-        similar_work = find_recommended_work(artwork_df, tag_sim_idx, work_num=target_artwork).tolist()
         similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
                                                                                work_num=target_artwork).iloc[::-1]
         similar_work_sorted_by_rating = similar_work_sorted_by_rating['id'].tolist()
         print(similar_work_sorted_by_rating)
-        # for index, work in enumerate(similar_work):
-        #     similar_work[index] = artwork_id[work]
 
         return Artwork.objects.filter(id__in=similar_work_sorted_by_rating).order_by('-id')
 

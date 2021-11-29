@@ -13,6 +13,7 @@ const Artwork = ({ location }) => {
     const artworkId = useParams().artworkId;
 
     const [work, setWork] = useState([]);
+    const [workFiles, setWorkFiles] = useState([]);
     const [viewerArtistNickname, setViewerArtistNickname] = useState("");
     const [sponsor, setSponsor] = useState([]);
     const [recommendWork, setRecommendWork] = useState([]);
@@ -27,12 +28,12 @@ const Artwork = ({ location }) => {
         //사용자의 최근 본 작품 목록에 추가
         if (window.sessionStorage.getItem('nickname') !== null) {
             axios.post('/api/artworks/recent-view',{
-                 user : id,
+                user : id,
                 recent : artworkId
             }).then(res => {
-                console.log(res.data);
+                //console.log(res.data);
             }).catch(error => {
-                console.log("artwork.js", error);
+                //console.log("artwork.js", error);
             });
         }
         //작품 정보 받아오기
@@ -80,7 +81,6 @@ const Artwork = ({ location }) => {
     }
     const addLikeCount = () => {
         const url = '/api/artworks/' + artworkId + "/";
-
         axios.put(url,{
                 like_count : likeCount + 1
             })
@@ -93,13 +93,13 @@ const Artwork = ({ location }) => {
     }
     return (
         <>  
-            <div className="artwork__viewer__work__wrap">
-                <Viewer
-                    extension={fileExtension}
-                    files={work.file_img}
-                    title={work.title}
-                />
-            </div>
+            <Viewer
+                extension={fileExtension}
+                files={workFiles}
+                title={work.title}
+                className = "artwork__viewer__work__wrap"
+            />
+            
             <div className="artwork__viewer__title">
                 <p>{work.title}</p>
             </div>
