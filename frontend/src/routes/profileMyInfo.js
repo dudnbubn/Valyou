@@ -13,11 +13,11 @@ const ProfileMyInfo=()=> {
     const [cash, setCash] = useState(0);
 
     useEffect(() => {
-        axios.get('')
+        axios.get('/api/users')
             .then(res => {
                 setId(res.data.id);
                 setNickname(res.data.nickname);
-                setPreImage(res.data.artistImage);
+                setPreImage(res.data.artist_img);
                 setCash(res.data.revenue);
             }).catch(error => {
                 console.log(error);
