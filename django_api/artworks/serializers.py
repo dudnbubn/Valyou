@@ -41,17 +41,6 @@ class ArtworkPopularSerializer(serializers.ModelSerializer):
         return response
 
 
-class ArtworkArtistLevelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Artwork
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        response['artist'] = UserSerializer(instance.artist).data['artist_level']
-        return response
-
-
 class RecentViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecentView
@@ -81,4 +70,5 @@ class ArtworkCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
         fields = ('id', 'title', 'comments')
+
 

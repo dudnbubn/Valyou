@@ -22,7 +22,7 @@ from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPop
     CommentIncludeNicknameSerializer
 from .models import Artwork, Comment, RecentView, Image, File, FavoriteArtwork
 
-from users.serializers import UserSerializer, RecentViewSerializer
+from users.serializers import UserSerializer, RecentViewSerializer, FavoriteArtworkSerializer
 
 from .utils import EnablePartialUpdateMixin
 
@@ -265,14 +265,17 @@ class CommentGetViewSet(ListAPIView):
         return Comment.objects.filter(artwork=self.kwargs['artwork'])
 
 
-class FavoriteArtworkListViewSet(ListAPIView):
+class FavoriteArtworkViewSet(viewsets.ModelViewSet):
     queryset = FavoriteArtwork.objects.all()
     serializer_class = FavoriteArtworkSerializer
-    
 
-# class FavoriteArtworkViewSet(ListAPIView):
-#     queryset = Artwork.objects.all()
-#     serializer_class = ArtworkSerializer
-#
-#     def get_queryset(self):
-#         return FavoriteArtwork.objects.filter(user=self.kwargs['favorite_artist'])
+
+class MyFavoriteArtworkViewSet(ListAPIView):
+    queryset = Artwork.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get('id')
+        favorite_artwork_list = list(FavoriteArtwork.objects.filter(user=user_id).values_list('artwork', flat=True))
+
+        return Artwork.objects.filter(id__in=favorite_artwork_list)

@@ -18,16 +18,18 @@ class RecentViewSerializer(serializers.ModelSerializer):
         model = RecentView
         fields = '__all__'
 
+
 class FavoriteArtworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoriteArtwork
-        field = '__all__'
+        fields = '__all__'
 
 
 class FavoriteArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoriteArtist
-        field = '__all__'
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
     recent_view_list = RecentViewSerializer(many=True, read_only=True)

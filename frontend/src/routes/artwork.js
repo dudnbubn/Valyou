@@ -90,12 +90,23 @@ const Artwork = ({ location }) => {
                 }
             }
         )
-            .then(() => {
-                const likeCountIcon = document.querySelector('.sign__like');
-                likeCountIcon.style.color = "red";
-            }).catch(error=>{
-                console.log(error);
-            })
+        .then(() => {
+            const likeCountIcon = document.querySelector('.sign__like');
+            likeCountIcon.style.color = "red";
+        }).catch(error=>{
+            console.log(error);
+        })
+
+        const id = window.sessionStorage.getItem('id');
+        axios.post('/api/artworks/favorite-artwork',{
+                user : id,
+                artwork : artworkId
+            }).then(res => {
+                //console.log(res.data);
+            }).catch(error => {
+                //console.log("artwork.js", error);
+            });
+
     }
     return (
         <>  
