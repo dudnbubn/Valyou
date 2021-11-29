@@ -30,7 +30,6 @@ class FavoriteArtistSerializer(serializers.ModelSerializer):
         model = FavoriteArtist
         fields = '__all__'
 
-
 class UserSerializer(serializers.ModelSerializer):
     recent_view_list = RecentViewSerializer(many=True, read_only=True)
     favorite_artwork_list = FavoriteArtworkSerializer(many=True, read_only=True)
