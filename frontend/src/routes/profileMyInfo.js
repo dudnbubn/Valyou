@@ -117,18 +117,22 @@ const ProfileMyInfo=()=> {
                 </li>
                 <li className="myProfile__pwd">
                     <h3>비밀번호 변경</h3>
-                    <label htmlFor="change__password">변경 희망 비밀번호</label>
-                    <input type="password" id="change__password" onChange={changePwd} />
-                    <label htmlFor="change__password-confirm">변경 희망 비밀번호 확인</label>
-                    <input type="password" id="change__password-confirm" onChange={cahngePwdConfirm} />
+                    <div>
+                        <label htmlFor="change__password">변경 희망 비밀번호</label>
+                        <input type="password" id="change__password" onChange={changePwd} />
+                    </div>
+                    <div>
+                        <label htmlFor="change__password-confirm">변경 희망 비밀번호 확인</label>
+                        <input type="password" id="change__password-confirm" onChange={cahngePwdConfirm} />
+                    </div>
                     <button type="button" disabled={!isPwdConfirm} onClick={sendChangePwd} >비밀번호 변경하기</button>
-                    <p>{ pwdMessage}</p>
+                    <p style={{color:"red"}}>{ pwdMessage}</p>
                 </li>
                 <li className="myProfile__nickname">
                     <h3>닉네임(Nickname) : {nickname }</h3>
                 </li>
                 <li className="myProfile__image">
-                    <img src={preImage} alt={nickname}/>
+                    <img src={preImage} alt={nickname} style={{width:"400px", height:"400px"}}/>
                     <label htmlFor="change__image"><h3>이미지 변경</h3></label>
                     <input type="file" id="change__image" onChange={imageChange} />
                     <button className="change__image-btn" onClick={pushChangedImage}>변경하기</button>

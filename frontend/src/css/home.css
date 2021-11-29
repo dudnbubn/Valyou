@@ -40,6 +40,7 @@
 }
 .contents__sort li {
   padding: 10px;
+  cursor: pointer;
 }
 .contents__artworks {
   display: flex;
@@ -48,12 +49,14 @@
   justify-content: flex-start space-evenly;
 }
 .artwork {
-  width: 120px;
+  width: 125px;
   margin: 10px 20px;
+  text-align: center;
 }
 .artwork__img {
-  width: 100px;
-  height: 80px;
+  width: 120px;
+  height: 100px;
+  border-radius: 4px;
 }
 .artwork__work__title {
   color: black;
@@ -78,6 +81,7 @@
 }
 .categories li {
   padding: 10px 20px;
+  cursor: pointer;
 }
 .active {
   font-weight: bold;

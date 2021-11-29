@@ -5,6 +5,8 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import '../css/profileArtist.css';
 import PaginateGet2 from '../components/paginateGet2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileArtist = () => {
     const artistNickname = useParams().artistNickname;
@@ -44,19 +46,20 @@ const ProfileArtist = () => {
         <>
             <div className="artist_profile">
                 <div className="artist_detail">
-                    <div className="artist_img">
-                        <img src={photo} alt={artistNickname}></img>
+                    <div className="artist_img_wrap">
+                        <img className="artist_img"src={photo} alt={artistNickname}></img>
                     </div>
                     <div className="artist_introduce">
                         <p>{artistNickname} </p>
-                        <p>explain</p>
+                        <p>{ explain}</p>
                     </div>
                 </div>
                 <div className="artist_btn">
-                    <button className="like" onClick={ pushLikeArtist }> 관심{likeCount}</button>
-                    <button className="dona">
-                        <Link to={`/donation/${artistNickname}`}>후원하기</Link>
-                    </button>
+                    <button className="like" onClick={pushLikeArtist}> 관심 </button>
+                    <Link to={`/donation/${artistNickname}`}>
+                        <button className="dona">후원하기</button>
+                    </Link>
+                    
                 </div>
             </div>
             <div className="artist_work">

@@ -8,17 +8,24 @@
   width: 60%;
   height: 100%;
 }
-.artist_img {
+.artist_img_wrap {
   width: 15vw;
-  height: 10vw;
+  height: 15vw;
   margin: 20px auto;
-  border: 1px solid red;
+}
+.artist_img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--color-pink);
 }
 .artist_introduce {
   width: 80%;
   height: 100px;
   margin: 20px auto;
-  border: 1px solid red;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
 }
 .artist_btn {
   width: 40%;
@@ -38,8 +45,16 @@
 }
 .artist_work {
   width: 95%;
-  height: 500px;
+  height: auto;
+  padding: 20px 0;
   margin: 0 auto;
   margin-bottom: 40px;
-  background-color: lightgray;
+  border-radius: 8px;
+  background-color: var(--color-pink);
+}
+.artist_btn button:hover {
+  transform: scale(1.05);
+}
+.artist_btn button {
+  transition: 0.3em ease;
 }

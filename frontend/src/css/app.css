@@ -34,9 +34,16 @@ a {
 }
 a,
 button,
-link {
+.artwork {
   cursor: pointer;
   border: none;
+  transition: 0.3em ease;
+}
+
+a:hover,
+button:hover,
+.artwork:hover {
+  transform: scale(1.05);
 }
 div {
   height: auto;
@@ -58,6 +65,7 @@ p {
   --color-yellow: #f9f871;
   --color-pink: #ffe8ff;
   --radius-range: 4px;
+  --color-background: #fff5ff;
 }
 
 .blind {
@@ -203,7 +211,8 @@ p {
 }
 .main__wrap {
   max-width: 1000px;
-  margin: 40px auto;
+  padding: 40px 0;
+  margin: 0 auto;
   height: auto;
 }
 
