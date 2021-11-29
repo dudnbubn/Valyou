@@ -23,11 +23,14 @@ from .models import Artwork, Comment, RecentView, Image, File, FavoriteArtwork
 
 from users.serializers import UserSerializer, RecentViewSerializer
 
+from .utils import EnablePartialUpdateMixin
 
-class ArtworkViewSet(viewsets.ModelViewSet):
+
+class ArtworkViewSet(EnablePartialUpdateMixin, viewsets.ModelViewSet):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
     parser_classes = (MultiPartParser, )
+
     def create(self, request):
         request.data._mutable = True
         files_data = request.data.pop('file')
@@ -64,13 +67,16 @@ class ArtworkSearchViewSet(ListAPIView):
     def get_queryset(self):
         level = self.request.query_params.get('level')
         query = self.request.query_params.get('query')
+        hash = self.request.query_params.get('hash')
 
-        queryset = Artwork.objects.filter(
-            Q(artist__artist_level=level) &
-            (Q(title__contains=query) | Q(artist__nickname__contains=query) | Q(hashtag__contains=query))
-        )
+        if hash == 'True':
+            return Artwork.objects.filter(artist__artist_level=level, hashtag__contains=query)
+        else:
+            return Artwork.objects.filter(
+                Q(artist__artist_level=level) &
+                (Q(title__contains=query) | Q(artist__nickname__contains=query))
+            )
 
-        return queryset
 
 
 # artworks/list
@@ -99,6 +105,18 @@ class ArtworkPopularViewSet(ListAPIView):
     def get_queryset(self):
         level = self.request.query_params.get('level')
         queryset = Artwork.objects.filter(artist__artist_level=level).order_by('-like_count')
+
+        return queryset
+
+
+# artworks/byartist
+class ArtworkByArtistViewSet(ListAPIView):
+    queryset = Artwork.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def get_queryset(self):
+        nickname = self.request.query_params.get('nickname')
+        queryset = Artwork.objects.filter(artist__nickname=nickname)
 
         return queryset
 

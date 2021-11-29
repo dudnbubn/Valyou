@@ -2,9 +2,28 @@ import random
 import string
 
 from django.contrib.auth import get_user_model
+from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from users.serializers import UserSerializer
+from artworks.models import FavoriteArtist
+from artworks.serializers import ArtworkSerializer
+from users.serializers import UserSerializer, FavoriteArtistSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+
+class ArtistViewSet(ListAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        nickname = self.request.query_params.get('nickname')
+        queryset = get_user_model().objects.filter(nickname=nickname)
+
+        return queryset
 
 
 class UserDataViewSet(ListAPIView):

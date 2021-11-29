@@ -81,9 +81,15 @@ const Artwork = ({ location }) => {
     }
     const addLikeCount = () => {
         const url = '/api/artworks/' + artworkId + "/";
-        axios.put(url,{
-                like_count : likeCount + 1
-            })
+        let form_data = new FormData();
+        form_data.append('like_count', likeCount + 1);
+        axios.patch(url, form_data,
+            {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+        )
             .then(() => {
                 const likeCountIcon = document.querySelector('.sign__like');
                 likeCountIcon.style.color = "red";
@@ -138,7 +144,7 @@ const Artwork = ({ location }) => {
                     condition={{
                             id:artworkId,
                         }}
-                    url={"/api/artworks/"}
+                    url={"/api/artworks/recommend"}
                     name="artwork__viewer__recommend"
                 />
             </div>

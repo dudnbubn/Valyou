@@ -14,12 +14,13 @@ const ProfileArtist = () => {
     const [likeCount, setLikeCount] = useState(0);
     
     useEffect(() => {
-        axios.get('/users', {
+
+        axios.get('/api/users/artist', {
             params:
                 { nickname: artistNickname }
         }).then((res) => {
-            //console.log(res.data);
-            setPhoto(res.data.img);
+            console.log(res.data.results[0]);
+            setPhoto(res.data.results[0].artist_img);
             setExplain(res.data.explain);
             setLikeCount(res.data.likeCount);
             
@@ -34,7 +35,7 @@ const ProfileArtist = () => {
             <div className="artist_profile">
                 <div className="artist_detail">
                     <div className="artist_img">
-                        {/*<img src={photo} alt={artistNickname}></img>*/}
+                        <img src={photo} alt={artistNickname}></img>
                     </div>
                     <div className="artist_introduce">
                         <p>{artistNickname} </p>
@@ -50,9 +51,9 @@ const ProfileArtist = () => {
             </div>
             <div className="artist_work">
                 <PaginateGet2 condition={{
-
+                    nickname : artistNickname
                 }}
-                url={""}
+                url={"/api/artworks/byartist"}
                 name="artistProfile__artworks"
                 />
             </div>
