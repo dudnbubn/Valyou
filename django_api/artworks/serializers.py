@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Artwork, RecentView, Comment, File, Image
+from .models import Artwork, RecentView, Comment, File, Image, FavoriteArtwork
 from users.serializers import UserSerializer
 
 
@@ -81,3 +81,9 @@ class ArtworkCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artwork
         fields = ('id', 'title', 'comments')
+
+
+class FavoriteArtworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteArtwork
+        fields = '__all__'

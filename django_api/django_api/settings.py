@@ -66,6 +66,7 @@ INSTALLED_APPS = [
 
     'users',
     'artworks',
+    'donations',
 ]
 
 REST_FRAMEWORK = {
