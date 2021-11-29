@@ -239,4 +239,4 @@ class CommentGetViewSet(ListAPIView):
 
 
 class FavoriteArtworkViewSet(ListAPIView):
-    pass
+    queryset = Artwork.objects.all()
