@@ -7,29 +7,17 @@ import '../css/search.css';
 
 const Search = () => {
     let keyword = useParams().keyword;
-    const [containHash, setContainHash] = useState('False');
-    useEffect(()=>{
-        if (keyword[0] ==='#'){
-            setContainHash('True');
-            keyword = String.substr(1, keyword.length() - 1);
-            console.log(keyword)
-        }
-        else{
-            setContainHash('False');
-        }
-    }, [])
     return (
         <div className="searching_result">
-            <h3>검색결과</h3>
+            <h3>{ keyword}에 대한 검색결과</h3>
             <div className="professional_search">
                 <h4>Professional 검색결과</h4>
                 <ul className="professional_search_list">
                     <PaginateGet
                         condition={{
                             level: "pro",
-                            query:keyword,
-                            hash:containHash
-                        }}
+                            query: keyword,
+                                }}
                         url={ "/api/artworks/search"}
                     />
                 </ul>
@@ -40,8 +28,7 @@ const Search = () => {
                     <PaginateGet
                         condition={{
                             level: "adv",
-                            query:keyword,
-                            hash:containHash
+                            query:keyword
                         }}
                         url={ "/api/artworks/search"}
                     />
@@ -53,8 +40,7 @@ const Search = () => {
                     <PaginateGet
                         condition={{
                             level: "nov",
-                            query:keyword,
-                            hash:containHash
+                            query:keyword
                         }}
                         url={ "/api/artworks/search"}
                     />
