@@ -17,7 +17,7 @@ from rest_framework.generics import ListAPIView
 from . import emotion
 from .contents_based_recommendation import find_recommended_work, weighted_rating, \
     find_recommended_work_sorted_by_rating
-from .paginations import MainPagination, RecommendationPagination
+from .paginations import MainPagination, RecommendationPagination, PopularPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
     CommentIncludeNicknameSerializer
 from .models import Artwork, Comment, RecentView, Image, File, FavoriteArtwork
@@ -102,7 +102,7 @@ class ArtworkListViewSet(ListAPIView):
 class ArtworkPopularViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkPopularSerializer
-
+    pagination_class = PopularPagination
     def get_queryset(self):
         level = self.request.query_params.get('level')
         queryset = Artwork.objects.filter(artist__artist_level=level).order_by('-like_count')
@@ -186,8 +186,8 @@ class ArtworkDataViewSet(ListAPIView):
         string_pool = string.ascii_letters + string.digits
         category_pool = ['art', 'music', 'literal']
         img_pool = ['default_image.jpeg']
-        for i in range(1, 21):
-            img_pool.append('default/default_image' + str(i) + '.jpeg')
+        for i in range(0, 61):
+            img_pool.append('img/thumbnail' + str(i) + '.jpeg')
         artist_size = get_user_model().objects.all().count()
 
         for _ in range(1000):
@@ -209,7 +209,6 @@ class ArtworkDataViewSet(ListAPIView):
             hashtag = ' '.join(index)
             artist_id = random.randint(2, artist_size)
             thumbnail_img = random.choice(img_pool)
-            file_img = random.choice(img_pool)
             artwork = Artwork.objects.create(category=category,
                                     title=title,
                                     like_count=like_count,
@@ -221,7 +220,7 @@ class ArtworkDataViewSet(ListAPIView):
                                     thumbnail_img=thumbnail_img,
                                     artist=get_user_model().objects.get(id=artist_id)
                                    )
-            Image.objects.create(artwork=artwork, upload_file=file_img)
+            Image.objects.create(artwork=artwork, upload_file=thumbnail_img)
         return queryset
 
 

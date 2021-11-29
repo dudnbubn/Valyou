@@ -8,7 +8,13 @@ class MainPagination(PageNumberPagination):
 
 
 class RecommendationPagination(PageNumberPagination):
-    page_size = 3
+    page_size = 4
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
+class PopularPagination(PageNumberPagination):
+    page_size = 7
     page_size_query_param = 'page_size'
     max_page_size = 100
 

@@ -51,7 +51,7 @@ class UserDataViewSet(ListAPIView):
             artist_email += random.choice(email_pool)
 
             level = random.choice(level_pool)
-            nickname = random.choice(adj_pool) + ' ' + random.choice(job_pool)
+            nickname = random.choice(adj_pool) + ' ' + random.choice(job_pool) + str(random.randint(0, 9))
             gender = random.choice(gender_pool)
             revenue = random.randint(0, 10000)
 

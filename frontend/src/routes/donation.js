@@ -75,9 +75,11 @@ const Donation = () => {
         }
     }
     const sendDonation = () => {
+        const user_id = window.sessionStorage.getItem('id')
         axios.post('', {
-            period: donationPeriod,
-            price:donationPrice,
+            sender : user_id,
+            receiver : artistNickname,
+            price : donationPrice,
         }).then(() => {
             console.log("후원에 성공하였습니다.");
         }).catch(error => {
