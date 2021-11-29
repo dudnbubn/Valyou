@@ -40,13 +40,21 @@ const Artwork = ({ location }) => {
         axios.get(url)
             .then(res => {
                 setWork(res.data);
-                var _fileLen = res.data.file_img.length;
-                var _lastDot = res.data.file_img.lastIndexOf('.');
-                var _fileExt = res.data.file_img.substring(_lastDot, _fileLen).toLowerCase();
-                setFileExtension(_fileExt);
+                if (res.data.file_category === "image/*") {
+                    var _fileLen = res.data.images[0].upload_file.length;
+                    var _lastDot = res.data.images[0].upload_file.lastIndexOf('.');
+                    var _fileExt = res.data.images[0].upload_file.substring(_lastDot, _fileLen).toLowerCase();
+                    setFileExtension(_fileExt);
+                    setWorkFiles(res.data.images);
+                } else {
+                    var _fileLen = res.data.files[0].upload_file.length;
+                    var _lastDot = res.data.files[0].upload_file.lastIndexOf('.');
+                    var _fileExt = res.data.files[0].upload_file.substring(_lastDot, _fileLen).toLowerCase();
+                    setFileExtension(_fileExt);
+                    setWorkFiles(res.data.files);
+                }
                 setViewerArtistNickname(res.data.artist.nickname);
                 setLikeCount(res.data.like_count);
-
                 //setSponsor(res.data.)
             }).catch(error => {
                 console.log("artwork.js", error);
