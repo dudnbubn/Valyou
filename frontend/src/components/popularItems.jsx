@@ -15,7 +15,7 @@ const PopularItems = ({ posts, loading }) => {
                         }}
                             style={{width:"200px", height:"70px",display:"flex",flexDirection:"row"}}
                         >
-                            <img className="artwork__img" src={post.file_img} alt={post.title}
+                            <img className="artwork__img" src={post.thumbnail_img} alt={post.title}
                                 style={{width:"70px", height:"70px", display:"block", marginRight:"5px"}}/>
                             <div style={{width:"120px", height:"70px", display:"block"}}>
                                 <p className="artwork__work__title">{post.title}</p>

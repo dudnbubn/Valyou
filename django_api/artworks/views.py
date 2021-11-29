@@ -3,20 +3,23 @@ import string
 import pandas as pd
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from requests import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.utils import json
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.generics import ListAPIView
 
 from . import emotion
-from .contents_based_recommendation import find_recommended_work
+from .contents_based_recommendation import find_recommended_work, weighted_rating, \
+    find_recommended_work_sorted_by_rating
 from .paginations import MainPagination, RecommendationPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
     CommentIncludeNicknameSerializer
-from .models import Artwork, Comment, RecentView
+from .models import Artwork, Comment, RecentView, Image, File
 
 from users.serializers import UserSerializer, RecentViewSerializer
 
@@ -24,16 +27,33 @@ from users.serializers import UserSerializer, RecentViewSerializer
 class ArtworkViewSet(viewsets.ModelViewSet):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
-    parser_classes = (MultiPartParser, FormParser, )
+    parser_classes = (MultiPartParser, )
+    def create(self, request):
+        request.data._mutable = True
+        files_data = request.data.pop('file')
 
-    def perform_create(self, serializer, format=None):
-        owner = self.request.user
-        if self.request.data.get('file_category') == 'image/*':
-            images = self.request.data.get('file')
-            for image in images:
-                serializer.save(owner=owner, product_image=images)
+        artist = request.data.pop('artist')
+        data = request.data.dict()
+        file_category = data['file_category']
+
+        artwork = Artwork.objects.create(
+                                        category=data['category'],
+                                        title=data['title'],
+                                        like_count=data['like_count'],
+                                        view_count=data['view_count'],
+                                        description=data['description'],
+                                        file_category=data['file_category'],
+                                        hashtag=data['hashtag'],
+                                        artist=get_user_model().objects.get(id=int(artist[0]))
+                                       )
+        if file_category == "image/*":
+            for file_data in files_data:
+                Image.objects.create(artwork=artwork, upload_file=file_data)
         else:
-            serializer.save(owner=owner)
+            for file_data in files_data:
+                File.objects.create(artwork=artwork, upload_file=file_data)
+
+        return Response(status_code=status.HTTP_201_CREATED)
 
 
 # artworks/search
@@ -94,7 +114,6 @@ class ArtworkRecommendViewSet(ListAPIView):
         target_artwork = 1
 
         if not self.request.user.is_anonymous:
-            print("I'm User")
             artist_id = self.request.user.pk
             artist = RecentView.objects.filter(user=artist_id)
             if len(list(artist.values_list('recent', flat=True))) != 0:
@@ -121,9 +140,11 @@ class ArtworkRecommendViewSet(ListAPIView):
         tag_sim = cosine_similarity(tag_vector, tag_vector)
         tag_sim_idx = tag_sim.argsort(axis=1)
 
-        # artwork_df['weighted_rating'] = weighted_rating(artwork_df)
+        artwork_df['weighted_rating'] = weighted_rating(artwork_df)
         target_artwork = list(artwork_id).index(int(target_artwork))
         similar_work = find_recommended_work(artwork_df, tag_sim_idx, work_num=target_artwork).tolist()
+        similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
+                                                                               work_num=target_artwork).iloc[::-1]
 
         for index, work in enumerate(similar_work):
             similar_work[index] = artwork_id[work]
@@ -159,6 +180,8 @@ class ArtworkDataViewSet(ListAPIView):
                 title += random.choice(string_pool)
             like_count = random.randint(0, 10)
             view_count = random.randint(1, 10000)
+            rating = random.randint(0, 10000)
+            rating_count = random.randint(0, int(rating / 5))
 
             size = random.randint(3, 7)
             index = set()
@@ -168,15 +191,20 @@ class ArtworkDataViewSet(ListAPIView):
             index = [emotion.tag[i] for i in index]
             hashtag = ' '.join(index)
             artist_id = random.randint(2, artist_size)
+            thumbnail_img = random.choice(img_pool)
             file_img = random.choice(img_pool)
-            Artwork.objects.create(category=category,
-                                   title=title,
-                                   like_count=like_count,
-                                   view_count=view_count,
-                                   file_img=file_img,
-                                   hashtag=hashtag,
-                                   artist=get_user_model().objects.get(id=artist_id)
+            artwork = Artwork.objects.create(category=category,
+                                    title=title,
+                                    like_count=like_count,
+                                    view_count=view_count,
+                                    rating=rating,
+                                    rating_count=rating_count,
+                                    hashtag=hashtag,
+                                    file_category="image/*",
+                                    thumbnail_img=thumbnail_img,
+                                    artist=get_user_model().objects.get(id=artist_id)
                                    )
+            Image.objects.create(artwork=artwork, upload_file=file_img)
         return queryset
 
 

@@ -45,6 +45,6 @@ class UserDataViewSet(ListAPIView):
                                     gender=gender,
                                     artist_level=level,
                                     revenue=revenue
-            )
+                                    )
 
         return queryset

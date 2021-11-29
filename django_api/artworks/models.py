@@ -46,11 +46,11 @@ class Comment(models.Model):
 
 class File(models.Model):
     id = models.AutoField(primary_key=True)
-    artwork = models.ForeignKey(to=Artwork, related_name='file', on_delete=models.CASCADE)
+    artwork = models.ForeignKey(to=Artwork, related_name='files', on_delete=models.CASCADE)
     upload_file = models.FileField('default.epub')
 
 
 class Image(models.Model):
     id = models.AutoField(primary_key=True)
-    artwork = models.ForeignKey(to=Artwork, related_name='img', on_delete=models.CASCADE)
+    artwork = models.ForeignKey(to=Artwork, related_name='images', on_delete=models.CASCADE)
     upload_file = models.ImageField('default_image.jpeg')

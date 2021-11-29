@@ -42,7 +42,6 @@ const Viewer = (props) => {
                             location={location}
                             locationChanged={locationOnChanged}
                         url={file.upload_file} />
-                        //return <EpubViewer ref={viewerRef} key={file.id} className="artwork__viewer__work" url={ file.upload_file} alt={props.title} />
                     })
                 }
             </div>
