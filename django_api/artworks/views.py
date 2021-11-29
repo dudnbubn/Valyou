@@ -19,7 +19,7 @@ from .contents_based_recommendation import find_recommended_work, weighted_ratin
 from .paginations import MainPagination, RecommendationPagination
 from .serializers import ArtworkCommentSerializer, ArtworkSerializer, ArtworkPopularSerializer, CommentSerializer, \
     CommentIncludeNicknameSerializer
-from .models import Artwork, Comment, RecentView, Image, File
+from .models import Artwork, Comment, RecentView, Image, File, FavoriteArtwork
 
 from users.serializers import UserSerializer, RecentViewSerializer
 
@@ -236,3 +236,7 @@ class CommentGetViewSet(ListAPIView):
 
     def get_queryset(self):
         return Comment.objects.filter(artwork=self.kwargs['artwork'])
+
+
+class FavoriteArtworkViewSet(ListAPIView):
+    pass
