@@ -6,12 +6,53 @@
   font-size: 20px;
 }
 .myInfo__wrap {
+  max-width: 540px;
   margin: 60px auto;
+  padding: 20px;
+  text-align: center;
+  background-color: var(--color-pink);
+  border-radius: 8px;
 }
 .myInfo__wrap li {
   margin: 40px 0;
 }
 #change__password,
 #change__password-confirm {
-  margin-right: 20px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+  margin: 0 20px;
+  width: 200px;
+  font-size: 15px;
+  background-color: transparent;
+}
+.myProfile__pwd button {
+  width: 200px;
+  border: 1px solid black;
+  margin: 0 auto;
+  display: block;
+}
+.myProfile__pwd div {
+  margin: 20px 0;
+}
+.myProfile__image img {
+  margin: 0 auto;
+  display: block;
+  width: 400px;
+  height: 400px;
+  border: 3px solid lightpink;
+  border-radius: 50%;
+}
+.myProfile__image button {
+  max-width: 100px;
+  height: 30px;
+  border: 1px solid black;
+}
+#deleteID-btn {
+  font-size: 15px;
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  height: 30px;
+  border: 1px solid black;
 }
