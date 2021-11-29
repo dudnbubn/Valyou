@@ -73,11 +73,12 @@ const Upload=() => {
             form_data.append(`file`, uploadFile[i]);
         }
         form_data.append('hashtag', uploadHashtag);
-        form_data.append('artist', "2");
+        const uploader = window.sessionStorage.getItem('nickname');
+        form_data.append('artist', uploader);
 
         
         // 데이터는 form_data, 헤더에 컨텐츠 타입 수정
-        axios.post('api/artworks/', form_data,
+        axios.post('/api/artworks/', form_data,
             {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -88,6 +89,7 @@ const Upload=() => {
             alert('업로드에 성공하였습니다.');
             window.location.href="/";
         }).catch(error => {
+            alert('업로드 실패');
                 console.log("upload",error);
             })
     }
@@ -147,7 +149,7 @@ const Upload=() => {
                     </li>
                     <li>
                         <label className="work_info" htmlFor="introdcue__work">작품 설명</label>
-                        <textarea cols="65" rows="7" id="introduce__work" maxLength="200" value="aaaa"
+                        <textarea cols="65" rows="7" id="introduce__work" maxLength="200"
                             placeholder="200자 이내로 작품에 대한 설명을 적어주세요." onChange={handleUploadIntro}></textarea>
                     </li>
                 </ul>
