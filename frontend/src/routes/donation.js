@@ -9,26 +9,46 @@ const Donation = () => {
 
     const [donationPrice, setDonationPrice] = useState(1000);
     const [isPrice, setIsPrice] = useState(false);
-    const [isPeriod, setIsPeriod] = useState(false);
 
     const [priceMessage, setPriceMessage] = useState("");
-    const [periodMessage, setPeriodMessage] = useState("");
 
     const [donationLevel, setDonationLevel] = useState(1);
     const [donationTotalPrice, setDonationTotalPrice] = useState(0);
+    const [donationList, setDonationList] = useState([]);
 
     useEffect(() => {
         axios.get('/api/users/artist', {
             params: { nickname: artistNickname }
         }).then((res) => {
-            console.log(res.data.results[0]);
             setArtistPhoto(res.data.results[0].artist_img);
-            setDonationTotalPrice(res.data.total);
-            setDonationLevel(res.data.level);
         }).catch((error) => {
             console.log(error);
         })
-    }, []);
+        axios.get('/api/donations/detail', {
+            params: {
+                id: window.sessionStorage.getItem('id'),
+                nickname:artistNickname
+            }
+        }).then(res => {
+            setDonationList(res.data.results);
+            calculateDonation();
+        }).catch(error => {
+            console.log(error);
+        })
+    },[]);
+    const calculateDonation = () => {
+        for (let i = 0; i < donationList.length; i++){
+            setDonationTotalPrice(donationTotalPrice + donationList[i].money);
+        }
+        if (donationTotalPrice < 100000) {
+            setDonationLevel(1);
+        } else if (donationTotalPrice > 100000 && donationTotalPrice < 300000) {
+            setDonationLevel(2);
+        } else {
+            setDonationLevel(3);
+        }
+        console.log(donationTotalPrice, donationLevel);
+    }
     const changeDonationPrice = (e) => {
         const price = e.target.value;
         console.log(price);
@@ -48,9 +68,9 @@ const Donation = () => {
             receiver : artistNickname,
             price : donationPrice,
         }).then(() => {
-            console.log("후원에 성공하였습니다.");
+            alert('후원에 성공하였습니다.');
         }).catch(error => {
-            console.log("후원에 실패했습니다.");
+            alert('후원에 실패하였습니다.');
         })
     }
     return (
@@ -70,24 +90,33 @@ const Donation = () => {
                 <div className="info__donation-3">
                     <h3>후원등급 구성 및 혜택</h3>
                     <table>
-                        <th>등급</th>
-                        <th>기준 금액(만원)</th>
-                        <th>혜택</th>
-                        <tr>
-                            <td>1</td>
-                            <td>0 ~ 10</td>
-                            <td>10%</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>11 ~ 30</td>
-                            <td>20%</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>31 ~ 50</td>
-                            <td>30%</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>등급</th>
+                                <th>기준 금액(만원)</th>
+                                <th>혜택</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>0 ~ 10</td>
+                                <td>10%</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>11 ~ 30</td>
+                                <td>20%</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>31 ~ 50</td>
+                                <td>30%</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr><td colSpan="3">*이후 등급이 더 추가될 예정입니다.*</td></tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -95,17 +124,20 @@ const Donation = () => {
                 <img src={artistPhoto} alt={artistNickname} />
             </div>
             <div className="donation_detail">
-                <h3 style={{display:"block", textAlign:"center"}}>{ artistNickname}에게 후원하기</h3>
+                <h3 style={{ display: "block", textAlign: "center" }}>{artistNickname}에게 후원하기</h3>
                 <div className="temporary_donation">
                     <span>후원금</span>
                     <input className="donation_price" type="text" onChange={ changeDonationPrice }/>
                     <span>원</span>
-                    { priceMessage};
-                    <div className="donation_chart">
-
-                    </div>
+                    <p style={{color:"red"}}>{priceMessage}</p>
+                    <button type="submit" className="donation-btn" disabled={!isPrice} onClick={sendDonation}>후원하기</button>
+                </div>
+                <div className="donation_state">
+                    현재까지 ' {artistNickname} '님에 대한 ' {window.sessionStorage.getItem('nickname')} '님의 후원총액은
+                    ' {donationTotalPrice} '원이므로, 후원등급은 ' { donationLevel} '등급입니다.
                 </div>
             </div>
+            
         </>
     );
     

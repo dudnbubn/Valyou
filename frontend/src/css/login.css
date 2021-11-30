@@ -1,10 +1,10 @@
 .login__wrap {
   width: 600px;
-  height: 300px;
+  height: 450px;
   text-align: center;
   padding: 30px 10px;
   border: 3px solid var(--color-main);
-  margin: 0 auto;
+  margin: 100px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

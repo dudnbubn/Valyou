@@ -26,7 +26,7 @@ const Viewer = (props) => {
             <div className={props.className}>
                 {   
                     props.files.map(file => {
-                        return <ReactPlayer key={file.id} className="artwork__viewer__work" src={file.upload_file} alt={props.title} />
+                        return <video key={file.id} className="artwork__viewer__work" src={file.upload_file} alt={props.title} />
                     })
                 }
             </div>

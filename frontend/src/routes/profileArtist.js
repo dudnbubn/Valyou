@@ -21,7 +21,6 @@ const ProfileArtist = () => {
             params:
                 { nickname: artistNickname }
         }).then((res) => {
-            console.log(res.data.results[0]);
             setPhoto(res.data.results[0].artist_img);
             setExplain(res.data.explain);
             setLikeCount(res.data.likeCount);

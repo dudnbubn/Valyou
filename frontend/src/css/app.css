@@ -54,7 +54,7 @@ p {
   margin-block-end: 0;
 }
 #root {
-  height: inherit;
+  height: auto;
 }
 :root {
   --color-main: #650689;
@@ -213,18 +213,27 @@ p {
   max-width: 1000px;
   padding: 40px 0;
   margin: 0 auto;
+  min-height: 800px;
   height: auto;
 }
 
-footer {
+.footer {
   width: 100%;
-  height: 50px;
+  height: 100px;
+  padding: 20px 0;
   background-color: lightgray;
-
+  position: static;
   text-align: center;
+  line-height: 30px;
   font-size: 18px;
 }
-
+.footer__ment {
+  font-size: 15px;
+}
+.copyright {
+  font-size: 10px;
+  color: gray;
+}
 .paginate__btn-pre,
 .paginate__btn-next {
   padding: 0;

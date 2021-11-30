@@ -5,8 +5,6 @@ const Items = ({ posts, loading }) => {
         return <h2>Loading</h2>;
     }
     else {
-        
-        console.log(posts);
         return (
             <>
                 {posts.map((post) => (
