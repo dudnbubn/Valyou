@@ -76,72 +76,15 @@ class App extends PureComponent{
             <Route path="/upload" element={<Upload isLoginCheck={isLogin}/>} ></Route>
           </Routes>
         </div>
-        {/*<footer>footer</footer>*/}
+        <footer>
+          <div className="footer">
+            <p className="footer__ment">당신의 예술을 응원하겠습니다.</p>
+            <p className="copyright">본 콘텐츠의 저작권은 저자 또는 제공처에 있으며, 이를 무단 이용하는 경우 저작권법 등에 따라 법적 책임을 질 수 있습니다.</p>
+          </div>
+        </footer>
       </>
     );
   }
   
 }
-/*
-function App(){
-  const [level, setLevel] = useState("pro");
-  const [category, setCategory] = useState("art");
-  const [sort, setSort] = useState("latest");
-  const [isLogin, setLogin] = useState(false);
-  console.log("app", isLogin);
-  const setLevelFromOther = (target) => {
-    const data = target.dataset.value;
-    setLevel(data);
-    setCategory("art");
-    setSort("latest");
-  }
-  const setCategoryFromOther = (target) => {
-    const data = target.dataset.value;
-    setCategory(data);
-    setSort("latest");
-  }
-  const setSortFromOther = (target) => {
-    const data = target.dataset.value;
-    setSort(data);
-  }
-  const setDefault = () => {
-    setLevel("pro");
-    setCategory("art");
-    setSort("latest");
-  }
-  const goToSearch = (data) => {
-    window.location.href = `/search_result/${data}`;
-  }
-  const checkLogin = (data) => {
-    setLogin(data);
-  }
-  return (
-      <>
-      <HomeHeader onSearch={goToSearch} onDefault={setDefault}
-        isLoginCheck={isLogin} onLogout={checkLogin} />
-        <HomeNavbar items={{ "level": level, "category":category, "sort":sort }} onLevel={setLevelFromOther} />
-        <div className="main__wrap">
-          <Routes>
-            <Route exact path="/" element={
-              <Home
-              items={{ "level": level, "category":category, "sort":sort }}
-              onCategory={setCategoryFromOther}
-              onSort={setSortFromOther}
-              />
-            }> </Route>
-            <Route path="/artwork/:artworkId" element={<Artwork isLoginCheck={isLogin} />} ></Route>
-            <Route path="/donation" element={<Donation isLoginCheck={isLogin} />}></Route>
-            <Route path="/artist_profile/:artistId" element={<ArtistProfile />} ></Route>
-            <Route path="/my_profile/*" element={<MyProfile isLoginCheck={isLogin} />}></Route>
-            <Route path="/sign_up" element={<SignUp />} ></Route>
-            <Route path="/login" element={<Login onLogin={ checkLogin} />}></Route>
-            <Route path="/search_result/:keyword" element={<Search />} ></Route>
-            <Route path="/upload" element={<Upload isLoginCheck={isLogin}/>} ></Route>
-          </Routes>
-        </div>
-        <footer>footer</footer>
-      </>
-    );
-}
-*/
 export default App;

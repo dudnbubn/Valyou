@@ -44,13 +44,11 @@
   justify-content: center;
   margin: 20px auto;
 }
-.donation_detail .temporary,
-.donation_detail .regular {
+.donation_detail .temporary {
   padding: 10px 20px;
   margin: 0 10px;
 }
-.temporary_donation,
-.regular_donation {
+.temporary_donation {
   text-align: center;
 }
 .donation_price {
@@ -59,9 +57,16 @@
   height: 40px;
   margin: 20px 0 0 40px;
 }
-.donation_chart {
+.donation-btn {
+  width: 300px;
+  height: 30px;
+  margin: 20px 0;
+  background-color: var(--color-pink);
+}
+.donation_state {
   width: 80%;
-  height: 300px;
-  margin: 50px auto;
-  background-color: lightgray;
+  height: auto;
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
 }

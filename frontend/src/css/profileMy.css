@@ -1,3 +1,4 @@
+/*내 정보탭*/
 .myProfile__main__nav {
   display: flex;
 }
@@ -55,4 +56,12 @@
   width: 400px;
   height: 30px;
   border: 1px solid black;
+}
+
+/*후원 탭*/
+.myDonation-level,
+.myDonation-toArtist,
+.myDonation-fromSponsor {
+  margin: 30px auto;
+  padding: 20px;
 }
