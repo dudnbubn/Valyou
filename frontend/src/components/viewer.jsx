@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 //import { EpubViewer, ReactEpubViewer } from 'react-epub-viewer';
 import ReactPlayer from 'react-player';
 import { ReactReader } from 'react-reader';
+import Ratio from "react-ratio";
 const Viewer = (props) => {
     //const viewerRef = useRef(null);
     const [location, setLocation] = useState(null);
@@ -26,7 +27,11 @@ const Viewer = (props) => {
             <div className={props.className}>
                 {   
                     props.files.map(file => {
-                        return <video key={file.id} className="artwork__viewer__work" src={file.upload_file} alt={props.title} />
+                        return (
+                            <Ratio ratio={ 16 / 9 }>
+                                <video key={file.id} className="artwork__viewer__work" src={file.upload_file} alt={props.title} controls/>
+                            </Ratio>
+                        )
                     })
                 }
             </div>
