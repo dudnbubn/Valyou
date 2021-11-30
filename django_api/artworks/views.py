@@ -48,7 +48,7 @@ class ArtworkViewSet(EnablePartialUpdateMixin, viewsets.ModelViewSet):
                                         description=data['description'],
                                         file_category=data['file_category'],
                                         hashtag=data['hashtag'],
-                                        artist=get_user_model().objects.get(id=int(artist[0]))
+                                        artist=get_user_model().objects.get(nickname=artist[0])
                                        )
         if file_category == "image/*":
             for file_data in files_data:
@@ -70,12 +70,12 @@ class ArtworkSearchViewSet(ListAPIView):
         query = self.request.query_params.get('query')
         hash = self.request.query_params.get('hash')
 
-        if hash == 'True':
-            return Artwork.objects.filter(artist__artist_level=level, hashtag__contains=query)
-        else:
-            return Artwork.objects.filter(
+        # if hash == 'True':
+        #     return Artwork.objects.filter(artist__artist_level=level, hashtag__contains=query)
+        # else:
+        return Artwork.objects.filter(
                 Q(artist__artist_level=level) &
-                (Q(title__contains=query) | Q(artist__nickname__contains=query))
+                (Q(title__contains=query) | Q(artist__nickname__contains=query)| Q(hashtag__contains=query))
             )
 
 
@@ -103,6 +103,7 @@ class ArtworkPopularViewSet(ListAPIView):
     queryset = Artwork.objects.all()
     serializer_class = ArtworkPopularSerializer
     pagination_class = PopularPagination
+
     def get_queryset(self):
         level = self.request.query_params.get('level')
         queryset = Artwork.objects.filter(artist__artist_level=level).order_by('-like_count')
@@ -141,9 +142,12 @@ class ArtworkRecommendViewSet(ListAPIView):
 
         artwork_id = list(queryset.values_list('id', flat=True))
         title = queryset.values_list('title', flat=True)
-        rating = queryset.values_list('rating', flat=True)
-        rating_count = queryset.values_list('rating_count', flat=True)
+        rating = list(queryset.values_list('rating', flat=True))
+        rating_count = list(queryset.values_list('rating_count', flat=True))
         hashtag = queryset.values_list('hashtag', flat=True)
+        for index, value in enumerate(rating):
+            if rating_count[index] != 0:
+                rating[index] = float(rating[index] / rating_count[index])
 
         d = {
             'id': artwork_id,
@@ -161,8 +165,18 @@ class ArtworkRecommendViewSet(ListAPIView):
 
         artwork_df['weighted_rating'] = weighted_rating(artwork_df)
         target_artwork = list(artwork_id).index(int(target_artwork))
+
         similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
                                                                                work_num=target_artwork).iloc[::-1]
+
+        print("{:<10}\t{:10}\t\t{:10}\t\t{:10}\t{:}\t\t{:}".format('title', 'weight_rating', ' rating', '  count',
+                                                                 'cosine similarity', 'hashtag'))
+        print('-' * 100)
+        s = "{:<10}\t{:^10}\t{:^10}\t{:^10}\t{:^10}\t\t{:}"
+        for index, work in similar_work_sorted_by_rating.iterrows():
+            print(s.format(work['title'], str(work['weighted_rating']), rating[index], rating_count[index],
+                           str(tag_sim[0][index]), work['hashtag'], ))
+
         similar_work_sorted_by_rating = similar_work_sorted_by_rating['id'].tolist()
         print(similar_work_sorted_by_rating)
 
@@ -190,7 +204,7 @@ class ArtworkDataViewSet(ListAPIView):
             img_pool.append('img/thumbnail' + str(i) + '.jpeg')
         artist_size = get_user_model().objects.all().count()
 
-        for _ in range(1000):
+        for _ in range(3000):
             category = random.choice(category_pool)
             title = ""
             for _ in range(random.randint(4, 12)):
@@ -198,9 +212,9 @@ class ArtworkDataViewSet(ListAPIView):
             like_count = random.randint(0, 10)
             view_count = random.randint(1, 10000)
             rating = random.randint(0, 10000)
-            rating_count = random.randint(0, int(rating / 5))
+            rating_count = random.randint(int(rating / 5), rating)
 
-            size = random.randint(3, 7)
+            size = random.randint(2, 5)
             index = set()
             while len(index) != size:
                 index.add(random.randint(0, len(emotion.tag) - 1))

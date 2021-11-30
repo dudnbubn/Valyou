@@ -32,7 +32,7 @@ def find_recommended_work_sorted_by_rating(df, sorted_idx, work_num, top_n=10):
 
 
 def weighted_rating(record):
-    m = record['rating_count'].quantile(0.6)
+    m = record['rating_count'].quantile(0.1)
     C = record['rating'].mean()
 
     v = record['rating_count'].tolist()

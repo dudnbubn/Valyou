@@ -40,6 +40,7 @@ const Artwork = ({ location }) => {
         const url = '/api/artworks/' + artworkId + "/";
         axios.get(url)
             .then(res => {
+                console.log(res.data);
                 setWork(res.data);
                 if (res.data.file_category === "image/*") {
                     var _fileLen = res.data.images[0].upload_file.length;
