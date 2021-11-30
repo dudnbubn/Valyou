@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
-from requests import Response
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
+
 from .models import Donation
 from .serializers import DonationSerializer
 from django.db.models import Q
@@ -22,12 +23,12 @@ class DonationViewSet(viewsets.ModelViewSet):
 
         get_user_model().objects.all().filter(id=data['sender']).update(revenue=sender_revenue)
         get_user_model().objects.all().filter(nickname=data['receiver']).update(revenue=receiver_revenue)
-        Donation.objects.create(receiver=get_user_model().objects.get(nickname=data['receiver']),
+        donate = Donation.objects.create(receiver=get_user_model().objects.get(nickname=data['receiver']),
                                          sender=get_user_model().objects.get(id=data['sender']),
                                          donation=money)
 
-        headers = self.get_success_headers(DonationSerializer.data)
-        return Response(DonationSerializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        headers = self.get_success_headers(DonationSerializer(donate).data)
+        return Response(DonationSerializer(donate).data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class DonateDetailViewSet(ListAPIView):
@@ -37,6 +38,8 @@ class DonateDetailViewSet(ListAPIView):
     def get_queryset(self):
         receiver = self.request.GET.get('receiver')
         sender = self.request.GET.get('sender')
-        
-        queryset = Donation.objects.filter(Q(receiver=receiver) & Q(sender=sender)).order_by('-donate_date')
-        return queryset
+
+        if receiver:
+            return Donation.objects.filter(receiver=receiver).order_by('-donate_date')
+        else:
+            return Donation.objects.filter(sender=sender).order_by('-donate_date')

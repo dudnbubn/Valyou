@@ -1,12 +1,10 @@
 import random
 import string
-from django.contrib.auth.models import User
 import pandas as pd
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from requests import Response
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.utils import json
+from rest_framework.parsers import MultiPartParser
+from rest_framework.response import Response
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
@@ -34,6 +32,7 @@ class ArtworkViewSet(EnablePartialUpdateMixin, viewsets.ModelViewSet):
 
     def create(self, request):
         request.data._mutable = True
+        print(request.data)
         files_data = request.data.pop('file')
 
         artist = request.data.pop('artist')
@@ -46,6 +45,7 @@ class ArtworkViewSet(EnablePartialUpdateMixin, viewsets.ModelViewSet):
                                         like_count=data['like_count'],
                                         view_count=data['view_count'],
                                         description=data['description'],
+                                        thumbnail_img=data['thumbnail_img'],
                                         file_category=data['file_category'],
                                         hashtag=data['hashtag'],
                                         artist=get_user_model().objects.get(nickname=artist[0])
@@ -57,7 +57,7 @@ class ArtworkViewSet(EnablePartialUpdateMixin, viewsets.ModelViewSet):
             for file_data in files_data:
                 File.objects.create(artwork=artwork, upload_file=file_data)
 
-        return Response(status_code=status.HTTP_201_CREATED)
+        return Response(ArtworkSerializer(artwork).data, status=status.HTTP_201_CREATED)
 
 
 # artworks/search
