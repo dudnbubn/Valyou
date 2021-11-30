@@ -64,4 +64,25 @@
 .myDonation-fromSponsor {
   margin: 30px auto;
   padding: 20px;
+  background-color: var(--color-pink);
+  border-radius: 16px;
+}
+.myDonation-level {
+  background-color: var(--color-light-pupple);
+  color: white;
+}
+.donation__sender__wrap,
+.donation__receiver__wrap {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+.donation__sender__wrap table,
+.donation__receiver__wrap table {
+  width: 100%;
+  height: auto;
+}
+.donation__sender__wrap thead,
+.donation__receiver__wrap thead {
+  font-size: 18px;
 }

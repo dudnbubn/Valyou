@@ -142,6 +142,8 @@ p {
   position: absolute;
   top: 70px;
   left: 1100px;
+  padding: 15px;
+  border-radius: 16px;
 }
 .before_login,
 .before__signup-btn {
