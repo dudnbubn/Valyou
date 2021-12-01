@@ -5,16 +5,16 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
 from .models import Donation
-from .serializers import DonationSerializer
+from .serializers import DonationSerializer, DonationWithUserSerializer
 from django.db.models import Q
 
-# Create your views here.
+# Create your views here.wnr
 class DonationViewSet(viewsets.ModelViewSet):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
     def create(self, request):
-        data = request.data.dict()
+        data = request.data
         sender = get_user_model().objects.get(id=data['sender'])
         receiver = get_user_model().objects.get(nickname=data['receiver'])
         money = data['price']
@@ -33,7 +33,7 @@ class DonationViewSet(viewsets.ModelViewSet):
 
 class DonateDetailViewSet(ListAPIView):
     queryset = Donation.objects.all()
-    serializer_class = DonationSerializer
+    serializer_class = DonationWithUserSerializer
 
     def get_queryset(self):
         receiver = self.request.GET.get('receiver')

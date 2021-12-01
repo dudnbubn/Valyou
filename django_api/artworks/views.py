@@ -138,13 +138,14 @@ class ArtworkRecommendViewSet(ListAPIView):
             artist = RecentView.objects.filter(user=artist_id)
             if len(list(artist.values_list('recent', flat=True))) != 0:
                 target_artwork = list(artist.values_list('recent', flat=True))[-1]
-            print(target_artwork)
 
-        artwork_id = list(queryset.values_list('id', flat=True))
-        title = queryset.values_list('title', flat=True)
+        print(target_artwork)
+
+        artwork_id = [index for index in range(1, queryset.count() + 1)]
+        title = list(queryset.values_list('title', flat=True))
         rating = list(queryset.values_list('rating', flat=True))
         rating_count = list(queryset.values_list('rating_count', flat=True))
-        hashtag = queryset.values_list('hashtag', flat=True)
+        hashtag = list(queryset.values_list('hashtag', flat=True))
         for index, value in enumerate(rating):
             if rating_count[index] != 0:
                 rating[index] = float(rating[index] / rating_count[index])
@@ -157,25 +158,28 @@ class ArtworkRecommendViewSet(ListAPIView):
             'hashtag': hashtag
         }
         artwork_df = pd.DataFrame(data=d)
-
+        # artwork_df = artwork_df.sort_values(['id']).reset_index(drop=True)
+        print(artwork_df)
         cnt_vector = CountVectorizer(min_df=0, ngram_range=(1, 2))
         tag_vector = cnt_vector.fit_transform(hashtag)
         tag_sim = cosine_similarity(tag_vector, tag_vector)
         tag_sim_idx = tag_sim.argsort(axis=1)
 
         artwork_df['weighted_rating'] = weighted_rating(artwork_df)
-        target_artwork = list(artwork_id).index(int(target_artwork))
+        target_artwork = artwork_id.index(int(target_artwork))
 
         similar_work_sorted_by_rating = find_recommended_work_sorted_by_rating(artwork_df, tag_sim_idx,
                                                                                work_num=target_artwork).iloc[::-1]
+        print(target_artwork)
+        print(artwork_df['id'][target_artwork])
+        print("{:<10}\t{:10}\t\t{:10}\t\t{:10}\t{:}\t\t{:}"
+              .format('title', 'weight_rating', ' rating', '  count', 'cosine similarity', 'hashtag'))
 
-        print("{:<10}\t{:10}\t\t{:10}\t\t{:10}\t{:}\t\t{:}".format('title', 'weight_rating', ' rating', '  count',
-                                                                 'cosine similarity', 'hashtag'))
         print('-' * 100)
         s = "{:<10}\t{:^10}\t{:^10}\t{:^10}\t{:^10}\t\t{:}"
         for index, work in similar_work_sorted_by_rating.iterrows():
             print(s.format(work['title'], str(work['weighted_rating']), rating[index], rating_count[index],
-                           str(tag_sim[0][index]), work['hashtag'], ))
+                           str(tag_sim[target_artwork][index]), work['hashtag'], ))
 
         similar_work_sorted_by_rating = similar_work_sorted_by_rating['id'].tolist()
         print(similar_work_sorted_by_rating)

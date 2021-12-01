@@ -13,7 +13,7 @@ const DonationTableElements = (props) => {
       props.posts.map(post => (
         <tr key={ count++}>
             <td>{post.donate_date.slice(0,10)}</td>
-            <td>{((props.type==="sender")?post.receiver:post.sender)}</td>
+            <td>{((props.type==="sender")?post.receiver.nickname:post.sender.nickname)}</td>
             <td>{ post.donation}</td>
           </tr>
       ))
